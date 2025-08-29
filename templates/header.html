@@ -1,0 +1,86 @@
+<nav class="navbar hole navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
+  <div class="container-fluid">
+    {% if not change %}
+    <!-- Sidebar toggle button (only visible on mobile) -->
+    <button class="btn btn-primary d-md-none d-lg-none"
+        type="button"
+        data-coreui-toggle="sidebar"
+        data-coreui-target="#sidebar" id="sidebar-toggler" aria-label="Toggle sidebar">
+  <i class="bi bi-list"></i>
+  </button>
+    {% endif %}
+
+    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Gregbuk</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+      aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        {% for items in header %}
+          {% if items.name == "Service" %}
+            <li class="nav-item dropdown">
+              <a class="nav-link drop dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">{{items.name}}</a>
+              <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+                {% for service in services %}
+                  <li><a class="dropdown-item drop {% if the_name ==  service.category_name %}active{% endif %}" href="{{ url_for('services', name=service.category_name) }}">{{service.name}}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link drop {% if request.endpoint == items.end_url %}active{% endif %}" href="{{ url_for(items.end_url) }}">{{ items.name }}</a></li>
+          {% endif %}
+        {% endfor %}
+        <li class="nav-item nn dropdown">
+          <button class="btn mm btn-link nav-link py-2 px-2 d-flex align-items-center" type="button" aria-expanded="false" data-coreui-toggle="dropdown">
+            <svg class="icon icon-lg theme-icon-active">
+              <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-contrast"></use>
+            </svg>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" style="--cui-dropdown-min-width: 8rem;">
+            <li>
+              <button class="dropdown-item d-flex align-items-center" type="button" data-coreui-theme-value="light">
+                <svg class="icon icon-lg me-3">
+                  <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-sun"></use>
+                </svg>Light
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item d-flex align-items-center" type="button" data-coreui-theme-value="dark">
+                <svg class="icon icon-lg me-3">
+                  <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-moon"></use>
+                </svg>Dark
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item d-flex align-items-center active" type="button" data-coreui-theme-value="auto">
+                <svg class="icon icon-lg me-3">
+                  <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-contrast"></use>
+                </svg>Auto
+              </button>
+            </li>
+          </ul>
+        </li>
+
+        {% if false %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">{{ current_user.username }}</a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="nav-item"><a class="btn btn-outline-primary my-btn me-lg-2 ms-lg-2 mb-2" href="{{ url_for('login') }}">Login</a></li>
+          <li class="nav-item"><a class="btn btn-primary my-btn2" href="{{ url_for('register') }}">Register</a></li>
+        {% endif %}
+      </ul>
+
+    </div>
+  </div>
+</nav>

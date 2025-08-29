@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en" data-coreui-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Gregbuk{% endblock %}</title>
+
+  <!-- Theme Script (runs instantly, before CSS loads) -->
+  <script>
+    (function () {
+      const storedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = storedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-coreui-theme', theme);
+    })();
+  </script>
+  <style>
+    #suggestions {
+            position: absolute;
+            top: 42px;
+            left: 0;
+            width: 100%;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-top: 5%;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 0 0 4px 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+        #suggestions li {
+            padding: 8px 10px;
+            cursor: pointer;
+        }
+        #suggestions li:hover {
+            background-color: #f0f0f0;
+        }
+        #suggestions li a {
+            text-decoration: none;
+            color: #2196F3;
+        }
+        form {
+            margin: 20px 0;
+            position: relative;
+            display: flex !important;
+            flex-direction: row;
+        }
+        form button{
+          border-radius: 0px 20px 20px 0px !important;
+        }
+        form input{
+          border-radius: 0px !important;
+        }
+        form .input-group-text{
+          border-radius: 20px 0px 0px 20px !important;
+
+        }
+
+  </style>
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='assets/favicon/favicon-32x32.png') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='assets/favicon/favicon-16x16.png') }}">
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- Vendor styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendors/simplebar/css/simplebar.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/vendors/simplebar.css') }}">
+
+  <!-- Main styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendors/@coreui/chartjs/css/coreui-chartjs.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+
+  <!-- Config scripts (deferred for performance) -->
+  <script src="{{ url_for('static', filename='jscript/config.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='jscript/color-modes.js') }}" defer></script>
+</head>
+<body>
+  <div class="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="clearfix">
+              <h1 class="float-start display-3 me-4">500</h1>
+              <h4 class="pt-3">Sorry, we have a problem!</h4>
+              <p class="text-body-secondary">The page you are looking for is temporarily unavailable.</p>
+            </div>
+            <div class="input-group">
+              <form class="w-100" method="POST" action="{{ url_for('search_result') }}">
+                <span class="input-group-text">
+                  <svg class="icon">
+                    <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg')}}#cil-magnifying-glass"></use>
+                  </svg></span>
+                <input class="form-control" name="search" id="prependedInput" size="16" type="text" placeholder="What are you looking for?">
+                <button class="btn btn-info" style="color: white;" type="submit">Search</button>
+              </form>
+              <ul id="suggestions"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const header = document.querySelector('header.header');
+
+          document.addEventListener('scroll', () => {
+            if (header) {
+              header.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0);
+            }
+          });
+
+
+      const input = document.getElementById('prependedInput');
+      const suggList = document.getElementById('suggestions');
+
+        input.addEventListener('input', async () => {
+            const query = input.value.trim();
+            if (!query) {
+                suggList.style.display = 'none';
+                suggList.innerHTML = '';
+                return;
+            }
+
+            const res = await fetch(`/suggest?q=${encodeURIComponent(query)}`);
+            const data = await res.json();
+
+            if (data.length === 0) {
+                suggList.style.display = 'none';
+                suggList.innerHTML = '';
+                return;
+            }
+
+            suggList.innerHTML = data.map(item =>
+                `<li><a href="${item.url}">${item.title}</a></li>`
+            ).join('');
+            suggList.style.display = 'block';
+        });
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!input.contains(e.target) && !suggList.contains(e.target)) {
+                suggList.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

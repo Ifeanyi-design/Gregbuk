@@ -1,0 +1,435 @@
+{%extends "base.html"%}
+{%block title%} HOME{%endblock%}
+{%block content%}
+
+<!--Carousel-->
+  <div class="container-fluid container-lg">
+    <div id="myCarousel" class="carousel slide mb-2" data-bs-ride="carousel" bis_skin_checked="1">
+      <div class="carousel-indicators" bis_skin_checked="1">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4" class=""></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4" aria-label="Slide 5" class=""></button>
+      </div>
+      <div class="carousel-inner" bis_skin_checked="1">
+        <div class="carousel-item active" bis_skin_checked="1">
+          <img src="{{ url_for('static', filename='images/bulk-sms.png') }}">
+          <div class="container-fluid" bis_skin_checked="1">
+            <div class="carousel-caption text-start" bis_skin_checked="1">
+              <h1>Big Impact, Small Cost.</h1>
+              <p class="opacity-75">Pay less, reach more—maximise your marketing budget.</p>
+              <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item" bis_skin_checked="1">
+          <img src="{{ url_for('static', filename='images/t-shirt.jpg') }}">
+          <div class="container-fluid" bis_skin_checked="1">
+            <div class="carousel-caption" bis_skin_checked="1">
+              <h1>Your Design. Your Shirt. Your Style.</h1>
+              <p>From bold graphics to subtle branding—print it your way.</p>
+              <p><a class="btn btn-lg btn-primary" href="#">Learn more</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item" bis_skin_checked="1">
+          <img src="{{ url_for('static', filename='images/brochure-2.jpg') }}">
+          <div class="container-fluid" bis_skin_checked="1">
+            <div class="carousel-caption text-end" bis_skin_checked="1">
+              <h1>Your Message, in Their Hands.</h1>
+              <p>Durable, beautiful brochures for events, promos, and sales.</p>
+              <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item" bis_skin_checked="1">
+          <img src="{{ url_for('static', filename='images/mug.jpg') }}">
+          <div class="container-fluid" bis_skin_checked="1">
+            <div class="carousel-caption text-end" bis_skin_checked="1">
+              <h1>If You Can Dream It, We Can Print It.</h1>
+              <p>Full-color mug printing for photos, art, and text.</p>
+              <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item" bis_skin_checked="1">
+          <img src="{{ url_for('static', filename='images/business-card.jpg') }}">
+          <div class="container-fluid" bis_skin_checked="1">
+            <div class="carousel-caption text-end" bis_skin_checked="1">
+              <h1>Your Brand in Your Pocket – Ready in 24H.</h1>
+              <p>Fast, professional business card printing at unbeatable quality.</p>
+              <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+          <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+        </svg>
+        <span class="visually-hidden">Previous</span>
+      </button> <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+        <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+      </svg>
+      <span class="visually-hidden">Next</span>
+    </button>
+    </div>
+  </div>
+<main class="container-lg">
+
+
+    <div class="container-lg text-center my-4">
+  <div class="row">
+    <div class="col-6 col-md-2 mb-3">
+      <img class="img icon-small" src="{{ url_for('static', filename='images/1.png') }}">
+      <p>Premium materials</p>
+    </div>
+    <div class="col-6 col-md-2 mb-3">
+      <img class="img icon-small" src="{{ url_for('static', filename='images/2.png') }}">
+      <p>Value for money</p>
+    </div>
+    <div class="col-6 col-md-2 mb-3">
+      <img class="img icon-small" src="{{ url_for('static', filename='images/3.png') }}">
+      <p>Express options</p>
+    </div>
+    <div class="col-6 col-md-2 mb-3">
+      <img class="img icon-small" src="{{ url_for('static', filename='images/4.png') }}">
+      <p>No surprises at checkout</p>
+    </div>
+    <div class="col-6 col-md-2 mb-3">
+      <img class="img icon-small" src="{{ url_for('static', filename='images/5.png') }}">
+      <p>Happy clients first</p>
+    </div>
+    <div class="col-6 col-md-2 mb-3">
+      <img class="img icon-small" src="{{ url_for('static', filename='images/5.png') }}">
+      <p>Happy clients first</p>
+    </div>
+  </div>
+    </div>
+
+  <section class="services-section">
+    <div class="slider-container">
+      <button id="btn-left" class="slider-btn left" onclick="scrollProducts(-1)">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+
+    <h2>Services & Products</h2>
+    <div class="product-slider" id="slider">
+          {% for service in services %}
+        <div class="product">
+          <a href="{{ url_for('services', name=service.category_name)}}">
+          <img src="{{ service.image_url }}">
+        </a>
+          <div class="product-name"><a href="{{ url_for('services', name=service.category_name) }}">{{ service.name }}</a></div>
+        </div>
+          {% for sub in service.sub_service %}
+            <div class="product">
+              <a href="{{ url_for('services', name=service.category_name, sec=sub.category_name)}}">
+                <img src="{{ sub.image_url }}">
+              </a>
+              <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=sub.category_name) }}">{{ sub.name }}</a></div>
+            </div>
+            {% for product in sub.products %}
+              <div class="product">
+              <a href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=product.category_name)}}">
+                <img src="{{ product.image_url }}">
+              </a>
+                <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=product.category_name) }}">{{ product.name }}</a></div>
+            </div>
+            {% endfor %}
+          {% endfor %}
+          {% for product in service.products %}
+            <div class="product">
+              <a href="{{ url_for('services', name=service.category_name, pro=product.category_name)}}">
+                <img src="{{ product.image_url }}">
+              </a>
+              <div class="product-name"><a href="{{ url_for('services', name=service.category_name, pro=product.category_name) }}">{{ product.name }}</a></div>
+            </div>
+          {%endfor%}
+          {% endfor %}
+    </div>
+
+    <button id="btn-right" class="slider-btn right" onclick="scrollProducts(1)">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+  </section>
+
+
+</main>
+
+
+<!-- sec1 -->
+<section class="bg-section col-xxl-8 px-4 py-0">
+  <div class="container-lg">
+    <div class="row flex-md-row-reverse align-items-center g-5">
+      <div class="col-10 order-md-1 order-2 exp col-sm-8 col-md-6">
+        {% for service in services %}
+          {% if service.name == "Marketing Essentials" %}
+            <img src="{{ service.image_url }}" class="d-block w-100 mx-md-auto img-fluid hero-img"
+             alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="col-md-6 order-md-2 order-1">
+        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
+          Marketing Essentials
+        </h1>
+        <p class="lead">
+          From business cards and brochures to flyers, posters, banners, and more, our printing services deliver sharp detail, vibrant color, and lasting quality that ensures your brand always makes a powerful impression.
+        </p>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+          <button type="button" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="boxer">
+<div class="container-lg item-change old">
+  <div class="row g-2"> <!-- g-2 adds small gap between images -->
+    {% for service in services %}
+      {% if service.name == "Marketing Essentials" %}
+        {% for n in range(6) %}
+          {% if n < service.sub_service|length %}
+            <div class="products col-6 col-lg-2">
+              <div class="">
+                <a href="{{ url_for('services', name=service.category_name, sec=service.sub_service[n].category_name) }}"><img src="{{ service.sub_service[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+              </div>
+              <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=service.sub_service[n].category_name) }}">{{ service.sub_service[n].name }}</a></div>
+            </div>
+          {% else %}
+            <div class="products col-6 col-lg-2">
+              <div class="">
+                <a href="{{ url_for('services', name=service.category_name, sec=random_sub1.category_name, pro=random_product1.category_name) }}"><img src="{{ random_product1.image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+              </div>
+              <div class="product-name"><a href="{{ url_for('services', sec=random_sub1.category_name, name=service.category_name, pro=random_product1.category_name) }}">{{ random_product1.name }}</a></div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+</section>
+<!-- sec2 -->
+
+<section class="bg-section col-xxl-8 px-4 py-0">
+  <div class="container-lg">
+  <div class="row flex-md-row align-items-center g-5" bis_skin_checked="1">
+    <div class="col-10 order-md-1 order-1 exp col-sm-8 col-md-6">
+        {% for service in services %}
+          {% if service.name == "Business Cards" %}
+            <img src="{{ service.image_url }}" class="d-block w-100 mx-md-auto img-fluid hero-img"
+             alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+          {% endif %}
+        {% endfor %}
+      </div>
+    <div class="col-md-6 order-md-2 order-2" bis_skin_checked="1">
+      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Business Cards</h1>
+      <p class="lead">Stand out and create a memorable first impression with premium business cards. Choose from elegant designs, durable materials, and personalized finishes that showcase your brand identity with style and professionalism.</p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start" bis_skin_checked="1">
+        <button type="button" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<section class="boxer">
+<div class="container-lg item-change">
+  <div class="row g-2"> <!-- g-2 adds small gap between images -->
+    {% for service in services %}
+      {% if service.name == "Business Cards" %}
+        {% for n in range(6) %}
+          {% if n < service.products|length %}
+            <div class="products col-6 col-lg-2">
+              <div class="">
+                <a href="{{ url_for('services', name=service.category_name, sec=service.products[n].category_name) }}"><img src="{{ service.products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+              </div>
+              <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=service.products[n].category_name) }}">{{ service.products[n].name }}</a></div>
+            </div>
+          {% else %}
+            <div class="products col-6 col-lg-2">
+              <div class="">
+                <a href="{{ url_for('services', name=service.category_name, sec=random_product2.category_name) }}"><img src="{{ random_product2.image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+              </div>
+              <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=random_product2.category_name) }}">{{ random_product2.name }}</a></div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+</section>
+
+<!-- sec3 -->
+<section class="bg-section col-xxl-8  pb-1">
+  <div class="container-lg item-change">
+
+  <div class=" row flex-md-row-reverse align-items-center g-5 pb-2 pt-0" bis_skin_checked="1">
+    <div class="borderss holder2 ho col-10  order-md-1 order-2 col-sm-6 pt-0 col-lg-6">
+  <div class="row g-2"> <!-- g-2 adds small gap between images -->
+    {% for service in services %}
+      {% if service.name == "Signs & Banners" %}
+        {% for s in range(2) %}
+          <div class="products col-6 col-lg-6">
+            <div class="products">
+            <img src="{{ service.sub_service[0].products[s].image_url }}" class="img-fluid rounded" alt="Image 1">
+            </div>
+              <div class="product-name"><a href="{{ url_for('services', name=service.category_name,sec=service.sub_service[0].category_name, pro=service.sub_service[0].products[s].category_name) }}">{{ service.sub_service[0].products[s].name }}</a></div>
+          </div>
+        {% endfor %}
+        {% for s in range(1) %}
+          <div class="products col-6 col-lg-6 mt-0">
+            <div class="products mt-0">
+            <img src="{{ service.sub_service[1].products[s].image_url }}" class="img-fluid rounded" alt="Image 1">
+            </div>
+              <div class="product-name"><a href="{{ url_for('services', name=service.category_name,sec=service.sub_service[1].category_name, pro=service.sub_service[1].products[s].category_name) }}">{{ service.sub_service[1].products[s].name }}</a></div>
+          </div>
+        {% endfor %}
+        {% for s in range(1) %}
+          <div class="products col-6 col-lg-6 mt-0">
+            <div class="products mt-0">
+            <img src="{{ service.sub_service[2].products[s].image_url }}" class="img-fluid rounded" alt="Image 1">
+            </div>
+              <div class="product-name"><a href="{{ url_for('services', name=service.category_name,sec=service.sub_service[2].category_name, pro=service.sub_service[2].products[s].category_name) }}">{{ service.sub_service[2].products[s].name }}</a></div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+    <div class="col-md-6 holder1 w-sm-100 order-lg-2 order-1" bis_skin_checked="1">
+      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Signs & Banners</h1>
+      <p class="lead">Make your message impossible to miss with custom banners, indoor signs, and storefront displays. Designed to be durable, professional, and cost-effective, they’re the perfect choice for promotions, events, trade shows, and everyday visibility.</p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start" bis_skin_checked="1">
+        <button type="button" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+  <section class="services-section boxer py-5">
+    <div class="container-lg item-change">
+    <div class="slider-container">
+      <button id="btn-left2" class="slider-btn left" onclick="scrollProducts(-1)">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+
+    <h2>Explore our Display Signs</h2>
+    <div class="product-slider" id="slider2">
+          {% for service in services %}
+            {% if service.name == "Signs & Banners" %}
+              {% for sub in service.sub_service %}
+                {% for pro in sub.products %}
+                  <div class="product">
+                    <a href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=pro.category_name)}}">
+                    <img src="{{ pro.image_url }}">
+                  </a>
+                    <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=pro.category_name) }}">{{ pro.name }}</a></div>
+                  </div>
+                {% endfor %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+
+    </div>
+
+    <button id="btn-right2" class="slider-btn right" onclick="scrollProducts(1)">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+    </div>
+  </section>
+<div class="container-lg">
+  <div class="special-text" bis_skin_checked="1">
+    <h1>Online Printing Services: Professional and Affordable Solutions for Your Business</h1>
+
+<p>Welcome to <strong>Gregbuk</strong>, your trusted partner for exceptional <strong>online printing services</strong>. With over 20 years of industry experience, we’ve built a reputation for delivering high-quality, affordable, and fully customized <strong>printing solutions</strong>. Today, we proudly serve thousands of businesses and individuals, ensuring every order meets the highest standards of quality and professionalism.</p>
+
+<p>At Gregbuk, we know printing is more than just putting ink on paper—it’s about creating lasting impressions. That’s why we provide expert guidance, tailored solutions, and professional file checks to guarantee flawless results. Our seamless ordering process, flexible payment options, and dedicated <b>customer support team</b> make it easy to get exactly what you need, whether for small runs or bulk projects.</p>
+
+<!-- Services Overview -->
+<nav aria-label="Gregbuk Services" class="services-overview">
+  <h2>Our Services</h2>
+  <ul>
+    {% for service in services %}
+    <li><a href="{{url_for('services', name=service.category_name)}}">{{service.name}}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+
+<!-- Stickers & Labels -->
+<h2 id="stickers-labels">Label and Sticker Printing: Custom Solutions for Your Branding Needs</h2>
+<p>Boost your brand visibility with our custom sticker and label printing services. Gregbuk provides durable, high-quality stickers and labels that are ideal for packaging, promotions, and product branding. Our <strong>custom stickers</strong> are designed to look great indoors or outdoors, ensuring your brand always stands out.</p>
+<p>From roll labels for packaging to unique designs for events, we offer fully <strong>personalized printing solutions</strong>. Choose from a wide range of shapes, sizes, and finishes to create labels that perfectly represent your brand identity.</p>
+
+<!-- Marketing Essentials -->
+<h2 id="marketing-essentials">Marketing Materials: Boost Your Marketing with Custom Printing Solutions</h2>
+<p>Make your marketing campaigns unforgettable with high-quality printed materials. Gregbuk produces marketing essentials such as flyers, brochures, postcards, letterheads, stationery, and envelopes. Whether for product launches, events, or brand awareness, our <strong>printing services</strong> help you communicate with impact.</p>
+<p>Fully customizable and budget-friendly, our <strong>online printing solutions</strong> allow you to design materials that reflect your unique brand voice. With fast delivery and professional results, Gregbuk keeps your business looking sharp and reliable.</p>
+
+<!-- Signs & Banners -->
+<h2 id="signs-banners">Signs and Banners: Custom Signs and Banners for Every Occasion</h2>
+<p>From events to storefront displays, Gregbuk specializes in custom signs and banners that get noticed. Whether you need rigid signs, retractable banners, or flags, we provide vibrant, weather-resistant prints built to last.</p>
+<p>Our <strong>custom banners</strong> come in a variety of sizes, finishes, and materials, making it easy to create signage that truly reflects your brand. With Gregbuk, your business gets the attention it deserves—anytime, anywhere.</p>
+
+<!-- Business Cards -->
+<h2 id="business-cards">Business Cards: Make a Lasting Impression with Custom Business Cards</h2>
+<p>Your <strong>business card</strong> is a powerful first impression. With Gregbuk’s custom business cards, you can stand out with premium finishes, materials, and creative designs. We also offer loyalty cards and appointment cards, all tailored to fit your brand identity.</p>
+<p>Thanks to our advanced <strong>digital printing services</strong>, every card comes out sharp, colorful, and professional. With fast turnaround times, Gregbuk ensures you always have the right tools to make meaningful business connections.</p>
+
+<!-- Posters -->
+<h2 id="posters">Posters: Large-Scale Printing for Maximum Impact</h2>
+<p>Need to capture attention fast? Our poster printing services deliver bold, high-quality visuals perfect for promotions, events, and artistic projects. Gregbuk offers a wide selection of sizes and finishes, powered by advanced <strong>digital printing technology</strong> for stunning results.</p>
+<p>Whether it’s a small local campaign or a nationwide rollout, we guarantee speed, quality, and consistency with every order. Gregbuk posters help your message get seen—and remembered.</p>
+
+<!-- NEW: Seals & Stamps -->
+<h2 id="seals-stamps">Seals &amp; Stamps: Crisp Impressions, Every Time</h2>
+<p>Authenticate documents and brand your packaging with precision-made <strong>seals and stamps</strong>. We produce self-inking, pre-inked, and traditional rubber stamps, plus company seals and date stamps for offices, schools, and government use.</p>
+<ul>
+  <li>Self-inking &amp; pre-inked stamps for clean, fast marking</li>
+  <li>Custom text, logos, signatures &amp; dates</li>
+  <li>Durable materials for long-term daily use</li>
+</ul>
+
+<!-- NEW: Frames & Plaques -->
+<h2 id="frames-plaques">Frames &amp; Plaques: Celebrate, Recognize, and Display</h2>
+<p>Honor achievements and elevate interiors with premium <strong>frames and plaques</strong>. From awards and recognition plaques to photo frames and corporate displays, we craft pieces that look professional and last.</p>
+<ul>
+  <li>Wood, acrylic, glass &amp; metal plaque options</li>
+  <li>Laser engraving, UV print, and full-color inserts</li>
+  <li>Custom sizes and branding to match your identity</li>
+</ul>
+
+<!-- Why Choose -->
+<h2>Why Choose Gregbuk for Your Online Printing Services?</h2>
+<p><strong>Gregbuk</strong> combines 20 years of expertise with a commitment to quality, affordability, and customer satisfaction. From books and magazines to business cards and banners, seals, stamps, frames, and plaques—we provide professional <strong>printing solutions</strong> that help your business shine.</p>
+
+<!-- Simple CTA -->
+<p><a href="#quote" class="btn btn-primary rounded-pill">Get a Free Quote</a> &nbsp; <a href="#contact" class="btn btn-outline-primary rounded-pill border border-2 border-primary">Contact Support</a></p>
+
+</div>
+
+
+</div>
+
+{%endblock%}
+{%block script%}
+<script>
+
+
+</script>
+{%endblock%}

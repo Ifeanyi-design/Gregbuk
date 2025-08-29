@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="row flex-lg-row-reverse service-hero g-5 my-5 pb-5 container-fluid" bis_skin_checked="1">
+    <div class="col-10 col-sm-8 service-c col-lg-7" bis_skin_checked="1">
+        <div id="myCarousel" class="carousel slide mb-2" data-bs-ride="carousel" bis_skin_checked="1">
+          <div class="carousel-indicators" bis_skin_checked="1">
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
+            {% if the_data.sub_service|length == 0 %}
+              {% for i in range(1, 3) %}
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ i }}" aria-label="Slide {{i+1}}" class=""></button>
+              {% endfor %}
+            {% else%}
+              {% for i in range(1, 3) %}
+                {% if the_data.sub_service|length >= i+1 %}
+                  <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ i }}" aria-label="Slide {{i+1}}" class=""></button>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="carousel-inner" bis_skin_checked="1">
+            <div class="carousel-item active" bis_skin_checked="1">
+              {% if the_data.sub_service|length == 0 %}
+                <img src="{{ the_data.products[0].image_url }}">
+              {% else %}
+                <img src="{{ the_data.sub_service[0].image_url }}">
+              {% endif %}
+            </div>
+            {% for n in range(1, 3) %}
+                  {% if the_data.sub_service|length == 0 %}
+                    {% if the_data.products[n] %}
+                      <div class="carousel-item" bis_skin_checked="1">
+                        <img src="{{ the_data.products[n].image_url }}">
+                      </div>
+                    {% endif %}
+                  {% else %}
+                    {% if the_data.sub_service[n] %}
+                      <div class="carousel-item" bis_skin_checked="1">
+                        <img src="{{ the_data.sub_service[n].image_url }}">
+                      </div>
+                    {% endif %}
+                  {% endif %}
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+              <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+            </svg>
+            <span class="visually-hidden">Previous</span>
+          </button> <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+  </div>
+    <div class="col-lg-5 service-c" bis_skin_checked="1">
+      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">{{ the_data.name }}</h1>
+      <p class="lead">{{ the_data.description }}</p>
+    </div>
+  </div>
+
+
+
+<div class="special-text py-5 container-fluid">
+{{ the_data.content|safe }}
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

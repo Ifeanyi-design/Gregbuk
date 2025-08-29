@@ -1,0 +1,105 @@
+    <!-- CoreUI Header (for sidebar toggle only) -->
+
+<div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar">
+      <div class="sidebar-header border-bottom">
+        <div class="sidebar-brand">
+          <svg class="sidebar-brand-full" width="88" height="32" alt="CoreUI Logo">
+            <use xlink:href="assets/brand/coreui.svg#full"></use>
+          </svg>
+          <svg class="sidebar-brand-narrow" width="32" height="32" alt="CoreUI Logo">
+            <use xlink:href="assets/brand/coreui.svg#signet"></use>
+          </svg>
+        </div>
+        <button class="btn-close d-lg-none" type="button" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector(&quot;#sidebar&quot;)).toggle()"></button>
+      </div>
+      <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+        <li class="nav-item">
+            <a class="nav-link all" href="{{ url_for('all') }}">
+            <svg class="nav-icon">
+              <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-speedometer"></use>
+            </svg> All Sevices<span class="badge badge-sm bg-danger ms-auto">HOT</span>
+            </a>
+        </li>
+
+        <li class="nav-title">Services</li>
+      {% for service in services %}
+
+<li class="nav-group">
+  <a class="nav-link nav-group-toggle {% if the_name ==  service.category_name %}active-tab{% endif %}" href="#">
+    <svg class="nav-icon">
+        <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}{{service.icon_name}}"></use>
+    </svg>
+    {{ service.name }}
+  </a>
+
+  {% if service.sub_service|length != 0 %}
+  <ul class="nav-group-items ms-3">
+    {% for sub in service.sub_service %}
+    <li class="nav-group">
+      <a class="nav-link nav-group-toggle" href="#">
+        <span class="nav-icon"><span class="nav-icon-bullet"></span></span> {{ sub.name }}
+      </a>
+
+      {% if sub.products %}
+      <ul class="nav-group-items ms-3">
+        {% for pro in sub.products %}
+        <li class="nav-item">
+          <a class="nav-link" href="/item1">
+            <span class="nav-icon"><span class="nav-icon-bullet"></span></span> {{ pro.name }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <ul class="nav-group-items ms-3">
+        {% for pro in service.products %}
+        <li class="nav-item">
+          <a class="nav-link" href="/item1">
+            <span class="nav-icon"><span class="nav-icon-bullet"></span></span> {{ pro.name }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+  {% endif %}
+
+</li>
+{% endfor %}
+
+
+
+
+        <li class="nav-title">Extras</li>
+        <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+            <svg class="nav-icon">
+              <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-file"></use>
+            </svg> Pages</a>
+          <ul class="nav-group-items compact">
+            <li class="nav-item"><a class="nav-link all" href="login.html" target="_top">
+                <svg class="nav-icon">
+                  <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                </svg> Login</a></li>
+            <li class="nav-item"><a class="nav-link all" href="register.html" target="_top">
+                <svg class="nav-icon">
+                  <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                </svg> Register</a></li>
+            <li class="nav-item"><a class="nav-link all" href="404.html" target="_top">
+                <svg class="nav-icon">
+                  <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bug"></use>
+                </svg> Error 404</a></li>
+            <li class="nav-item"><a class="nav-link all" href="500.html" target="_top">
+                <svg class="nav-icon">
+                  <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bug"></use>
+                </svg> Error 500</a></li>
+          </ul>
+        </li>
+
+      </ul>
+      <div class="sidebar-footer border-top d-none d-md-flex">
+        <button class="sidebar-toggler c" type="button" data-coreui-toggle="unfoldable"></button>
+      </div>
+    </div>
