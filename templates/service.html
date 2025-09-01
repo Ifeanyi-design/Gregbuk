@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="row flex-lg-row-reverse service-hero g-5 my-5 pb-5 container-fluid" bis_skin_checked="1">
-    <div class="col-10 col-sm-8 service-c col-lg-7" bis_skin_checked="1">
+  <div class="row flex-lg-row-reverse service-hero g-5 my-5 pb-5 container-fluid-lg" bis_skin_checked="1">
+    <div class="col-12 col-sm-12 order-2 order-lg-1 service-c col-lg-7" bis_skin_checked="1">
         <div id="myCarousel" class="carousel slide mb-2" data-bs-ride="carousel" bis_skin_checked="1">
           <div class="carousel-indicators" bis_skin_checked="1">
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
@@ -57,7 +57,7 @@
         </button>
       </div>
   </div>
-    <div class="col-lg-5 service-c" bis_skin_checked="1">
+    <div class="col-lg-5 service-c-2 order-1 order-lg-2" bis_skin_checked="1">
       <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">{{ the_data.name }}</h1>
       <p class="lead">{{ the_data.description }}</p>
     </div>

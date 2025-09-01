@@ -496,15 +496,18 @@ html[data-coreui-theme="dark"] .ol.thetitle {
   right: 5px;  /* almost touching right edge */
 }
 
+
+
 .row.service-hero{
   height: 55vh !important;
-
+  border: 3px solid red !important;
 }
 .row.service-hero .service-c{
   height: 100%;
+  border: 3px solid red !important;
 
 }
-.row.service-hero .service-c h1{
+.row.service-hero h1{
   font-size: 260%;
 }
 
@@ -528,6 +531,68 @@ html[data-coreui-theme="dark"] .ol.thetitle {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
+}
+
+
+@media (max-width: 991px){
+  .row.service-hero{
+  height: 30vh !important;
+  width: 100vw !important;
+  border: 3px solid blue !important;
+  margin-left: 0px;
+
+  }
+  .row.service-hero .carousel{
+  height: 100%;
+  width: 100%;              /* ✅ use % instead of vw */
+  margin: 0 auto;           /* center it */
+  padding: 0 10px;          /* ✅ equal space on left & right */
+  border: 3px solid blue !important;
+  }
+
+  .row.service-hero .service-c{
+  height: 100%;
+  width: 98% !important;   /* ✅ same here */
+  border: 3px solid red !important;
+  padding: 0;
+  margin: 0 auto;
+
+  }
+  .special-text{
+    margin-top: 110px;
+  }
+}
+
+@media (max-width: 768px){
+  .row.service-hero{
+  height: 50vh !important;
+  width: 100vw !important;
+  border: 3px solid blue !important;
+  margin-left: 0px;
+  }
+  .special-text{
+    margin-top: 170px !important;
+  }
+  .row.service-hero .carousel{
+  height: 100%;
+  width: 100%;              /* ✅ use % instead of vw */
+  margin: 0 auto;           /* center it */
+  padding: 0 10px;          /* ✅ equal space on left & right */
+  border: 3px solid blue !important;
+  }
+  .row.service-hero .service-c{
+  height: 100%;
+  width: 100% !important;   /* ✅ same here */
+  border: 3px solid red !important;
+  padding: 0;
+  margin: 0 auto;           /* center it */
+
+  }
+  .row.service-hero .service-c-2{
+  width: 100% !important;   /* ✅ same here */
+  border: 3px solid red !important;
+
+  }
 }
 
 

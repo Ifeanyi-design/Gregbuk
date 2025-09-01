@@ -33,8 +33,11 @@
   <!-- Config scripts (deferred for performance) -->
   <script src="{{ url_for('static', filename='jscript/config.js') }}" defer></script>
   <script src="{{ url_for('static', filename='jscript/color-modes.js') }}" defer></script>
+  <style>
+  {% block style %}{%endblock%}
+  </style>
 </head>
-{% block style %}{%endblock%}
+
 
 <body class="{% if change %}change{% endif %}">
 <div class="wrapper-lg d-lg-flex">

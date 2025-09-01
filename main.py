@@ -1,17 +1,22 @@
-from flask import Flask, render_template, request,url_for, jsonify
+from flask import Flask, render_template, request,url_for, jsonify, redirect
 from config import Config
 from sqlalchemy import or_
 from db import db, Services, Products, SubService, Header
 from random import randint, choice
+from form import ContactForm
+import os
+from datetime import date
+import smtplib
+from email.message import EmailMessage
+from werkzeug.exceptions import NotFound
 
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-
+    app.config["SECRET_KEY"] = "hellodear"
     db.init_app(app)
-
     with app.app_context():
         db.create_all()  # creates tables
 
@@ -25,7 +30,7 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 @app.errorhandler(500)
-def page_not_found(e):
+def page_error(e):
     return render_template("500.html"), 500
 
 @app.route("/force500")
@@ -128,7 +133,8 @@ def home():
     random_service2 = Services.query.filter_by(name="Business Cards").first()
     random_product2 = choice(random_service2.products)
     change = True
-    return render_template("main.html", change=change, random_sub1=random_sub1, random_product2=random_product2, random_product1=random_product1, header=header, services=service, theme=theme)
+    the_name = "home"
+    return render_template("main.html",the_name=the_name, change=change, random_sub1=random_sub1, random_product2=random_product2, random_product1=random_product1, header=header, services=service, theme=theme)
 
 @app.route("/printing")
 def printing():
@@ -146,20 +152,39 @@ def business_registration():
 @app.route("/services/<name>/<sec>/<pro>")
 def services(name=None, sec=None, pro=None):
     data = ""
+    the_name=""
     if name and sec and pro:
-        the_name = name
-        templates = "main.html"
-    elif name and sec:
-        if SubService.query.filter_by(category_name=sec).first():
-            the_name = name
-            templates = "main.html"
+        if Services.query.filter_by(category_name=name).first():
+            if SubService.query.filter_by(category_name=sec).first():
+                if Products.query.filter_by(category_name=pro).first():
+                    the_name = name
+                    templates = "main.html"
+                else:
+                    return page_not_found(NotFound("Items not found"))
+            else:
+                return page_not_found(NotFound("Items not found"))
         else:
-            the_name = name
-            templates = "main.html"
+            return page_not_found(NotFound("Items not found"))
+    elif name and sec:
+        if Services.query.filter_by(category_name=name).first():
+            if SubService.query.filter_by(category_name=sec).first():
+                the_name = name
+                templates = "main.html"
+            elif Products.query.filter_by(category_name=sec).first():
+                the_name = name
+                templates = "main.html"
+            else:
+                return page_not_found(NotFound("Items not found"))
+        else:
+            return page_not_found(NotFound("Items not found"))
     elif name:
-        the_name = name
-        templates = "service.html"
-        data = Services.query.filter_by(category_name=the_name).first()
+        if Services.query.filter_by(category_name=name).first():
+            the_name = name
+            templates = "service.html"
+            data = Services.query.filter_by(category_name=the_name).first()
+        else:
+            return page_not_found(NotFound("Items not found"))
+
 
     the_data = data
     print(the_data)
@@ -199,12 +224,58 @@ def pricing():
     service = Services.query.all()
     return render_template("main.html", header=header, services=service)
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
+    print("hello")
+    head = request.args.get("head")
     header = Header.query.all()
     service = Services.query.all()
     change= True
-    return render_template("contact_us.html", change=change, header=header, services=service)
+    form=ContactForm()
+    choices = [("select", "Select from the dropdown")]
+    choices2 = [(serve.category_name, serve.name) for serve in service]
+    manual = [("price", "Price")]
+    choices.extend(choices2)
+    choices.extend(manual)
+    form.head.choices = choices
+    if head != "":
+        if Services.query.filter_by(category_name=head).first():
+            data = Services.query.filter_by(category_name=head).first()
+            form.head.data = data.category_name
+    if request.method == "POST":
+        if form.validate_on_submit():
+            the_head = form.head.data
+            the_name = form.name.data
+            the_email = form.email.data
+            the_phone = form.phone.data
+            the_message = form.phone.data
+            smtp_server = "smtp.gmail.com"
+            port = 587
+            sender_mail = "ifeanyiagada9@gmail.com"
+            receiver = "ifeanyiagada123@gmail.com"
+            password = os.environ.get("PASSWORD_TEXT")
+            message = EmailMessage()
+            message["From"] = sender_mail
+            message["To"] = receiver
+            message["Subject"] = "Contact Message from Blog Website"
+            message.set_content(
+                f"Header: {the_head}\n\n"
+                f"Name: {the_name}\n\n"
+                f"Email: {the_email}\n\n"
+                f"Phone Number: {the_phone}\n\n"
+                f"Message: {the_message}"
+            )
+            with smtplib.SMTP(smtp_server, port) as server:
+                server.starttls()
+                server.login(sender_mail, password)
+                server.send_message(message)
+
+            return jsonify({"success": True})
+        else:
+            errors = {field: errors for field, errors in form.errors.items()}
+            return jsonify({"success": False, "errors": errors})
+
+    return render_template("contact_us.html", form=form, change=change, header=header, services=service)
 
 @app.route("/logout")
 def logout():
