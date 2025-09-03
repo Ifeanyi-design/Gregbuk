@@ -1,10 +1,23 @@
 {% extends "base.html" %}
-
+{% block style %}
+  .products .img:hover{
+    opacity: 70%;
+  }
+{% endblock %}
 {% block content %}
-  <div class="row flex-lg-row-reverse service-hero g-5 my-5 pb-5 container-fluid-lg" bis_skin_checked="1">
-    <div class="col-12 col-sm-12 order-2 order-lg-1 service-c col-lg-7" bis_skin_checked="1">
-        <div id="myCarousel" class="carousel slide mb-2" data-bs-ride="carousel" bis_skin_checked="1">
-          <div class="carousel-indicators" bis_skin_checked="1">
+  <div class="container-fluid upp" style="margin-top: 9%; margin-bottom: 0px; z-index: 2;" >
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+        <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('all') }}">Services</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ the_data.name }}</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row flex-lg-row-reverse service-hero g-5 mb-5 pb-5 container-fluid" >
+    <div class="col-12 col-sm-12 order-2 order-lg-1 service-c col-lg-7" >
+        <div id="myCarousel" class="carousel slide mb-2" data-bs-ride="carousel" >
+          <div class="carousel-indicators" >
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
             {% if the_data.sub_service|length == 0 %}
               {% for i in range(1, 3) %}
@@ -18,8 +31,8 @@
               {% endfor %}
             {% endif %}
           </div>
-          <div class="carousel-inner" bis_skin_checked="1">
-            <div class="carousel-item active" bis_skin_checked="1">
+          <div class="carousel-inner" >
+            <div class="carousel-item active" >
               {% if the_data.sub_service|length == 0 %}
                 <img src="{{ the_data.products[0].image_url }}">
               {% else %}
@@ -29,13 +42,13 @@
             {% for n in range(1, 3) %}
                   {% if the_data.sub_service|length == 0 %}
                     {% if the_data.products[n] %}
-                      <div class="carousel-item" bis_skin_checked="1">
+                      <div class="carousel-item">
                         <img src="{{ the_data.products[n].image_url }}">
                       </div>
                     {% endif %}
                   {% else %}
                     {% if the_data.sub_service[n] %}
-                      <div class="carousel-item" bis_skin_checked="1">
+                      <div class="carousel-item">
                         <img src="{{ the_data.sub_service[n].image_url }}">
                       </div>
                     {% endif %}
@@ -57,11 +70,149 @@
         </button>
       </div>
   </div>
-    <div class="col-lg-5 service-c-2 order-1 order-lg-2" bis_skin_checked="1">
+    <div class="col-lg-5 service-c-2 order-1 order-lg-2">
       <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">{{ the_data.name }}</h1>
-      <p class="lead">{{ the_data.description }}</p>
+      <p class="lead">{{ the_data.description }}
+        <br>
+      <a href="{{url_for('contact', head=the_data.category_name)}}" style="font-size: 100%; border: 4px solid" class="btn btn-outline-primary rounded-pill mt-5 px-3 py-2">Get Quote Now</a>
     </div>
   </div>
+
+
+
+<div class="album now py-5 bg-body-tertiary">
+  <div class="container-xl">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+
+      <!-- Card 1 -->
+      {% if the_data.sub_service|length != 0 %}
+        {% for sub in the_data.sub_service %}
+          <div class="col">
+            <div class="card shadow-sm">
+              <img src="{{ sub.image_url }}"
+                class="card-img-top"
+                alt="My Service"
+                style="height:225px; object-fit:cover;">
+
+
+              <div class="card-body">
+                <h5>{{ sub.name }}</h5>
+                <p class="card-text">
+                  {{ sub.description }}
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{{ url_for('services', name=the_data.category_name, sec=sub.category_name) }}'">View Products</button>
+                  </div>
+                  <small class="text-body-secondary">9 mins</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        {% for pro in the_data.products %}
+          <div class="col">
+            <div class="card shadow-sm">
+              <img src="{{ pro.image_url }}"
+                class="card-img-top"
+                alt="My Service"
+                style="height:225px; object-fit:cover;">
+
+
+              <div class="card-body">
+                <h5>{{ pro.name }}</h5>
+                <p class="card-text">
+                  {{ pro.description }}
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{{ url_for('services', name=the_data.category_name, sec=pro.category_name) }}'">View Details</button>
+                  </div>
+                  <small class="text-body-secondary">9 mins</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+
+    </div>
+  </div>
+</div>
+
+<section class="boxer">
+<div class="container-lg item-change old">
+  <h2>Related Products</h2>
+  <div class="row g-2"> <!-- g-2 adds small gap between images -->
+      {% if the_data.sub_service|length != 0 %}
+        {% if the_data.sub_services|length == 1 %}
+          {% for n in range(4) %}
+            {% if n < the_data.sub_service[1].products|length %}
+              <div class="products col-6 col-lg-3">
+                <div class="img">
+                  <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[1].category_name, pro=the_data.sub_service[1].products[n].category_name) }}"><img src="{{ the_data.sub_service[1].products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                </div>
+                <div class="product-name"><a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[1].category_name, pro=the_data.sub_service[1].products[n].category_name) }}">{{ the_data.sub_service[1].products[n].name }}</a></div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% elif the_data.sub_service|length == 2 %}
+          {% for i in range(2) %}
+            {% for n in range(2) %}
+              {% if n < the_data.sub_service[i].products|length %}
+                <div class="products col-6 col-lg-3">
+                  <div class="img">
+                    <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}"><img src="{{ the_data.sub_service[i].products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                  </div>
+                  <div class="product-name"><a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}">{{ the_data.sub_service[i].products[n].name }}</a></div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        {% elif the_data.sub_service|length == 3 %}
+          {% for i in range(2) %}
+            {% for n in range(2) %}
+              {% if n < the_data.sub_service[i].products|length %}
+                <div class="products col-6 col-lg-3">
+                  <div class="img">
+                    <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}"><img src="{{ the_data.sub_service[i].products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                  </div>
+                  <div class="product-name"><a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}">{{ the_data.sub_service[i].products[n].name }}</a></div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        {% elif the_data.sub_service|length >= 4 %}
+          {% for i in range(4) %}
+            {% for n in range(1) %}
+              {% if n < the_data.sub_service[i].products|length %}
+                <div class="products col-6 col-lg-3">
+                  <div class="img">
+                    <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}"><img src="{{ the_data.sub_service[i].products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                  </div>
+                  <div class="product-name"><a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}">{{ the_data.sub_service[i].products[n].name }}</a></div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        {% endif %}
+      {% else %}
+            {% for n in range(4) %}
+              {% if n < the_data.products|length %}
+                <div class="products col-6 col-lg-3">
+                  <div class="img">
+                    <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.products[n].category_name) }}"><img src="{{ the_data.products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                  </div>
+                  <div class="product-name"><a href="{{ url_for('services', name=the_data.category_name, sec= the_data.products[n].category_name) }}">{{ the_data.products[n].name }}</a></div>
+                </div>
+              {% endif %}
+            {% endfor %}
+      {% endif %}
+  </div>
+</div>
+</section>
 
 
 

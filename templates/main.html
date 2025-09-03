@@ -4,29 +4,29 @@
 
 <!--Carousel-->
   <div class="container-fluid container-lg">
-    <div id="myCarousel" class="carousel slide mb-2" data-bs-ride="carousel" bis_skin_checked="1">
-      <div class="carousel-indicators" bis_skin_checked="1">
+    <div id="myCarousel" class="carousel slide mb-2" data-bs-ride="carousel" >
+      <div class="carousel-indicators" >
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4" class=""></button>
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4" aria-label="Slide 5" class=""></button>
       </div>
-      <div class="carousel-inner" bis_skin_checked="1">
-        <div class="carousel-item active" bis_skin_checked="1">
+      <div class="carousel-inner" >
+        <div class="carousel-item active" >
           <img src="{{ url_for('static', filename='images/bulk-sms.png') }}">
-          <div class="container-fluid" bis_skin_checked="1">
-            <div class="carousel-caption text-start" bis_skin_checked="1">
+          <div class="container-fluid" >
+            <div class="carousel-caption text-start" >
               <h1>Big Impact, Small Cost.</h1>
               <p class="opacity-75">Pay less, reach more—maximise your marketing budget.</p>
               <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
             </div>
           </div>
         </div>
-        <div class="carousel-item" bis_skin_checked="1">
+        <div class="carousel-item" >
           <img src="{{ url_for('static', filename='images/t-shirt.jpg') }}">
-          <div class="container-fluid" bis_skin_checked="1">
-            <div class="carousel-caption" bis_skin_checked="1">
+          <div class="container-fluid" >
+            <div class="carousel-caption" >
               <h1>Your Design. Your Shirt. Your Style.</h1>
               <p>From bold graphics to subtle branding—print it your way.</p>
               <p><a class="btn btn-lg btn-primary" href="#">Learn more</a>
@@ -34,30 +34,30 @@
             </div>
           </div>
         </div>
-        <div class="carousel-item" bis_skin_checked="1">
+        <div class="carousel-item" >
           <img src="{{ url_for('static', filename='images/brochure-2.jpg') }}">
-          <div class="container-fluid" bis_skin_checked="1">
-            <div class="carousel-caption text-end" bis_skin_checked="1">
+          <div class="container-fluid" >
+            <div class="carousel-caption text-end" >
               <h1>Your Message, in Their Hands.</h1>
               <p>Durable, beautiful brochures for events, promos, and sales.</p>
               <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
             </div>
           </div>
         </div>
-        <div class="carousel-item" bis_skin_checked="1">
+        <div class="carousel-item" >
           <img src="{{ url_for('static', filename='images/mug.jpg') }}">
-          <div class="container-fluid" bis_skin_checked="1">
-            <div class="carousel-caption text-end" bis_skin_checked="1">
+          <div class="container-fluid" >
+            <div class="carousel-caption text-end" >
               <h1>If You Can Dream It, We Can Print It.</h1>
               <p>Full-color mug printing for photos, art, and text.</p>
               <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
             </div>
           </div>
         </div>
-        <div class="carousel-item" bis_skin_checked="1">
+        <div class="carousel-item" >
           <img src="{{ url_for('static', filename='images/business-card.jpg') }}">
-          <div class="container-fluid" bis_skin_checked="1">
-            <div class="carousel-caption text-end" bis_skin_checked="1">
+          <div class="container-fluid" >
+            <div class="carousel-caption text-end" >
               <h1>Your Brand in Your Pocket – Ready in 24H.</h1>
               <p>Fast, professional business card printing at unbeatable quality.</p>
               <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
@@ -224,7 +224,7 @@
 
 <section class="bg-section col-xxl-8 px-4 py-0">
   <div class="container-lg">
-  <div class="row flex-md-row align-items-center g-5" bis_skin_checked="1">
+  <div class="row flex-md-row align-items-center g-5" >
     <div class="col-10 order-md-1 order-1 exp col-sm-8 col-md-6">
         {% for service in services %}
           {% if service.name == "Business Cards" %}
@@ -233,10 +233,10 @@
           {% endif %}
         {% endfor %}
       </div>
-    <div class="col-md-6 order-md-2 order-2" bis_skin_checked="1">
+    <div class="col-md-6 order-md-2 order-2" >
       <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Business Cards</h1>
       <p class="lead">Stand out and create a memorable first impression with premium business cards. Choose from elegant designs, durable materials, and personalized finishes that showcase your brand identity with style and professionalism.</p>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-start" bis_skin_checked="1">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start" >
         <button type="button" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
       </div>
     </div>
@@ -275,7 +275,7 @@
 <section class="bg-section col-xxl-8  pb-1">
   <div class="container-lg item-change">
 
-  <div class=" row flex-md-row-reverse align-items-center g-5 pb-2 pt-0" bis_skin_checked="1">
+  <div class=" row flex-md-row-reverse align-items-center g-5 pb-2 pt-0" >
     <div class="borderss holder2 ho col-10  order-md-1 order-2 col-sm-6 pt-0 col-lg-6">
   <div class="row g-2"> <!-- g-2 adds small gap between images -->
     {% for service in services %}
@@ -308,10 +308,10 @@
     {% endfor %}
   </div>
 </div>
-    <div class="col-md-6 holder1 w-sm-100 order-lg-2 order-1" bis_skin_checked="1">
+    <div class="col-md-6 holder1 w-sm-100 order-lg-2 order-1" >
       <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Signs & Banners</h1>
       <p class="lead">Make your message impossible to miss with custom banners, indoor signs, and storefront displays. Designed to be durable, professional, and cost-effective, they’re the perfect choice for promotions, events, trade shows, and everyday visibility.</p>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-start" bis_skin_checked="1">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start" >
         <button type="button" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
       </div>
     </div>
@@ -354,7 +354,7 @@
     </div>
   </section>
 <div class="container-lg">
-  <div class="special-text" bis_skin_checked="1">
+  <div class="special-text" >
     <h1>Online Printing Services: Professional and Affordable Solutions for Your Business</h1>
 
 <p>Welcome to <strong>Gregbuk</strong>, your trusted partner for exceptional <strong>online printing services</strong>. With over 20 years of industry experience, we’ve built a reputation for delivering high-quality, affordable, and fully customized <strong>printing solutions</strong>. Today, we proudly serve thousands of businesses and individuals, ensuring every order meets the highest standards of quality and professionalism.</p>

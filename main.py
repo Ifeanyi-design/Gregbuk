@@ -168,8 +168,10 @@ def services(name=None, sec=None, pro=None):
     elif name and sec:
         if Services.query.filter_by(category_name=name).first():
             if SubService.query.filter_by(category_name=sec).first():
+                print("hello")
                 the_name = name
-                templates = "main.html"
+                templates = "subservice.html"
+                data = SubService.query.filter_by(category_name=sec).first()
             elif Products.query.filter_by(category_name=sec).first():
                 the_name = name
                 templates = "main.html"
@@ -187,7 +189,6 @@ def services(name=None, sec=None, pro=None):
 
 
     the_data = data
-    print(the_data)
     header = Header.query.all()
     service = Services.query.all()
     change=False
@@ -283,17 +284,19 @@ def logout():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    register = True
     header = Header.query.all()
     service = Services.query.all()
     change = True
-    return render_template("register.html", change=change, header=header, services=service)
+    return render_template("register.html", register=register, change=change, header=header, services=service)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    login=True
     header = Header.query.all()
     service = Services.query.all()
     change = True
-    return render_template("login.html", change=change, header=header, services=service)
+    return render_template("login.html", login=login, change=change, header=header, services=service)
 
 @app.route("/dashboard")
 def dashboard():

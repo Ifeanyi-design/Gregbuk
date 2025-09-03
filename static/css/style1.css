@@ -500,11 +500,9 @@ html[data-coreui-theme="dark"] .ol.thetitle {
 
 .row.service-hero{
   height: 55vh !important;
-  border: 3px solid red !important;
 }
 .row.service-hero .service-c{
   height: 100%;
-  border: 3px solid red !important;
 
 }
 .row.service-hero h1{
@@ -533,32 +531,43 @@ html[data-coreui-theme="dark"] .ol.thetitle {
   object-fit: cover !important;
 }
 
+.imgs{
+    margin-bottom: 100px;
+    width: 100%;
+    object-fit: cover !important;
+    height: 55vh;
+  }
 
-@media (max-width: 991px){
+@media (max-width: 991.98px){
   .row.service-hero{
   height: 30vh !important;
   width: 100vw !important;
-  border: 3px solid blue !important;
   margin-left: 0px;
 
+  }
+  .now{
+    margin-top: 200px !important;
   }
   .row.service-hero .carousel{
   height: 100%;
   width: 100%;              /* ✅ use % instead of vw */
   margin: 0 auto;           /* center it */
   padding: 0 10px;          /* ✅ equal space on left & right */
-  border: 3px solid blue !important;
   }
 
   .row.service-hero .service-c{
   height: 100%;
   width: 98% !important;   /* ✅ same here */
-  border: 3px solid red !important;
   padding: 0;
   margin: 0 auto;
 
   }
-  .special-text{
+  .imgs{
+    width: 100%;
+    object-fit: cover !important;
+    height: 100% !important;
+  }
+  .album.now{
     margin-top: 110px;
   }
 }
@@ -567,33 +576,46 @@ html[data-coreui-theme="dark"] .ol.thetitle {
   .row.service-hero{
   height: 50vh !important;
   width: 100vw !important;
-  border: 3px solid blue !important;
   margin-left: 0px;
   }
-  .special-text{
-    margin-top: 170px !important;
+  .album.now{
+    margin-top: 250px !important;
+  }
+  .imgs{
+    margin-bottom: 100px;
+    width: 100%;
+    object-fit: contain !important;
+    height: 100% !important;
   }
   .row.service-hero .carousel{
   height: 100%;
   width: 100%;              /* ✅ use % instead of vw */
   margin: 0 auto;           /* center it */
   padding: 0 10px;          /* ✅ equal space on left & right */
-  border: 3px solid blue !important;
   }
   .row.service-hero .service-c{
   height: 100%;
   width: 100% !important;   /* ✅ same here */
-  border: 3px solid red !important;
   padding: 0;
   margin: 0 auto;           /* center it */
 
-  }
-  .row.service-hero .service-c-2{
-  width: 100% !important;   /* ✅ same here */
-  border: 3px solid red !important;
 
   }
+  .row.service-hero .service-c-2{
+    width: 100% !important;   /* ✅ same here */
+    padding-left: 3%;
+
+  }
+  .row.service-hero .service-c-2 h1{
+    font-size: 200%;
+    width: 100% !important;
+  }
+  .upp{
+    margin-top: 15% !important;
+  }
 }
+
+
 
 
 .wrapper-lg {
@@ -603,6 +625,23 @@ html[data-coreui-theme="dark"] .ol.thetitle {
 }
 
 
+.container-lg-fluid {
+  width: 100%;
+  padding-right: var(--bs-gutter-x, 0.75rem);
+  padding-left: var(--bs-gutter-x, 0.75rem);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (max-width: 991.98px) {
+  .container-lg-fluid {
+    max-width: 960px; /* same as Bootstrap’s container-lg */
+    padding-right: var(--bs-gutter-x, 0.75rem);
+    padding-left: var(--bs-gutter-x, 0.75rem);
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
 
 .wrapper.hell {
   flex-grow: 1; /* take remaining space */

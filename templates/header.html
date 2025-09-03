@@ -2,12 +2,14 @@
   <div class="container-fluid">
     {% if not change %}
     <!-- Sidebar toggle button (only visible on mobile) -->
-    <button class="btn btn-primary d-md-none d-lg-none"
+    <button class="btn btn-primary d-lg-none"
         type="button"
         data-coreui-toggle="sidebar"
-        data-coreui-target="#sidebar" id="sidebar-toggler" aria-label="Toggle sidebar">
+        data-coreui-target="#sidebar"
+        id="sidebar-toggler"
+        aria-label="Toggle sidebar">
   <i class="bi bi-list"></i>
-  </button>
+</button>
     {% endif %}
 
     <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Gregbuk</a>
@@ -18,7 +20,7 @@
 
 
     <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 mt-3">
         {% for items in header %}
           {% if items.name == "Service" %}
             <li class="nav-item dropdown">
@@ -78,8 +80,12 @@
             </ul>
           </li>
         {% else %}
-          <li class="nav-item"><a class="btn btn-outline-primary my-btn me-lg-2 ms-lg-2 mb-2" href="{{ url_for('login') }}">Login</a></li>
-          <li class="nav-item"><a class="btn btn-primary my-btn2" href="{{ url_for('register') }}">Register</a></li>
+          {% if not login %}
+            <li class="nav-item"><a class="btn btn-outline-primary my-btn me-lg-2 ms-lg-2 mb-2" href="{{ url_for('login') }}">Login</a></li>
+          {% endif %}
+          {% if not register %}
+            <li class="nav-item"><a class="btn btn-primary my-btn2" href="{{ url_for('register') }}">Register</a></li>
+          {% endif %}
         {% endif %}
       </ul>
 

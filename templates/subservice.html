@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block style %}
+  .products .img:hover{
+    opacity: 70%;
+  }
+{% endblock %}
+{% block content %}
+  <div class="container-fluid upp" style="margin-top: 9%; margin-bottom: 0px; z-index: 2;" >
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+        <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('all') }}">Services</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('services', name=the_data.services.category_name) }}">{{the_data.services.name}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ the_data.name }}</li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="row flex-lg-row-reverse service-hero g-5 mb-5 pb-5 container-fluid" >
+    <div class="col-12 col-sm-12 order-2 order-lg-1 service-c col-lg-7" >
+        <img src="{{ the_data.image_url }}" class="d-block imgs mx-lg-auto img-fluid" loading="lazy">
+  </div>
+    <div class="col-lg-5 service-c-2 order-1 order-lg-2">
+      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">{{ the_data.name }}</h1>
+      <p class="lead">{{ the_data.description }}
+        <br>
+      <a href="{{url_for('contact', head=the_data.services.category_name)}}" style="font-size: 100%; border: 4px solid" class="btn btn-outline-primary mt-5 rounded-pill px-3 py-2">Get Quote Now</a>
+    </div>
+  </div>
+
+
+
+<div style="margin-top: 50px;" class="album now py-5 bg-body-tertiary">
+  <div class="container-xl">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+
+      <!-- Card 1 -->
+        {% for pro in the_data.products %}
+          <div class="col">
+            <div class="card shadow-sm">
+              <img src="{{ pro.image_url }}"
+                class="card-img-top"
+                alt="My Service"
+                style="height:225px; object-fit:cover;">
+
+
+              <div class="card-body">
+                <h5>{{ pro.name }}</h5>
+                <p class="card-text">
+                  {{ pro.description }}
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{{ url_for('services', name=the_data.services.category_name, sec=the_data.category_name, pro=pro.category_name) }}'">View Products</button>
+                  </div>
+                  <small class="text-body-secondary">9 mins</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+
+    </div>
+  </div>
+</div>
+
+<div class="special-text py-5 container-fluid">
+{{ the_data.content|safe }}
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
