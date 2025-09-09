@@ -158,7 +158,8 @@ def services(name=None, sec=None, pro=None):
             if SubService.query.filter_by(category_name=sec).first():
                 if Products.query.filter_by(category_name=pro).first():
                     the_name = name
-                    templates = "main.html"
+                    templates = "products.html"
+                    data = Products.query.filter_by(category_name=pro).first()
                 else:
                     return page_not_found(NotFound("Items not found"))
             else:
@@ -174,7 +175,8 @@ def services(name=None, sec=None, pro=None):
                 data = SubService.query.filter_by(category_name=sec).first()
             elif Products.query.filter_by(category_name=sec).first():
                 the_name = name
-                templates = "main.html"
+                templates = "products.html"
+                data = Products.query.filter_by(category_name=sec).first()
             else:
                 return page_not_found(NotFound("Items not found"))
         else:
@@ -217,7 +219,7 @@ def bulk_sms():
 def about_us():
     header = Header.query.all()
     service = Services.query.all()
-    return render_template("main.html", header=header, services=service)
+    return render_template("about_us.html", header=header, services=service)
 
 @app.route("/princing")
 def pricing():

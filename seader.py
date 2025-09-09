@@ -1,5 +1,5 @@
 from main import app
-from db import db, Services, SubService, Products, Header
+from db import db, Services, SubService, Products, Header, ProductCollection
 from random import choice
 from flask import url_for
 
@@ -190,32 +190,32 @@ with app.app_context():
             "products": [
                 {"name": "Glossy Card",
                  "description": "Premium glossy finish for vibrant colors and a professional look.",
-                 "image_url": choice(imgg), "category_name": "glossy"},
+                 "image_url": choice(imgg), "category_name": "glossy", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Matte Card",
                  "description": "Smooth, non-reflective finish for a sophisticated and elegant appearance.",
-                 "image_url": choice(imgg), "category_name": "matte"},
+                 "image_url": choice(imgg), "category_name": "matte", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Standard Business Card",
                  "description": "Classic and versatile business card perfect for any professional need.",
-                 "image_url": choice(imgg), "category_name": "standard"},
+                 "image_url": choice(imgg), "category_name": "standard", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Square Business Card",
                  "description": "Modern square shape that stands out from traditional business cards.",
-                 "image_url": choice(imgg), "category_name": "square"},
+                 "image_url": choice(imgg), "category_name": "square", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Rounded Corner Business Card",
                  "description": "Elegant rounded edges for a sleek, premium finish.", "image_url": choice(imgg),
-                 "category_name": "rounded-corner"},
+                 "category_name": "rounded-corner", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Ultra Thick Business Card",
                  "description": "Extra thick cardstock for a luxury feel and durability.", "image_url": choice(imgg),
-                 "category_name": "ultra-thick"},
+                 "category_name": "ultra-thick", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Special Papers Business Card",
                  "description": "Unique textured or specialty paper to leave a memorable impression.",
-                 "image_url": choice(imgg), "category_name": "special-paper"},
+                 "image_url": choice(imgg), "category_name": "special-paper", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Loyalty Card", "description": "Customizable loyalty cards to reward your best customers.",
-                 "image_url": choice(imgg), "category_name": "loyalty"},
+                 "image_url": choice(imgg), "category_name": "loyalty", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Appointment Card",
                  "description": "Practical cards for scheduling appointments and keeping clients organized.",
-                 "image_url": choice(imgg), "category_name": "appointment"},
+                 "image_url": choice(imgg), "category_name": "appointment", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Complementary Card", "description": "Small, elegant cards to accompany gifts or services.",
-                 "image_url": choice(imgg), "category_name": "complementary"}
+                 "image_url": choice(imgg), "category_name": "complementary", "image_collection": [choice(imgg) for n in range(8)]}
             ]
         },
         {
@@ -346,19 +346,19 @@ with app.app_context():
                     "products": [
                         {"name": "Flyers",
                          "description": "Single-page, full-color flyers for quick promotions or events.",
-                         "image_url": choice(imgg), "category_name": "flyer"},
+                         "image_url": choice(imgg), "category_name": "flyer", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Club Flyers",
                          "description": "Vibrant, energetic flyers designed for nightlife and club promotions.",
-                         "image_url": choice(imgg), "category_name": "club-flyer"},
+                         "image_url": choice(imgg), "category_name": "club-flyer", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Brochures",
                          "description": "Informative brochures to showcase your business offerings in detail.",
-                         "image_url": choice(imgg), "category_name": "brochures"},
+                         "image_url": choice(imgg), "category_name": "brochures", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Tri-Fold Brochures",
                          "description": "Compact tri-fold brochures perfect for trade shows and presentations.",
-                         "image_url": choice(imgg), "category_name": "tri-fold"},
+                         "image_url": choice(imgg), "category_name": "tri-fold", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Z-Fold Brochure",
                          "description": "Unique Z-fold brochures that unfold to present information creatively.",
-                         "image_url": choice(imgg), "category_name": "z-fold"}
+                         "image_url": choice(imgg), "category_name": "z-fold", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 },
                 {
@@ -369,21 +369,21 @@ with app.app_context():
                     "products": [
                         {"name": "Booklets",
                          "description": "Compact multi-page booklets ideal for product guides and company portfolios.",
-                         "image_url": choice(imgg), "category_name": "book"},
+                         "image_url": choice(imgg), "category_name": "book", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Catalogs",
                          "description": "Full-scale catalogs that present your products in an organized, attractive manner.",
-                         "image_url": choice(imgg), "category_name": "catalogs"},
+                         "image_url": choice(imgg), "category_name": "catalogs", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Zines",
                          "description": "Creative, small-batch publications perfect for niche audiences.",
-                         "image_url": choice(imgg), "category_name": "zine"},
+                         "image_url": choice(imgg), "category_name": "zine", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Magazines",
                          "description": "Professional magazines to highlight your brand and stories.",
-                         "image_url": choice(imgg), "category_name": "magazines"},
+                         "image_url": choice(imgg), "category_name": "magazines", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Journals", "description": "Custom journals for personal or corporate branding.",
-                         "image_url": choice(imgg), "category_name": "journals"},
+                         "image_url": choice(imgg), "category_name": "journals", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Bookmarks",
                          "description": "Printed bookmarks for promotional giveaways or retail use.",
-                         "image_url": choice(imgg), "category_name": "bookmark"}
+                         "image_url": choice(imgg), "category_name": "bookmark", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 },
                 {
@@ -394,19 +394,19 @@ with app.app_context():
                     "products": [
                         {"name": "Posters",
                          "description": "Standard posters for events, promotions, or advertisements.",
-                         "image_url": choice(imgg), "category_name": "post"},
+                         "image_url": choice(imgg), "category_name": "post", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Large Format Poster",
                          "description": "Extra-large posters to attract attention from a distance.",
-                         "image_url": choice(imgg), "category_name": "large-poster"},
+                         "image_url": choice(imgg), "category_name": "large-poster", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Outdoor Poster",
                          "description": "Durable posters designed for outdoor use and weather resistance.",
-                         "image_url": choice(imgg), "category_name": "outdoor-poster"},
+                         "image_url": choice(imgg), "category_name": "outdoor-poster", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Mounted Poster",
                          "description": "Posters mounted on boards for a polished, professional look.",
-                         "image_url": choice(imgg), "category_name": "mounted-poster"},
+                         "image_url": choice(imgg), "category_name": "mounted-poster", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Poster Signs",
                          "description": "Custom poster signs for retail, exhibitions, or events.",
-                         "image_url": choice(imgg), "category_name": "post-s"}
+                         "image_url": choice(imgg), "category_name": "post-s", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 },
                 {
@@ -416,15 +416,15 @@ with app.app_context():
                     "category_name": "stationery",
                     "products": [
                         {"name": "Notepads", "description": "Branded notepads for office use or promotional purposes.",
-                         "image_url": choice(imgg), "category_name": "notepad"},
+                         "image_url": choice(imgg), "category_name": "notepad", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Letterheads",
                          "description": "Professional letterheads to create impactful business correspondence.",
-                         "image_url": choice(imgg), "category_name": "letter-head"},
+                         "image_url": choice(imgg), "category_name": "letter-head", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Folders",
                          "description": "Durable folders for organizing documents or client materials.",
-                         "image_url": choice(imgg), "category_name": "folder"},
+                         "image_url": choice(imgg), "category_name": "folder", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Envelopes", "description": "Custom envelopes to complement your branded stationery.",
-                         "image_url": choice(imgg), "category_name": "envelop"}
+                         "image_url": choice(imgg), "category_name": "envelop", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 },
                 {
@@ -435,27 +435,27 @@ with app.app_context():
                     "products": [
                         {"name": "Standard Postcards",
                          "description": "Classic postcards for correspondence or promotional use.",
-                         "image_url": choice(imgg), "category_name": "standard-postcd"},
+                         "image_url": choice(imgg), "category_name": "standard-postcd", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Foil Postcards",
                          "description": "Luxurious foil-finished postcards that shine and impress.",
-                         "image_url": choice(imgg), "category_name": "foil-postcd"},
+                         "image_url": choice(imgg), "category_name": "foil-postcd", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Invitation Cards",
                          "description": "Stylish invitation cards for weddings, parties, and corporate events.",
-                         "image_url": choice(imgg), "category_name": "invite"},
+                         "image_url": choice(imgg), "category_name": "invite", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Foil Invitations",
                          "description": "Premium invitations with metallic foil accents for elegance.",
-                         "image_url": choice(imgg), "category_name": "foil-invite"},
+                         "image_url": choice(imgg), "category_name": "foil-invite", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Holiday Cards", "description": "Festive cards for holidays and seasonal greetings.",
-                         "image_url": choice(imgg), "category_name": "holi-cards"},
+                         "image_url": choice(imgg), "category_name": "holi-cards", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Greeting Cards",
                          "description": "Beautifully designed cards to convey messages and well wishes.",
-                         "image_url": choice(imgg), "category_name": "greet-cards"},
+                         "image_url": choice(imgg), "category_name": "greet-cards", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Thank You Cards",
                          "description": "Express gratitude with custom-designed thank you cards.",
-                         "image_url": choice(imgg), "category_name": "thanks-card"},
+                         "image_url": choice(imgg), "category_name": "thanks-card", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Response Cards",
                          "description": "Convenient response cards to RSVP or collect feedback.",
-                         "image_url": choice(imgg), "category_name": "response-card"}
+                         "image_url": choice(imgg), "category_name": "response-card", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 }
             ]
@@ -520,28 +520,28 @@ with app.app_context():
             "products": [
                 {"name": "Die-Cut Stickers",
                  "description": "Precision-cut stickers in custom shapes for creative branding.",
-                 "image_url": choice(imgg), "category_name": "die-cut"},
+                 "image_url": choice(imgg), "category_name": "die-cut", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Round Stickers",
                  "description": "Classic circular stickers ideal for packaging and promotions.",
-                 "image_url": choice(imgg), "category_name": "round-sticker"},
+                 "image_url": choice(imgg), "category_name": "round-sticker", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Rectangle Stickers",
                  "description": "Versatile rectangular stickers suitable for labels and branding.",
-                 "image_url": choice(imgg), "category_name": "rect-sticker"},
+                 "image_url": choice(imgg), "category_name": "rect-sticker", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Custom Shape Sticker",
                  "description": "Stickers cut into any shape to match your brand's unique identity.",
-                 "image_url": choice(imgg), "category_name": "custom-sticker"},
+                 "image_url": choice(imgg), "category_name": "custom-sticker", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Oval Sticker",
                  "description": "Stylish oval stickers perfect for packaging or product labels.",
-                 "image_url": choice(imgg), "category_name": "oval-sticker"},
+                 "image_url": choice(imgg), "category_name": "oval-sticker", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Square Sticker",
                  "description": "Square-shaped stickers for labels, promotions, and giveaways.",
-                 "image_url": choice(imgg), "category_name": "square-sticker"},
+                 "image_url": choice(imgg), "category_name": "square-sticker", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Custom Roll Labels",
                  "description": "High-quality roll labels for bulk packaging or industrial use.",
-                 "image_url": choice(imgg), "category_name": "cr-labels"},
+                 "image_url": choice(imgg), "category_name": "cr-labels", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Sheet Labels",
                  "description": "High-quality sheet labels for bulk packaging or industrial use.",
-                 "image_url": choice(imgg), "category_name": "sheet-labels"}
+                 "image_url": choice(imgg), "category_name": "sheet-labels", "image_collection": [choice(imgg) for n in range(8)]}
             ]
         },
         {
@@ -624,27 +624,27 @@ with app.app_context():
                     "products": [
                         {"name": "Vinyl Banner",
                          "description": "Durable and vibrant vinyl banners suitable for long-term display.",
-                         "image_url": choice(imgg), "category_name": "vinyl"},
+                         "image_url": choice(imgg), "category_name": "vinyl", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Fabric Banner",
                          "description": "Premium fabric banners with a professional finish and soft texture.",
-                         "image_url": choice(imgg), "category_name": "fabric"},
+                         "image_url": choice(imgg), "category_name": "fabric", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Mesh Banners", "description": "Wind-resistant mesh banners ideal for outdoor use.",
-                         "image_url": choice(imgg), "category_name": "mesh"},
+                         "image_url": choice(imgg), "category_name": "mesh", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "X Banner Stands",
                          "description": "Portable X-frame banners perfect for trade shows and events.",
-                         "image_url": choice(imgg), "category_name": "x-banner"},
+                         "image_url": choice(imgg), "category_name": "x-banner", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Step & Repeat Banners",
                          "description": "Custom step-and-repeat banners for photo backdrops and branding.",
-                         "image_url": choice(imgg), "category_name": "step-repeat"},
+                         "image_url": choice(imgg), "category_name": "step-repeat", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Pop Up Display",
                          "description": "Quick and easy pop-up banners for instant presentation setups.",
-                         "image_url": choice(imgg), "category_name": "pop-up"},
+                         "image_url": choice(imgg), "category_name": "pop-up", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Tablecloths",
                          "description": "Branded table covers for events, trade shows, and promotions.",
-                         "image_url": choice(imgg), "category_name": "tbc"},
+                         "image_url": choice(imgg), "category_name": "tbc", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Table Runners",
                          "description": "Custom table runners to complement your branded setup.",
-                         "image_url": choice(imgg), "category_name": "T-run"}
+                         "image_url": choice(imgg), "category_name": "T-run", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 },
                 {
@@ -655,22 +655,22 @@ with app.app_context():
                     "products": [
                         {"name": "Retractable Banner",
                          "description": "Standard retractable banner for events and exhibitions.",
-                         "image_url": choice(imgg), "category_name": "retract"},
+                         "image_url": choice(imgg), "category_name": "retract", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Premium Retractable Banner",
                          "description": "High-quality retractable banner with premium print and finish.",
-                         "image_url": choice(imgg), "category_name": "premium-retract"},
+                         "image_url": choice(imgg), "category_name": "premium-retract", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Deluxe Retractable Banner",
                          "description": "Extra-large deluxe banners for maximum visibility.", "image_url": choice(imgg),
-                         "category_name": "deluxe-retract"},
+                         "category_name": "deluxe-retract", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Professional Retractable Banner",
                          "description": "Designed for corporate use and high-visibility promotions.",
-                         "image_url": choice(imgg), "category_name": "pro-retract"},
+                         "image_url": choice(imgg), "category_name": "pro-retract", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Black Retractable Banner",
                          "description": "Sleek black retractable banner for elegant event displays.",
-                         "image_url": choice(imgg), "category_name": "black-retract"},
+                         "image_url": choice(imgg), "category_name": "black-retract", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Double Sided Retractable Banner",
                          "description": "Displays your message on both sides for maximum exposure.",
-                         "image_url": choice(imgg), "category_name": "dbs-retract"}
+                         "image_url": choice(imgg), "category_name": "dbs-retract", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 },
                 {
@@ -681,16 +681,16 @@ with app.app_context():
                     "products": [
                         {"name": "Feather Flags",
                          "description": "Tall, aerodynamic flags ideal for outdoor advertising.",
-                         "image_url": choice(imgg), "category_name": "f-flags"},
+                         "image_url": choice(imgg), "category_name": "f-flags", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Teardrop Flags",
                          "description": "Eye-catching teardrop-shaped flags for promotions and events.",
-                         "image_url": choice(imgg), "category_name": "t-flag"},
+                         "image_url": choice(imgg), "category_name": "t-flag", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Blade Flags",
                          "description": "Blade-style flags with bold graphics for maximum visibility.",
-                         "image_url": choice(imgg), "category_name": "b-flag"},
+                         "image_url": choice(imgg), "category_name": "b-flag", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Custom Flags",
                          "description": "Fully customizable flags tailored to your branding requirements.",
-                         "image_url": choice(imgg), "category_name": "c-flag"}
+                         "image_url": choice(imgg), "category_name": "c-flag", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 }
             ]
@@ -760,18 +760,18 @@ with app.app_context():
                     "products": [
                         {"name": "Company Seals",
                          "description": "Official seals for corporate documents and certifications.",
-                         "image_url": choice(imgg), "category_name": "company-seal"},
+                         "image_url": choice(imgg), "category_name": "company-seal", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Notary Seals",
                          "description": "Professional notary seals to validate legal documents.",
-                         "image_url": choice(imgg), "category_name": "notary-seal"},
+                         "image_url": choice(imgg), "category_name": "notary-seal", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Embossed Seals", "description": "Elegant embossed seals for a sophisticated finish.",
-                         "image_url": choice(imgg), "category_name": "embossed-seal"},
+                         "image_url": choice(imgg), "category_name": "embossed-seal", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Holographic Seals",
                          "description": "Secure holographic seals for brand protection and authenticity.",
-                         "image_url": choice(imgg), "category_name": "holo-seal"},
+                         "image_url": choice(imgg), "category_name": "holo-seal", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Tamper-Evident Seals",
                          "description": "Seals designed to show any unauthorized opening.", "image_url": choice(imgg),
-                         "category_name": "te-seal"}
+                         "category_name": "te-seal", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 },
                 {
@@ -782,18 +782,18 @@ with app.app_context():
                     "products": [
                         {"name": "Signature Stamp",
                          "description": "Convenient stamps for signing documents efficiently.",
-                         "image_url": choice(imgg), "category_name": "signature-stamp"},
+                         "image_url": choice(imgg), "category_name": "signature-stamp", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Rubber Stamp",
                          "description": "Traditional rubber stamps for official marking and branding.",
-                         "image_url": choice(imgg), "category_name": "rubber-stamp"},
+                         "image_url": choice(imgg), "category_name": "rubber-stamp", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Self-Inking Stamp",
                          "description": "Easy-to-use self-inking stamps for repetitive use.", "image_url": choice(imgg),
-                         "category_name": "self-ink-stamp"},
+                         "category_name": "self-ink-stamp", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Pre-ink Stamp", "description": "Pre-inked stamps for crisp, consistent impressions.",
-                         "image_url": choice(imgg), "category_name": "pre-ink-stamp"},
+                         "image_url": choice(imgg), "category_name": "pre-ink-stamp", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Date Stamp",
                          "description": "Date stamps for tracking, labeling, or official documentation.",
-                         "image_url": choice(imgg), "category_name": "date-stamp"}
+                         "image_url": choice(imgg), "category_name": "date-stamp", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 }
             ]
@@ -862,15 +862,15 @@ with app.app_context():
                     "products": [
                         {"name": "Wood Frame",
                          "description": "Classic wooden frames available in various finishes for elegant display.",
-                         "image_url": choice(imgg), "category_name": "wood-frames"},
+                         "image_url": choice(imgg), "category_name": "wood-frames", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Metal Frame", "description": "Modern metal frames offering sleek and durable design.",
-                         "image_url": choice(imgg), "category_name": "metal-frames"},
+                         "image_url": choice(imgg), "category_name": "metal-frames", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Plastic Frame",
                          "description": "Affordable plastic frames in multiple colors and styles.",
-                         "image_url": choice(imgg), "category_name": "plastic-frames"},
+                         "image_url": choice(imgg), "category_name": "plastic-frames", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Glass Frame",
                          "description": "Glass frames with minimalistic design, perfect for modern interiors.",
-                         "image_url": choice(imgg), "category_name": "glass-frames"}
+                         "image_url": choice(imgg), "category_name": "glass-frames", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 },
                 {
@@ -880,19 +880,19 @@ with app.app_context():
                     "category_name": "plaques",
                     "products": [
                         {"name": "Wood Plaques", "description": "Elegant wooden plaques for awards and recognitions.",
-                         "image_url": choice(imgg), "category_name": "wood-plaques"},
+                         "image_url": choice(imgg), "category_name": "wood-plaques", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Metal Plaques",
                          "description": "Durable metal plaques for professional achievements and commemorations.",
-                         "image_url": choice(imgg), "category_name": "metal-plaques"},
+                         "image_url": choice(imgg), "category_name": "metal-plaques", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Acrylic Plaques",
                          "description": "Clear acrylic plaques for modern award displays with a sleek finish.",
-                         "image_url": choice(imgg), "category_name": "plastic-plaques"},
+                         "image_url": choice(imgg), "category_name": "plastic-plaques", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Glass Plaques",
                          "description": "High-quality glass plaques with premium engraving for special recognition.",
-                         "image_url": choice(imgg), "category_name": "glass-plaques"},
+                         "image_url": choice(imgg), "category_name": "glass-plaques", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Crystal Plaques",
                          "description": "Luxury crystal plaques for top-tier awards and prestigious events.",
-                         "image_url": choice(imgg), "category_name": "crystal-plaques"}
+                         "image_url": choice(imgg), "category_name": "crystal-plaques", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 }
             ]
@@ -928,6 +928,12 @@ with app.app_context():
                     description=prod_data["description"],
                     content=service_data["content"] if "content" in prod_data else None
                 )
+                for prod_image in prod_data.get("image_collection", []):
+                    collection = ProductCollection(
+                        image_collections=prod_image,
+                        product=product
+                    )
+                    db.session.add(collection)
                 db.session.add(product)
             db.session.add(sub) # Products directly under Service
         for prod_data in service_data.get("products", []):
@@ -939,6 +945,12 @@ with app.app_context():
                 description=prod_data["description"],
                 content=service_data["content"] if "content" in prod_data else None
             )
+            for prod_image in prod_data.get("image_collection", []):
+                collection = ProductCollection(
+                    image_collections=prod_image,
+                    product=product
+                )
+                db.session.add(collection)
             db.session.add(product)
         db.session.add(service)
 

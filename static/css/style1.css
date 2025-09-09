@@ -539,15 +539,20 @@ html[data-coreui-theme="dark"] .ol.thetitle {
   }
 
 @media (max-width: 991.98px){
+  .product-pad{
+    margin-top: 200px;
+  }
+  .product-edit{
+    margin-left: auto;
+    margin-right: auto;
+  }
   .row.service-hero{
   height: 30vh !important;
   width: 100vw !important;
   margin-left: 0px;
 
   }
-  .now{
-    margin-top: 200px !important;
-  }
+
   .row.service-hero .carousel{
   height: 100%;
   width: 100%;              /* ✅ use % instead of vw */
@@ -573,6 +578,13 @@ html[data-coreui-theme="dark"] .ol.thetitle {
 }
 
 @media (max-width: 768px){
+  .product-pad{
+    margin-top: 200px;
+  }
+  .product-edit{
+    margin-left: auto;
+    margin-right: auto;
+  }
   .row.service-hero{
   height: 50vh !important;
   width: 100vw !important;

@@ -35,7 +35,7 @@
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
 
       <!-- Card 1 -->
-        {% for pro in the_data.products %}
+        {% for pro in the_data.products|reverse %}
           <div class="col">
             <div class="card shadow-sm">
               <img src="{{ pro.image_url }}"
@@ -51,7 +51,7 @@
                 </p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{{ url_for('services', name=the_data.services.category_name, sec=the_data.category_name, pro=pro.category_name) }}'">View Products</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{{ url_for('services', name=the_data.services.category_name, sec=the_data.category_name, pro=pro.category_name) }}'">Product details</button>
                   </div>
                   <small class="text-body-secondary">9 mins</small>
                 </div>

@@ -58,6 +58,13 @@ class Products(db.Model):
     category_name = db.Column(db.String(255), nullable=False)
     service_id = db.Column(db.Integer, db.ForeignKey("service.id"), nullable=True)
     sub_service_id = db.Column(db.Integer, db.ForeignKey("subservices.id"), nullable=True)
+    image_collections = db.relationship("ProductCollection", backref="product", lazy=True, cascade="all, delete")
+
+class ProductCollection(db.Model):
+    __tablename__ = "collections"
+    id = db.Column(db.Integer, primary_key=True)
+    image_collections = db.Column(db.String(255))
+    product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=True)
 
 class Header(db.Model):
     __tablename__ = "head"

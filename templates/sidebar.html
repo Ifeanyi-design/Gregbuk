@@ -37,7 +37,7 @@
       <ul class="nav-group-items ms-3">
         {% for pro in sub.products %}
         <li class="nav-item">
-          <a class="nav-link" href="/item1">
+          <a class="nav-link" href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=pro.category_name) }}">
             <span class="nav-icon"><span class="nav-icon-bullet"></span></span> {{ pro.name }}
           </a>
         </li>
@@ -52,7 +52,7 @@
     <ul class="nav-group-items ms-3">
         {% for pro in service.products %}
         <li class="nav-item">
-          <a class="nav-link" href="/item1">
+          <a class="nav-link" href="{{ url_for('services', name=service.category_name, sec=pro.category_name) }}">
             <span class="nav-icon"><span class="nav-icon-bullet"></span></span> {{ pro.name }}
           </a>
         </li>

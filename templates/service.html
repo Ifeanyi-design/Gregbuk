@@ -86,7 +86,7 @@
 
       <!-- Card 1 -->
       {% if the_data.sub_service|length != 0 %}
-        {% for sub in the_data.sub_service %}
+        {% for sub in the_data.sub_service|reverse %}
           <div class="col">
             <div class="card shadow-sm">
               <img src="{{ sub.image_url }}"
@@ -111,7 +111,7 @@
           </div>
         {% endfor %}
       {% else %}
-        {% for pro in the_data.products %}
+        {% for pro in the_data.products|reverse %}
           <div class="col">
             <div class="card shadow-sm">
               <img src="{{ pro.image_url }}"
@@ -150,7 +150,7 @@
         {% if the_data.sub_services|length == 1 %}
           {% for n in range(4) %}
             {% if n < the_data.sub_service[1].products|length %}
-              <div class="products col-6 col-lg-3">
+              <div class="products col-6 col-md-3">
                 <div class="img">
                   <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[1].category_name, pro=the_data.sub_service[1].products[n].category_name) }}"><img src="{{ the_data.sub_service[1].products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
                 </div>
@@ -162,7 +162,7 @@
           {% for i in range(2) %}
             {% for n in range(2) %}
               {% if n < the_data.sub_service[i].products|length %}
-                <div class="products col-6 col-lg-3">
+                <div class="products col-6 col-md-3">
                   <div class="img">
                     <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}"><img src="{{ the_data.sub_service[i].products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
                   </div>
@@ -175,7 +175,7 @@
           {% for i in range(2) %}
             {% for n in range(2) %}
               {% if n < the_data.sub_service[i].products|length %}
-                <div class="products col-6 col-lg-3">
+                <div class="products col-6 col-md-3">
                   <div class="img">
                     <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}"><img src="{{ the_data.sub_service[i].products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
                   </div>
@@ -188,7 +188,7 @@
           {% for i in range(4) %}
             {% for n in range(1) %}
               {% if n < the_data.sub_service[i].products|length %}
-                <div class="products col-6 col-lg-3">
+                <div class="products col-6 col-md-3">
                   <div class="img">
                     <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}"><img src="{{ the_data.sub_service[i].products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
                   </div>
@@ -201,7 +201,7 @@
       {% else %}
             {% for n in range(4) %}
               {% if n < the_data.products|length %}
-                <div class="products col-6 col-lg-3">
+                <div class="products col-6 col-md-3">
                   <div class="img">
                     <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.products[n].category_name) }}"><img src="{{ the_data.products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
                   </div>
