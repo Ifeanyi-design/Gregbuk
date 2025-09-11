@@ -3,6 +3,25 @@
   .products .img:hover{
     opacity: 70%;
   }
+  .products{
+    width: 250px !important;
+    height: 280px !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+  }
+  .products img{
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: cover;
+  }
 {% endblock %}
 {% block content %}
   <div class="container-fluid upp" style="margin-top: 9%; margin-bottom: 0px; z-index: 2;" >
@@ -18,7 +37,7 @@
 
   <div class="row flex-lg-row-reverse service-hero g-5 mb-5 pb-5 container-fluid" >
     <div class="col-12 col-sm-12 order-2 order-lg-1 service-c col-lg-7" >
-        <img src="{{ the_data.image_url }}" class="d-block imgs mx-lg-auto img-fluid" loading="lazy">
+        <img src="{{ url_for('static', filename='images/'+the_data.image_url) }}" class="d-block imgs mx-lg-auto img-fluid" loading="lazy">
   </div>
     <div class="col-lg-5 service-c-2 order-1 order-lg-2">
       <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">{{ the_data.name }}</h1>
@@ -38,7 +57,7 @@
         {% for pro in the_data.products|reverse %}
           <div class="col">
             <div class="card shadow-sm">
-              <img src="{{ pro.image_url }}"
+              <img src="{{ url_for('static', filename='images/'+pro.image_url) }}"
                 class="card-img-top"
                 alt="My Service"
                 style="height:225px; object-fit:cover;">

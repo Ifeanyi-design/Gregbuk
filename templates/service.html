@@ -3,6 +3,25 @@
   .products .img:hover{
     opacity: 70%;
   }
+  .boxer{
+    padding-bottom: 2%;
+  }
+  .products{
+    width: 250px !important;
+    height: 280px !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+  }
+
+
 {% endblock %}
 {% block content %}
   <div class="container-fluid upp" style="margin-top: 9%; margin-bottom: 0px; z-index: 2;" >
@@ -34,22 +53,22 @@
           <div class="carousel-inner" >
             <div class="carousel-item active" >
               {% if the_data.sub_service|length == 0 %}
-                <img src="{{ the_data.products[0].image_url }}">
+                <img src="{{ url_for('static', filename='images/'+the_data.products[0].image_url) }}">
               {% else %}
-                <img src="{{ the_data.sub_service[0].image_url }}">
+                <img src="{{ url_for('static', filename='images/'+the_data.sub_service[0].image_url) }}">
               {% endif %}
             </div>
             {% for n in range(1, 3) %}
                   {% if the_data.sub_service|length == 0 %}
                     {% if the_data.products[n] %}
                       <div class="carousel-item">
-                        <img src="{{ the_data.products[n].image_url }}">
+                        <img src="{{ url_for('static', filename='images/'+the_data.products[n].image_url) }}">
                       </div>
                     {% endif %}
                   {% else %}
                     {% if the_data.sub_service[n] %}
                       <div class="carousel-item">
-                        <img src="{{ the_data.sub_service[n].image_url }}">
+                        <img src="{{ url_for('static', filename='images/'+the_data.sub_service[n].image_url) }}">
                       </div>
                     {% endif %}
                   {% endif %}
@@ -89,7 +108,7 @@
         {% for sub in the_data.sub_service|reverse %}
           <div class="col">
             <div class="card shadow-sm">
-              <img src="{{ sub.image_url }}"
+              <img src="{{ url_for('static', filename='images/'+sub.image_url) }}"
                 class="card-img-top"
                 alt="My Service"
                 style="height:225px; object-fit:cover;">
@@ -114,7 +133,7 @@
         {% for pro in the_data.products|reverse %}
           <div class="col">
             <div class="card shadow-sm">
-              <img src="{{ pro.image_url }}"
+              <img src="{{ url_for('static', filename='images/'+pro.image_url) }}"
                 class="card-img-top"
                 alt="My Service"
                 style="height:225px; object-fit:cover;">
@@ -152,7 +171,7 @@
             {% if n < the_data.sub_service[1].products|length %}
               <div class="products col-6 col-md-3">
                 <div class="img">
-                  <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[1].category_name, pro=the_data.sub_service[1].products[n].category_name) }}"><img src="{{ the_data.sub_service[1].products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                  <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[1].category_name, pro=the_data.sub_service[1].products[n].category_name) }}"><img src="{{ url_for('static', filename='images/'+the_data.sub_service[1].products[n].image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
                 </div>
                 <div class="product-name"><a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[1].category_name, pro=the_data.sub_service[1].products[n].category_name) }}">{{ the_data.sub_service[1].products[n].name }}</a></div>
               </div>
@@ -164,7 +183,7 @@
               {% if n < the_data.sub_service[i].products|length %}
                 <div class="products col-6 col-md-3">
                   <div class="img">
-                    <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}"><img src="{{ the_data.sub_service[i].products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                    <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}"><img src="{{ url_for('static', filename='images/'+the_data.sub_service[i].products[n].image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
                   </div>
                   <div class="product-name"><a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}">{{ the_data.sub_service[i].products[n].name }}</a></div>
                 </div>
@@ -177,7 +196,7 @@
               {% if n < the_data.sub_service[i].products|length %}
                 <div class="products col-6 col-md-3">
                   <div class="img">
-                    <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}"><img src="{{ the_data.sub_service[i].products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                    <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}"><img src="{{ url_for('static', filename='images/'+the_data.sub_service[i].products[n].image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
                   </div>
                   <div class="product-name"><a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}">{{ the_data.sub_service[i].products[n].name }}</a></div>
                 </div>
@@ -190,7 +209,7 @@
               {% if n < the_data.sub_service[i].products|length %}
                 <div class="products col-6 col-md-3">
                   <div class="img">
-                    <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}"><img src="{{ the_data.sub_service[i].products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                    <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}"><img src="{{ url_for('static', filename='images/'+the_data.sub_service[i].products[n].image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
                   </div>
                   <div class="product-name"><a href="{{ url_for('services', name=the_data.category_name, sec= the_data.sub_service[i].category_name, pro=the_data.sub_service[i].products[n].category_name) }}">{{ the_data.sub_service[i].products[n].name }}</a></div>
                 </div>
@@ -203,7 +222,7 @@
               {% if n < the_data.products|length %}
                 <div class="products col-6 col-md-3">
                   <div class="img">
-                    <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.products[n].category_name) }}"><img src="{{ the_data.products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                    <a href="{{ url_for('services', name=the_data.category_name, sec= the_data.products[n].category_name) }}"><img src="{{ url_for('static', filename='images/'+the_data.products[n].image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
                   </div>
                   <div class="product-name"><a href="{{ url_for('services', name=the_data.category_name, sec= the_data.products[n].category_name) }}">{{ the_data.products[n].name }}</a></div>
                 </div>

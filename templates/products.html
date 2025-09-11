@@ -36,15 +36,15 @@
           <div class="carousel-inner" >
             <div class="carousel-item active" >
               {% if the_data.image_collections|length == 0 %}
-                <img src="{{ the_data.image_url }}">
+                <img src="{{ url_for('static', filename='images/'+the_data.image_url) }}">
               {% else %}
-                <img src="{{ the_data.image_collections[0].image_collections }}">
+                <img src="{{ url_for('static', filename='images/'+the_data.image_collections[0].image_collections) }}">
               {% endif %}
             </div>
             {% for n in range(1, 3) %}
               {% if the_data.image_collections|length != 0 %}
                       <div class="carousel-item">
-                        <img src="{{ the_data.image_collections[n].image_collections }}">
+                        <img src="{{ url_for('static', filename='images/'+the_data.image_collections[n].image_collections) }}">
                       </div>
               {% endif %}
             {% endfor %}

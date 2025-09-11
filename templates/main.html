@@ -1,5 +1,32 @@
 {%extends "base.html"%}
 {%block title%} HOME{%endblock%}
+{%block style %}
+  .products{
+    margin-top: 5%;
+    margin-bottom: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+
+  }
+  .product .product-name{
+    padding-bottom: 5%;
+  }
+  .products img{
+    width: auto;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .products img:hover{
+    opacity: 70%;
+  }
+  .attributes .things{
+    margin-left: auto;
+    margin-right: auto;
+  }
+{% endblock %}
 {%block content%}
 
 <!--Carousel-->
@@ -83,32 +110,29 @@
 <main class="container-lg">
 
 
-    <div class="container-lg text-center my-4">
+    <div class="container-lg attributes text-center my-4">
   <div class="row">
-    <div class="col-6 col-md-2 mb-3">
+    <div class="col-6 things col-md-2 mb-3">
       <img class="img icon-small" src="{{ url_for('static', filename='images/1.png') }}">
       <p>Premium materials</p>
     </div>
-    <div class="col-6 col-md-2 mb-3">
+    <div class="col-6 things col-md-2 mb-3">
       <img class="img icon-small" src="{{ url_for('static', filename='images/2.png') }}">
       <p>Value for money</p>
     </div>
-    <div class="col-6 col-md-2 mb-3">
+    <div class="col-6 things col-md-2 mb-3">
       <img class="img icon-small" src="{{ url_for('static', filename='images/3.png') }}">
       <p>Express options</p>
     </div>
-    <div class="col-6 col-md-2 mb-3">
+    <div class="col-6 things col-md-2 mb-3">
       <img class="img icon-small" src="{{ url_for('static', filename='images/4.png') }}">
       <p>No surprises at checkout</p>
     </div>
-    <div class="col-6 col-md-2 mb-3">
+    <div class="col-6 things col-md-2 mb-3">
       <img class="img icon-small" src="{{ url_for('static', filename='images/5.png') }}">
       <p>Happy clients first</p>
     </div>
-    <div class="col-6 col-md-2 mb-3">
-      <img class="img icon-small" src="{{ url_for('static', filename='images/5.png') }}">
-      <p>Happy clients first</p>
-    </div>
+
   </div>
     </div>
 
@@ -124,21 +148,21 @@
           {% for service in services %}
         <div class="product">
           <a href="{{ url_for('services', name=service.category_name)}}">
-          <img src="{{ service.image_url }}">
+          <img src="{{ url_for('static', filename='images/'+service.image_url) }}">
         </a>
           <div class="product-name"><a href="{{ url_for('services', name=service.category_name) }}">{{ service.name }}</a></div>
         </div>
           {% for sub in service.sub_service %}
             <div class="product">
               <a href="{{ url_for('services', name=service.category_name, sec=sub.category_name)}}">
-                <img src="{{ sub.image_url }}">
+                <img src="{{ url_for('static', filename='images/'+sub.image_url) }}">
               </a>
               <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=sub.category_name) }}">{{ sub.name }}</a></div>
             </div>
             {% for product in sub.products %}
               <div class="product">
               <a href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=product.category_name)}}">
-                <img src="{{ product.image_url }}">
+                <img src="{{ url_for('static', filename='images/'+product.image_url) }}">
               </a>
                 <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=product.category_name) }}">{{ product.name }}</a></div>
             </div>
@@ -147,7 +171,7 @@
           {% for product in service.products %}
             <div class="product">
               <a href="{{ url_for('services', name=service.category_name, pro=product.category_name)}}">
-                <img src="{{ product.image_url }}">
+                <img src="{{ url_for('static', filename='images/'+product.image_url) }}">
               </a>
               <div class="product-name"><a href="{{ url_for('services', name=service.category_name, pro=product.category_name) }}">{{ product.name }}</a></div>
             </div>
@@ -172,7 +196,7 @@
       <div class="col-10 order-md-1 order-2 exp col-sm-8 col-md-6">
         {% for service in services %}
           {% if service.name == "Marketing Essentials" %}
-            <img src="{{ service.image_url }}" class="d-block w-100 mx-md-auto img-fluid hero-img"
+            <img src="{{ url_for('static', filename='images/'+service.image_url) }}" class="d-block w-100 mx-md-auto img-fluid hero-img"
              alt="Bootstrap Themes" width="700" height="500" loading="lazy">
           {% endif %}
         {% endfor %}
@@ -186,7 +210,11 @@
         </p>
 
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <button type="button" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
+          {% for service in services %}
+            {% if service.name == "Marketing Essentials" %}
+              <button type="button" onclick="window.location.href='{{ url_for('services', name=service.category_name) }}'" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
+            {% endif %}
+          {% endfor %}
         </div>
       </div>
     </div>
@@ -202,14 +230,14 @@
           {% if n < service.sub_service|length %}
             <div class="products col-6 col-lg-2">
               <div class="">
-                <a href="{{ url_for('services', name=service.category_name, sec=service.sub_service[n].category_name) }}"><img src="{{ service.sub_service[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                <a href="{{ url_for('services', name=service.category_name, sec=service.sub_service[n].category_name) }}"><img src="{{ url_for('static', filename='images/'+service.sub_service[n].image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
               </div>
               <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=service.sub_service[n].category_name) }}">{{ service.sub_service[n].name }}</a></div>
             </div>
           {% else %}
             <div class="products col-6 col-lg-2">
               <div class="">
-                <a href="{{ url_for('services', name=service.category_name, sec=random_sub1.category_name, pro=random_product1.category_name) }}"><img src="{{ random_product1.image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                <a href="{{ url_for('services', name=service.category_name, sec=random_sub1.category_name, pro=random_product1.category_name) }}"><img src="{{ url_for('static', filename='images/'+random_product1.image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
               </div>
               <div class="product-name"><a href="{{ url_for('services', sec=random_sub1.category_name, name=service.category_name, pro=random_product1.category_name) }}">{{ random_product1.name }}</a></div>
             </div>
@@ -228,7 +256,7 @@
     <div class="col-10 order-md-1 order-1 exp col-sm-8 col-md-6">
         {% for service in services %}
           {% if service.name == "Business Cards" %}
-            <img src="{{ service.image_url }}" class="d-block w-100 mx-md-auto img-fluid hero-img"
+            <img src="{{ url_for('static', filename='images/'+service.image_url) }}" class="d-block w-100 mx-md-auto img-fluid hero-img"
              alt="Bootstrap Themes" width="700" height="500" loading="lazy">
           {% endif %}
         {% endfor %}
@@ -237,7 +265,11 @@
       <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Business Cards</h1>
       <p class="lead">Stand out and create a memorable first impression with premium business cards. Choose from elegant designs, durable materials, and personalized finishes that showcase your brand identity with style and professionalism.</p>
       <div class="d-grid gap-2 d-md-flex justify-content-md-start" >
-        <button type="button" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
+        {% for service in services %}
+          {% if service.name == "Business Cards" %}
+            <button type="button" onclick="window.location.href='{{ url_for('services', name=service.category_name) }}'" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -252,14 +284,14 @@
           {% if n < service.products|length %}
             <div class="products col-6 col-lg-2">
               <div class="">
-                <a href="{{ url_for('services', name=service.category_name, sec=service.products[n].category_name) }}"><img src="{{ service.products[n].image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                <a href="{{ url_for('services', name=service.category_name, sec=service.products[n].category_name) }}"><img src="{{ url_for('static', filename='images/'+service.products[n].image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
               </div>
               <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=service.products[n].category_name) }}">{{ service.products[n].name }}</a></div>
             </div>
           {% else %}
             <div class="products col-6 col-lg-2">
               <div class="">
-                <a href="{{ url_for('services', name=service.category_name, sec=random_product2.category_name) }}"><img src="{{ random_product2.image_url }}" class="img-fluid rounded" alt="Image 1"></a>
+                <a href="{{ url_for('services', name=service.category_name, sec=random_product2.category_name) }}"><img src="{{ url_for('static', filename='images/'+random_product2.image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
               </div>
               <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=random_product2.category_name) }}">{{ random_product2.name }}</a></div>
             </div>
@@ -283,25 +315,25 @@
         {% for s in range(2) %}
           <div class="products col-6 col-lg-6">
             <div class="products">
-            <img src="{{ service.sub_service[0].products[s].image_url }}" class="img-fluid rounded" alt="Image 1">
+            <img src="{{ url_for('static', filename='images/'+service.sub_service[0].products[s].image_url) }}" class="img-fluid rounded" alt="Image 1">
             </div>
-              <div class="product-name"><a href="{{ url_for('services', name=service.category_name,sec=service.sub_service[0].category_name, pro=service.sub_service[0].products[s].category_name) }}">{{ service.sub_service[0].products[s].name }}</a></div>
+              <div class="product-name mt-0"><a href="{{ url_for('services', name=service.category_name,sec=service.sub_service[0].category_name, pro=service.sub_service[0].products[s].category_name) }}">{{ service.sub_service[0].products[s].name }}</a></div>
           </div>
         {% endfor %}
         {% for s in range(1) %}
           <div class="products col-6 col-lg-6 mt-0">
             <div class="products mt-0">
-            <img src="{{ service.sub_service[1].products[s].image_url }}" class="img-fluid rounded" alt="Image 1">
+            <img src="{{ url_for('static', filename='images/'+service.sub_service[1].products[s].image_url) }}" class="img-fluid rounded" alt="Image 1">
             </div>
-              <div class="product-name"><a href="{{ url_for('services', name=service.category_name,sec=service.sub_service[1].category_name, pro=service.sub_service[1].products[s].category_name) }}">{{ service.sub_service[1].products[s].name }}</a></div>
+              <div class="product-name mt-0"><a href="{{ url_for('services', name=service.category_name,sec=service.sub_service[1].category_name, pro=service.sub_service[1].products[s].category_name) }}">{{ service.sub_service[1].products[s].name }}</a></div>
           </div>
         {% endfor %}
         {% for s in range(1) %}
           <div class="products col-6 col-lg-6 mt-0">
             <div class="products mt-0">
-            <img src="{{ service.sub_service[2].products[s].image_url }}" class="img-fluid rounded" alt="Image 1">
+            <img src="{{ url_for('static', filename='images/'+service.sub_service[2].products[s].image_url) }}" class="img-fluid rounded" alt="Image 1">
             </div>
-              <div class="product-name"><a href="{{ url_for('services', name=service.category_name,sec=service.sub_service[2].category_name, pro=service.sub_service[2].products[s].category_name) }}">{{ service.sub_service[2].products[s].name }}</a></div>
+              <div class="product-name mt-0"><a href="{{ url_for('services', name=service.category_name,sec=service.sub_service[2].category_name, pro=service.sub_service[2].products[s].category_name) }}">{{ service.sub_service[2].products[s].name }}</a></div>
           </div>
         {% endfor %}
       {% endif %}
@@ -312,7 +344,11 @@
       <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Signs & Banners</h1>
       <p class="lead">Make your message impossible to miss with custom banners, indoor signs, and storefront displays. Designed to be durable, professional, and cost-effective, they’re the perfect choice for promotions, events, trade shows, and everyday visibility.</p>
       <div class="d-grid gap-2 d-md-flex justify-content-md-start" >
-        <button type="button" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
+        {% for service in services %}
+          {% if service.name == "Signs & Banners" %}
+            <button type="button" onclick="window.location.href='{{ url_for('services', name=service.category_name) }}'" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -320,7 +356,7 @@
 </section>
 
 
-  <section class="services-section boxer py-5">
+  <section class="services-section boxer py-5 mb-5">
     <div class="container-lg item-change">
     <div class="slider-container">
       <button id="btn-left2" class="slider-btn left" onclick="scrollProducts(-1)">
@@ -336,7 +372,7 @@
                 {% for pro in sub.products %}
                   <div class="product">
                     <a href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=pro.category_name)}}">
-                    <img src="{{ pro.image_url }}">
+                    <img src="{{url_for('static', filename='images/'+pro.image_url) }}">
                   </a>
                     <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=pro.category_name) }}">{{ pro.name }}</a></div>
                   </div>
@@ -419,7 +455,7 @@
 <p><strong>Gregbuk</strong> combines 20 years of expertise with a commitment to quality, affordability, and customer satisfaction. From books and magazines to business cards and banners, seals, stamps, frames, and plaques—we provide professional <strong>printing solutions</strong> that help your business shine.</p>
 
 <!-- Simple CTA -->
-<p><a href="#quote" class="btn btn-primary rounded-pill">Get a Free Quote</a> &nbsp; <a href="#contact" class="btn btn-outline-primary rounded-pill border border-2 border-primary">Contact Support</a></p>
+<p><a href="{{ url_for('contact') }}" class="btn btn-primary rounded-pill">Get a Free Quote</a> &nbsp; <a href="{{ url_for('contact') }}" class="btn btn-outline-primary rounded-pill border border-2 border-primary">Contact Support</a></p>
 
 </div>
 
