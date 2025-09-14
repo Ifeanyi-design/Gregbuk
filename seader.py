@@ -114,6 +114,7 @@ with app.app_context():
             "image_url": "business_card.jpeg",
             "icon_name": "#cil-credit-card",
             "category_name": "Cards",
+            "alt_texts": "Business Card service image",
             "content": """
             <h1>Premium Custom Business Card Printing with Gregbuk</h1>
 
@@ -190,32 +191,32 @@ with app.app_context():
             "products": [
                 {"name": "Glossy Card",
                  "description": "Premium glossy finish for vibrant colors and a professional look.",
-                 "image_url": "Glossy.webp", "category_name": "glossy", "image_collection": [choice(imgg) for n in range(8)]},
+                 "image_url": "Glossy.webp", "alt_texts": "Glossy Card \u2014 professional mockup for product listing.", "category_name": "glossy", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Matte Card",
                  "description": "Smooth, non-reflective finish for a sophisticated and elegant appearance.",
-                 "image_url": "Matte.webp", "category_name": "matte", "image_collection": [choice(imgg) for n in range(8)]},
-                {"name": "Standard Card",
+                 "image_url": "Matte.webp", "alt_texts": "Matte Card \u2014 close-up showing print detail and finish.", "category_name": "matte", "image_collection": [choice(imgg) for n in range(8)]},
+                {"name": "Standard Business Card",
                  "description": "Classic and versatile business card perfect for any professional need.",
-                 "image_url": "standard_card.jpeg", "category_name": "standard", "image_collection": [choice(imgg) for n in range(8)]},
-                {"name": "Square Card",
+                 "image_url": "standard_card.jpeg", "alt_texts": "Standard Business Card \u2014 detail shot highlighting craftsmanship.", "category_name": "standard", "image_collection": [choice(imgg) for n in range(8)]},
+                {"name": "Square Business Card",
                  "description": "Modern square shape that stands out from traditional business cards.",
-                 "image_url": "square_business_card.jpeg", "category_name": "square", "image_collection": [choice(imgg) for n in range(8)]},
+                 "image_url": "square_business_card.jpeg", "alt_texts": "Square Business Card \u2014 angled view showing texture and edges.", "category_name": "square", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Rounded Corner Card",
                  "description": "Elegant rounded edges for a sleek, premium finish.", "image_url": "rounded_business_card.jpeg",
-                 "category_name": "rounded-corner", "image_collection": [choice(imgg) for n in range(8)]},
+                 "category_name": "rounded-corner", "alt_texts": "Rounded Corner Business Card \u2014 close-up showing print detail and finish.", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Ultra Thick Card",
                  "description": "Extra thick cardstock for a luxury feel and durability.", "image_url": choice(imgg),
-                 "category_name": "ultra-thick", "image_collection": [choice(imgg) for n in range(8)]},
+                 "category_name": "ultra-thick", "alt_texts": "Ultra Thick Business Card \u2014 professional mockup for product listing.", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Foil Business Card",
                  "description": "Unique textured or specialty paper to leave a memorable impression.",
-                 "image_url": "foil_business_card.webp", "category_name": "foil-card", "image_collection": [choice(imgg) for n in range(8)]},
+                 "image_url": "foil_business_card.webp", "alt_texts": "Foil Business Card \u2014 detail shot highlighting craftsmanship.", "category_name": "foil-card", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Loyalty Card", "description": "Customizable loyalty cards to reward your best customers.",
-                 "image_url": "LoyaltyCard.jpeg", "category_name": "loyalty", "image_collection": [choice(imgg) for n in range(8)]},
+                 "image_url": "LoyaltyCard.jpeg", "alt_texts": "Loyalty Card \u2014 in-use photo demonstrating scale.", "category_name": "loyalty", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Appointment Card",
                  "description": "Practical cards for scheduling appointments and keeping clients organized.",
-                 "image_url": "AppointmentCard.jpeg", "category_name": "appointment", "image_collection": [choice(imgg) for n in range(8)]},
+                 "image_url": "AppointmentCard.jpeg", "alt_texts": "Appointment Card \u2014 in-use photo demonstrating scale.", "category_name": "appointment", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Complementary Card", "description": "Small, elegant cards to accompany gifts or services.",
-                 "image_url": "complementary_card.jpeg", "category_name": "complementary", "image_collection": [choice(imgg) for n in range(8)]}
+                 "image_url": "complementary_card.jpeg", "alt_texts": "Complementary Card \u2014 in-use photo demonstrating scale.", "category_name": "complementary", "image_collection": [choice(imgg) for n in range(8)]}
             ]
         },
         {
@@ -223,6 +224,7 @@ with app.app_context():
             "description": "Comprehensive marketing materials to promote your business and engage your audience.",
             "image_url": "marketing-essentials.jpeg",
             "icon_name": "#cil-bullhorn",
+            "alt_texts": "Marketing Essentials Service image",
             "category_name": "Marketing",
             "content": """
 <h1>Marketing Essentials Printing for Your Business Success</h1>
@@ -343,22 +345,23 @@ with app.app_context():
                     "description": "Eye-catching flyers and brochures to advertise your products and services effectively.",
                     "image_url": "flyers&brochures.jpeg",
                     "category_name": "flyers-and-brochures",
+                    "alt_texts": "Flyers & Brochures service images",
                     "products": [
                         {"name": "Flyers",
                          "description": "Single-page, full-color flyers for quick promotions or events.",
-                         "image_url": "flyers.jpeg", "category_name": "flyer", "image_collection": [choice(imgg) for n in range(8)]},
-                        {"name": "Club Flyers",
+                         "image_url": "flyers.jpeg", "alt_texts": "Flyers \u2014 professional mockup for product listing.", "category_name": "flyer", "image_collection": [choice(imgg) for n in range(8)]},
+                        {"name": "Event Flyers",
                          "description": "Vibrant, energetic flyers designed for incredible events promotions.",
-                         "image_url": "eventflyer.jpg", "category_name": "club-flyer", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "eventflyer.jpg", "alt_texts": "Event Flyers \u2014 professional mockup for product listing.", "category_name": "event-flyer", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Brochures",
                          "description": "Informative brochures to showcase your business offerings in detail.",
-                         "image_url": "Brochures.jpeg", "category_name": "brochures", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "Brochures.jpeg", "alt_texts": "Brochures \u2014 detail shot highlighting craftsmanship.", "category_name": "brochures", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Tri-Fold Brochures",
                          "description": "Compact tri-fold brochures perfect for trade shows and presentations.",
-                         "image_url": "tri-fold.jpg", "category_name": "tri-fold", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "tri-fold.jpg", "alt_texts": "Tri-Fold Brochures \u2014 styled mockup with props for context.", "category_name": "tri-fold", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Z-Fold Brochure",
                          "description": "Unique Z-fold brochures that unfold to present information creatively.",
-                         "image_url": "Z-fold-Brochure.jpeg", "category_name": "z-fold", "image_collection": [choice(imgg) for n in range(8)]}
+                         "image_url": "Z-fold-Brochure.jpeg", "alt_texts": "Z-Fold Brochure \u2014 professional mockup for product listing.", "category_name": "z-fold", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 },
                 {
@@ -366,24 +369,25 @@ with app.app_context():
                     "description": "Professional booklets and catalogs to display your products and services elegantly.",
                     "image_url": "booklet&catalog.jpeg",
                     "category_name": "brochure",
+                    "alt_texts": "Booklets & Catalogs service image"
                     "products": [
                         {"name": "Booklets",
                          "description": "Compact multi-page booklets ideal for product guides and company portfolios.",
-                         "image_url": "Booklets.jpeg", "category_name": "book", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "Booklets.jpeg", "alt_texts": "Booklets \u2014 detail shot highlighting craftsmanship.", "category_name": "book", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Catalogs",
                          "description": "Full-scale catalogs that present your products in an organized, attractive manner.",
-                         "image_url": "catalogs.jpeg", "category_name": "catalogs", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "catalogs.jpeg", "alt_texts": "Catalogs \u2014 professional mockup for product listing.", "category_name": "catalogs", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Zines",
                          "description": "Creative, small-batch publications perfect for niche audiences.",
-                         "image_url": "zines.jpg", "category_name": "zine", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "zines.jpg", "alt_texts": "Zines \u2014 close-up showing print detail and finish.", "category_name": "zine", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Magazines",
                          "description": "Professional magazines to highlight your brand and stories.",
-                         "image_url": "magazines.jpg", "category_name": "magazines", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "magazines.jpg", "alt_texts": "Magazines \u2014 styled mockup with props for context.", "category_name": "magazines", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Journals", "description": "Custom journals for personal or corporate branding.",
-                         "image_url": "journals.jpg", "category_name": "journals", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "journals.jpg", "alt_texts": "Journals \u2014 professional mockup for product listing.", "category_name": "journals", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Bookmarks",
                          "description": "Printed bookmarks for promotional giveaways or retail use.",
-                         "image_url": "Bookmarks.jpg", "category_name": "bookmark", "image_collection": [choice(imgg) for n in range(8)]}
+                         "image_url": "Bookmarks.jpg", "alt_texts": "Bookmarks \u2014 in-use photo demonstrating scale.", "category_name": "bookmark", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 },
                 {
@@ -391,22 +395,23 @@ with app.app_context():
                     "description": "Large-format posters to make a bold statement and promote your brand effectively.",
                     "image_url": choice(imgg),
                     "category_name": "poster",
+                    "alt_texts": "Poster Printing image",
                     "products": [
                         {"name": "Posters",
                          "description": "Standard posters for events, promotions, or advertisements.",
-                         "image_url": choice(imgg), "category_name": "post", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": choice(imgg), "alt_texts": "Posters \u2014 detail shot highlighting craftsmanship.", "category_name": "post", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Large Format Poster",
                          "description": "Extra-large posters to attract attention from a distance.",
-                         "image_url": "larger-format-poster.jpeg", "category_name": "large-poster", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "larger-format-poster.jpeg", "alt_texts": "Large Format Poster \u2014 professional mockup for product listing.", "category_name": "large-poster", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Outdoor Poster",
                          "description": "Durable posters designed for outdoor use and weather resistance.",
-                         "image_url": choice(imgg), "category_name": "outdoor-poster", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": choice(imgg), "alt_texts": "Outdoor Poster \u2014 product shot on white background.", "category_name": "outdoor-poster", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Mounted Poster",
                          "description": "Posters mounted on boards for a polished, professional look.",
-                         "image_url": "mounted-poster.jpeg", "category_name": "mounted-poster", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "mounted-poster.jpeg", "alt_texts": "Mounted Poster \u2014 professional mockup for product listing.", "category_name": "mounted-poster", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Poster Signs",
                          "description": "Custom poster signs for retail, exhibitions, or events.",
-                         "image_url": choice(imgg), "category_name": "post-s", "image_collection": [choice(imgg) for n in range(8)]}
+                         "image_url": choice(imgg), "alt_texts": "Poster Signs \u2014 professional mockup for product listing.", "category_name": "post-s", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 },
                 {
@@ -414,48 +419,50 @@ with app.app_context():
                     "description": "Custom stationery to maintain a consistent brand identity in office and client communications.",
                     "image_url": "Stationery.jpeg",
                     "category_name": "stationery",
+                    "alt_texts": "Stationery service image",
                     "products": [
                         {"name": "Notepads", "description": "Branded notepads for office use or promotional purposes.",
-                         "image_url": "notepad.jpeg", "category_name": "notepad", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "notepad.jpeg", "alt_texts": "Notepads \u2014 detail shot highlighting craftsmanship.", "category_name": "notepad", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Letterheads",
                          "description": "Professional letterheads to create impactful business correspondence.",
-                         "image_url": "letterheads.jpeg", "category_name": "letter-head", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "letterheads.jpeg", "alt_texts": "Letterheads \u2014 angled view showing texture and edges.", "category_name": "letter-head", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Folders",
                          "description": "Durable folders for organizing documents or client materials.",
-                         "image_url": "folders.jpeg", "category_name": "folder", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "folders.jpeg", "alt_texts": "Folders \u2014 detail shot highlighting craftsmanship.", "category_name": "folder", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Envelopes", "description": "Custom envelopes to complement your branded stationery.",
-                         "image_url": "Envelopes.jpeg", "category_name": "envelop", "image_collection": [choice(imgg) for n in range(8)]}
+                         "image_url": "Envelopes.jpeg", "alt_texts": "Envelopes \u2014 close-up showing print detail and finish.", "category_name": "envelop", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 },
                 {
                     "name": "Invitation & Cards",
                     "description": "Elegant invitation cards and personalized cards for all occasions and events.",
                     "image_url": "invitation&cards.jpeg",
+                    "alt_texts": "Invitation & Cards service image",
                     "category_name": "invitation-cards",
                     "products": [
                         {"name": "Standard Postcards",
                          "description": "Classic postcards for correspondence or promotional use.",
-                         "image_url": "post-card.jpeg", "category_name": "standard-postcd", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "post-card.jpeg", "alt_texts": "Standard Postcards \u2014 professional mockup for product listing.", "category_name": "standard-postcd", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Foil Postcards",
                          "description": "Luxurious foil-finished postcards that shine and impress.",
-                         "image_url": "Foilcard.jpeg", "category_name": "foil-postcd", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "Foilcard.jpeg", "alt_texts": "Foil Postcards \u2014 in-use photo demonstrating scale.",, "category_name": "foil-postcd", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Invitation Cards",
                          "description": "Stylish invitation cards for weddings, parties, and corporate events.",
-                         "image_url": "Invitations.jpeg", "category_name": "invite", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "Invitations.jpeg", "alt_texts": "Invitation Cards \u2014 professional mockup for product listing.", "category_name": "invite", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Foil Invitations",
                          "description": "Premium invitations with metallic foil accents for elegance.",
-                         "image_url": "foilinvite.jpeg", "category_name": "foil-invite", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "foilinvite.jpeg", "alt_texts": "Foil Invitations \u2014 stack of multiple items showing variety.", "category_name": "foil-invite", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Holiday Cards", "description": "Festive cards for holidays and seasonal greetings.",
-                         "image_url": "holiday-card.jpeg", "category_name": "holi-cards", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "holiday-card.jpeg", "alt_texts": "Holiday Cards \u2014 detail shot highlighting craftsmanship.", "category_name": "holi-cards", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Greeting Cards",
                          "description": "Beautifully designed cards to convey messages and well wishes.",
-                         "image_url": "Greeting-card.jpeg", "category_name": "greet-cards", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "Greeting-card.jpeg", "alt_texts": "Greeting Cards \u2014 angled view showing texture and edges.", "category_name": "greet-cards", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Thank You Cards",
                          "description": "Express gratitude with custom-designed thank you cards.",
-                         "image_url": "thankyou-card.jpeg", "category_name": "thanks-card", "image_collection": [choice(imgg) for n in range(8)]},
+                         "image_url": "thankyou-card.jpeg", "alt_texts": "Thank You Cards \u2014 close-up showing print detail and finish.", "category_name": "thanks-card", "image_collection": [choice(imgg) for n in range(8)]},
                         {"name": "Response Cards",
                          "description": "Convenient response cards to RSVP or collect feedback.",
-                         "image_url": "response-card.jpeg", "category_name": "response-card", "image_collection": [choice(imgg) for n in range(8)]}
+                         "image_url": "response-card.jpeg", "alt_texts": "Response Cards \u2014 product shot on white background.", "category_name": "response-card", "image_collection": [choice(imgg) for n in range(8)]}
                     ]
                 }
             ]
@@ -466,6 +473,7 @@ with app.app_context():
             "image_url": "stickers&labels.jpeg",
             "icon_name": "#cil-tag",
             "category_name": "stickers-labels",
+            "alt_texts": "Stickers & Labels service image",
             "content": """
             <h1>Custom Label & Sticker Printing with Gregbuk</h1>
 
@@ -520,28 +528,28 @@ with app.app_context():
             "products": [
                 {"name": "Die-Cut Stickers",
                  "description": "Precision-cut stickers in custom shapes for creative branding.",
-                 "image_url": "diecut.jpeg", "category_name": "die-cut", "image_collection": [choice(imgg) for n in range(8)]},
+                 "image_url": "diecut.jpeg", "alt_texts": "Die-Cut Stickers \u2014 professional mockup for product listing.", "category_name": "die-cut", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Round Stickers",
                  "description": "Classic circular stickers ideal for packaging and promotions.",
-                 "image_url": "round.jpeg", "category_name": "round-sticker", "image_collection": [choice(imgg) for n in range(8)]},
+                 "image_url": "round.jpeg", "alt_texts": "Round Stickers \u2014 detail shot highlighting craftsmanship.", "category_name": "round-sticker", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Rectangle Stickers",
                  "description": "Versatile rectangular stickers suitable for labels and branding.",
-                 "image_url": "rectangle-sticker.jpeg", "category_name": "rect-sticker", "image_collection": [choice(imgg) for n in range(8)]},
+                 "image_url": "rectangle-sticker.jpeg", "alt_texts": "Rectangle Stickers \u2014 professional mockup for product listing.", "category_name": "rect-sticker", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Custom Shape Sticker",
                  "description": "Stickers cut into any shape to match your brand's unique identity.",
-                 "image_url": "custom-shape.jpeg", "category_name": "custom-sticker", "image_collection": [choice(imgg) for n in range(8)]},
+                 "image_url": "custom-shape.jpeg", "alt_texts": "Custom Shape Sticker \u2014 product shot on white background.", "category_name": "custom-sticker", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Oval Sticker",
                  "description": "Stylish oval stickers perfect for packaging or product labels.",
-                 "image_url": "oval-sticker.jpeg", "category_name": "oval-sticker", "image_collection": [choice(imgg) for n in range(8)]},
+                 "image_url": "oval-sticker.jpeg", "alt_texts": "Oval Sticker \u2014 product shot on white background.", "category_name": "oval-sticker", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Square Sticker",
                  "description": "Square-shaped stickers for labels, promotions, and giveaways.",
-                 "image_url": "square-sticker.jpeg", "category_name": "square-sticker", "image_collection": [choice(imgg) for n in range(8)]},
+                 "image_url": "square-sticker.jpeg", "alt_texts": "Square Sticker \u2014 detail shot highlighting craftsmanship.", "category_name": "square-sticker", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Custom Roll Labels",
                  "description": "High-quality roll labels for bulk packaging or industrial use.",
-                 "image_url": "custom-roll.jpeg", "category_name": "cr-labels", "image_collection": [choice(imgg) for n in range(8)]},
+                 "image_url": "custom-roll.jpeg", "alt_texts": "Custom Roll Labels \u2014 angled view showing texture and edges.", "category_name": "cr-labels", "image_collection": [choice(imgg) for n in range(8)]},
                 {"name": "Sheet Labels",
                  "description": "High-quality sheet labels for bulk packaging or industrial use.",
-                 "image_url": choice(imgg), "category_name": "sheet-labels", "image_collection": [choice(imgg) for n in range(8)]}
+                 "image_url": choice(imgg), "alt_texts": "Sheet Labels \u2014 professional mockup for product listing.", "category_name": "sheet-labels", "image_collection": [choice(imgg) for n in range(8)]}
             ]
         },
         {
@@ -907,6 +915,7 @@ with app.app_context():
             category_name=service_data["category_name"],
             icon_name= service_data["icon_name"],
             description= service_data["description"],
+            alt_texts=service_data["alt_texts"],
             content=service_data["content"] if "content" in service_data else None
         )
         for sub_data in service_data.get("subservices", []):
@@ -916,6 +925,7 @@ with app.app_context():
                 category_name=sub_data["category_name"],
                 services=service,
                 description=sub_data["description"],
+                alt_texts=sub_data["alt_texts"],
                 content=service_data["content"] if "content" in sub_data else None
             )
             # Products under SubService
@@ -926,6 +936,7 @@ with app.app_context():
                     category_name=prod_data["category_name"],
                     subservice=sub,
                     description=prod_data["description"],
+                    alt_texts=prod_data["alt_texts"],
                     content=service_data["content"] if "content" in prod_data else None
                 )
                 for prod_image in prod_data.get("image_collection", []):
@@ -943,6 +954,7 @@ with app.app_context():
                 category_name=prod_data["category_name"],
                 services=service,
                 description=prod_data["description"],
+                alt_texts=prod_data["alt_texts"],
                 content=service_data["content"] if "content" in prod_data else None
             )
             for prod_image in prod_data.get("image_collection", []):
