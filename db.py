@@ -34,6 +34,7 @@ class Services(db.Model):
     description = db.Column(db.String(1000))
     content = db.Column(db.Text)
     category_name = db.Column(db.String(255), nullable=False)
+    alt_texts = db.Column(db.String(255))
     products = db.relationship("Products", backref="services", lazy=True, cascade="all, delete")
     sub_service = db.relationship("SubService", backref="services", lazy=True, cascade="all, delete")
 
@@ -45,6 +46,7 @@ class SubService(db.Model):
     description = db.Column(db.String(1000))
     content = db.Column(db.Text)
     category_name = db.Column(db.String(255), nullable=False)
+    alt_texts = db.Column(db.String(255))
     service_id = db.Column(db.Integer, db.ForeignKey("service.id"), nullable=False)
     products = db.relationship("Products", backref="subservice", lazy=True, cascade="all, delete")
 
@@ -56,6 +58,7 @@ class Products(db.Model):
     description = db.Column(db.String(1000))
     content = db.Column(db.Text)
     category_name = db.Column(db.String(255), nullable=False)
+    alt_texts = db.Column(db.String(255))
     service_id = db.Column(db.Integer, db.ForeignKey("service.id"), nullable=True)
     sub_service_id = db.Column(db.Integer, db.ForeignKey("subservices.id"), nullable=True)
     image_collections = db.relationship("ProductCollection", backref="product", lazy=True, cascade="all, delete")
