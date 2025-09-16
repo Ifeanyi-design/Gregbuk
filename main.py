@@ -1,3 +1,5 @@
+from itertools import count
+
 from flask import Flask, render_template, request,url_for, jsonify, redirect
 from config import Config
 from sqlalchemy import or_
@@ -23,6 +25,22 @@ def create_app():
     return app
 
 app = create_app()
+
+old_select=[]
+@app.template_global()
+def choose_from_list(list):
+    global old_select
+    count = 0
+    products = choice(list)
+    while True:
+        new_choice = choice(products.products)
+        old_select.append(new_choice)
+        if new_choice not in old_select:
+            return new_choice
+        elif count == 10:
+            return new_choice
+        count+=1
+
 
 
 @app.errorhandler(404)
@@ -126,15 +144,18 @@ def search_result():
 def home():
     header = Header.query.all()
     service = Services.query.all()
-    theme = request.cookies.get("theme", "auto")
     random_service1 = Services.query.filter_by(name="Marketing Essentials").first()
     random_sub1 = choice(random_service1.sub_service)
     random_product1 = choice(random_sub1.products)
-    random_service2 = Services.query.filter_by(name="Business Cards").first()
-    random_product2 = choice(random_service2.products)
+    random_service2 = Services.query.filter_by(name="Cards").first()
+    random_sub2 = ""
+    for n in random_service2.sub_service:
+        if n.name == "ID Cards":
+            random_sub2 = n
+    random_product2 = random_sub2.products
     change = True
     the_name = "home"
-    return render_template("main.html",the_name=the_name, change=change, random_sub1=random_sub1, random_product2=random_product2, random_product1=random_product1, header=header, services=service, theme=theme)
+    return render_template("main.html",the_name=the_name, change=change, random_sub1=random_sub1, random_sub2=random_sub2, random_product2=random_product2, random_product1=random_product1, header=header, services=service)
 
 @app.route("/printing")
 def printing():

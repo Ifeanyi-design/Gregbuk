@@ -255,18 +255,18 @@
   <div class="row flex-md-row align-items-center g-5" >
     <div class="col-10 order-md-1 order-1 exp col-sm-8 col-md-6">
         {% for service in services %}
-          {% if service.name == "Business Cards" %}
+          {% if service.name == "Cards" %}
             <img src="{{ url_for('static', filename='images/'+service.image_url) }}" class="d-block w-100 mx-md-auto img-fluid hero-img"
              alt="Bootstrap Themes" width="700" height="500" loading="lazy">
           {% endif %}
         {% endfor %}
       </div>
     <div class="col-md-6 order-md-2 order-2" >
-      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Business Cards</h1>
-      <p class="lead">Stand out and create a memorable first impression with premium business cards. Choose from elegant designs, durable materials, and personalized finishes that showcase your brand identity with style and professionalism.</p>
+      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Cards</h1>
+      <p class="lead">Stand out and create a memorable first impression with premium cards. Choose from elegant designs, durable materials, and personalized finishes that showcase your brand identity with style and professionalism.</p>
       <div class="d-grid gap-2 d-md-flex justify-content-md-start" >
         {% for service in services %}
-          {% if service.name == "Business Cards" %}
+          {% if service.name == "Cards" %}
             <button type="button" onclick="window.location.href='{{ url_for('services', name=service.category_name) }}'" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
           {% endif %}
         {% endfor %}
@@ -279,21 +279,23 @@
 <div class="container-lg item-change">
   <div class="row g-2"> <!-- g-2 adds small gap between images -->
     {% for service in services %}
-      {% if service.name == "Business Cards" %}
+      {% if service.name == "Cards" %}
         {% for n in range(6) %}
-          {% if n < service.products|length %}
+          {% if n < service.sub_service|length %}
             <div class="products col-6 col-lg-2">
               <div class="">
-                <a href="{{ url_for('services', name=service.category_name, sec=service.products[n].category_name) }}"><img src="{{ url_for('static', filename='images/'+service.products[n].image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
+                <a href="{{ url_for('services', name=service.category_name, sec=service.sub_service[n].category_name) }}"><img src="{{ url_for('static', filename='images/'+service.sub_service[n].image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
               </div>
-              <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=service.products[n].category_name) }}">{{ service.products[n].name }}</a></div>
+              <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=service.sub_service[n].category_name) }}">{{ service.sub_service[n].name }}</a></div>
             </div>
           {% else %}
             <div class="products col-6 col-lg-2">
+              {% set id_service = service.sub_service%}
+              {% set id_product = choose_from_list(id_service) %}
               <div class="">
-                <a href="{{ url_for('services', name=service.category_name, sec=random_product2.category_name) }}"><img src="{{ url_for('static', filename='images/'+random_product2.image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
+                <a href="{{ url_for('services', name=service.category_name, sec=random_sub2.category_name, pro=id_product.category_name) }}"><img src="{{ url_for('static', filename='images/'+id_product.image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
               </div>
-              <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=random_product2.category_name) }}">{{ random_product2.name }}</a></div>
+              <div class="product-name"><a href="{{ url_for('services', sec=random_sub2.category_name, name=service.category_name, pro=id_product.category_name) }}">{{ id_product.name }}</a></div>
             </div>
           {% endif %}
         {% endfor %}
