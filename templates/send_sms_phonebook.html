@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h3>Send SMS to Group</h3>
+    <form id="bulkSmsForm">
+        <div class="mb-3">
+            <label for="campaign_name" class="form-label">Campaign Name</label>
+            <input id="campaign_name" class="form-control" name="campaign_name" type="text">
+            <label for="group" class="form-label">Select Group</label>
+            <select id="group" name="group" class="form-control">
+                {% for group in groups %}
+                    <option value="{{ group.id }}">{{ group.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea id="message" name="message" class="form-control" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send SMS</button>
+    </form>
+
+    <!-- Notification Bar -->
+    <div id="notification" class="alert mt-3 d-none"></div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+function showNotification(type, message) {
+    const notif = document.getElementById("notification");
+    notif.className = "alert mt-3 alert-" + type;
+    notif.textContent = message;
+    notif.classList.remove("d-none");
+}
+
+document.getElementById("bulkSmsForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const group_id = document.getElementById("group").value;
+    const message = document.getElementById("message").value;
+    const campaign_name = document.getElementById("campaign_name").value;
+
+    const btn = e.target.querySelector("button[type=submit]");
+    btn.disabled = true;
+    btn.textContent = "Sending...";
+
+    showNotification("info", "⏳ Your messages are being queued for delivery...");
+
+    try {
+        const res = await fetch("/send_bulk_sms_group", {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({group_id, message, campaign_name})
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            showNotification("success", "✅ " + data.message);
+        } else {
+            showNotification("danger", "❌ Error: " + data.message);
+        }
+    } catch (err) {
+        showNotification("warning", "⚠️ Something went wrong. Please try again.");
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "Send SMS";
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h3>Delivery Report</h3>
+
+    <div class="row text-center">
+        <div class="col-md-3">
+            <div class="card p-3 shadow-sm">
+                <h6>Total Sent</h6>
+                <p id="total" class="fw-bold">0</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 shadow-sm">
+                <h6>Delivered</h6>
+                <p id="delivered" class="text-success fw-bold">0</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 shadow-sm">
+                <h6>Failed</h6>
+                <p id="failed" class="text-danger fw-bold">0</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 shadow-sm">
+                <h6>Pending</h6>
+                <p id="pending" class="text-warning fw-bold">0</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <canvas id="messagesChart" height="100"></canvas>
+    </div>
+    <div class="mt-4">
+        <canvas id="statusChart" height="100"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+async function loadDeliveryData() {
+    const res = await fetch("/api/delivery_report_data");
+    const data = await res.json();
+
+    document.getElementById("total").innerText = data.messages_sent;
+    document.getElementById("delivered").innerText = data.delivered;
+    document.getElementById("failed").innerText = data.failed;
+    document.getElementById("pending").innerText = data.pending;
+
+    // Weekly bar chart
+    const ctx = document.getElementById('messagesChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+            datasets: [{
+                label: 'Messages Sent This Week',
+                data: data.messages_chart_data,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+        }
+    });
+
+    // Doughnut chart
+    const ctx2 = document.getElementById('statusChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Delivered','Pending','Failed'],
+            datasets: [{
+                data: data.delivery_status_data,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(255, 99, 132, 0.7)'
+                ]
+            }]
+        }
+    });
+}
+
+loadDeliveryData();
+</script>
+{% endblock %}

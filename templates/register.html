@@ -15,27 +15,28 @@
                         <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg')}}#cil-user"></use>
 
                       </svg></span>
-                    <input class="form-control" type="text" placeholder="Username">
+                    <input class="form-control" name="name" type="text" placeholder="Username" required>
                   </div>
                   <div class="input-group mb-3"><span class="input-group-text">
                       <svg class="icon">
                         <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg')}}#cil-envelope-open"></use>
                       </svg></span>
-                    <input class="form-control" type="text" placeholder="Email">
+                    <input class="form-control" name="email" type="email" placeholder="Email" required>
                   </div>
                   <div class="input-group mb-3"><span class="input-group-text">
                       <svg class="icon">
                         <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg')}}#cil-lock-locked"></use>
                       </svg></span>
-                    <input class="form-control" type="password" placeholder="Password">
+                    <input class="form-control" name="password" id="password" type="password" placeholder="Password" required>
                   </div>
                   <div class="input-group mb-4"><span class="input-group-text">
                       <svg class="icon">
                         <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg')}}#cil-lock-locked"></use>
                       </svg></span>
-                    <input class="form-control" type="password" placeholder="Repeat password">
+                    <input class="form-control" name="re_password" id="confirm_password" type="password" placeholder="Repeat password" required>
                   </div>
-                  <button class="btn btn-block btn-success" style="color: white;" type="submit">Create Account</button>
+                    <div id="passwordHelp" class="form-text pb-3"></div>
+                  <button class="btn btn-block btn-success" id="submitBtn" style="color: white;" type="submit" disabled>Create Account</button>
                 </form>
               </div>
             </div>
@@ -48,6 +49,33 @@
 
 {% block script %}
     <script>
+        const pw = document.getElementById("password");
+        const cpw = document.getElementById("confirm_password");
+        const helpText = document.getElementById("passwordHelp");
+        const submitBtn = document.getElementById("submitBtn");
+
+        function checkPasswords() {
+            if (!pw.value || !cpw.value) {
+                helpText.textContent = "";
+                submitBtn.disabled = true;
+                return;
+            };
+            if (pw.value === cpw.value) {
+                helpText.textContent = "Passwords match!";
+                helpText.style.color = "green";
+                submitBtn.disabled = false;
+            } else {
+                helpText.textContent = "Passwords do not match!";
+                helpText.style.color = "red";
+                submitBtn.disabled = true;
+            };
+        }
+
+        pw.addEventListener("input", checkPasswords);
+        cpw.addEventListener("input", checkPasswords);
+
+
+
       const header = document.querySelector('header.header');
 
       document.addEventListener('scroll', () => {

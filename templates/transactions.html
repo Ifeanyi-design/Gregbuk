@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Transactions</h2>
+
+  <!-- Mobile hint -->
+  <small class="text-muted d-md-none">↔ Swipe left/right to see more</small>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Amount (₦)</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Reference</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for txn in txns %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ "%.2f"|format(txn.amount) }}</td>
+          <td>
+          {% if txn.type == 'credit' and txn.status == 'success' %}
+            <span class="badge bg-success">Credit</span>
+          {% elif txn.type == 'debit' and txn.status == 'success' %}
+            <span class="badge bg-primary">Debit</span>
+          {% elif txn.status == 'failed' %}
+            <span class="badge bg-danger">Failed</span>
+          {% else %}
+            <span class="badge bg-warning">{{ txn.status|capitalize }}</span>
+          {% endif %}
+        </td>
+                  <td>
+            <span class="badge
+              {% if txn.status == 'success' %}bg-success
+              {% elif txn.status == 'failed' or txn.status == 'declined' %}bg-danger
+              {% else %}bg-warning{% endif %}">
+              {{ txn.status|capitalize }}
+            </span>
+          </td>
+
+          <!-- Reference -->
+          <td>
+            <!-- Desktop full -->
+            <span class="d-none d-md-inline">{{ txn.reference }}</span>
+
+            <!-- Mobile shortened clickable -->
+            <span class="d-inline d-md-none text-primary"
+                  style="cursor: pointer;"
+                  data-bs-toggle="modal"
+                  data-bs-target="#refModal"
+                  data-ref="{{ txn.reference }}">
+              {{ txn.reference[:6] ~ "..." }}
+            </span>
+          </td>
+
+          <!-- Date -->
+          <td>
+            <span class="d-none d-md-inline">{{ txn.timestamp.strftime("%b %d, %Y %I:%M %p") }}</span>
+            <span class="d-inline d-md-none">{{ txn.timestamp.strftime("%b %d, %I:%M %p") }}</span>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Reference Modal -->
+<div class="modal fade" id="refModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Transaction Reference</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p id="refModalContent" class="fw-bold"></p>
+        <button class="btn btn-sm btn-outline-primary" id="copyRefBtn">Copy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="copyToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">Reference copied!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const refModal = document.getElementById('refModal');
+  const refModalContent = document.getElementById('refModalContent');
+  const copyBtn = document.getElementById('copyRefBtn');
+
+  const copyToastEl = document.getElementById('copyToast');
+  const copyToast = new bootstrap.Toast(copyToastEl, { delay: 2000 });
+
+  // When modal opens, update reference text
+  refModal.addEventListener('show.bs.modal', function(event) {
+    const trigger = event.relatedTarget;
+    const ref = trigger.getAttribute('data-ref');
+    refModalContent.textContent = ref;
+
+    // Store reference on button
+    copyBtn.dataset.ref = ref;
+  });
+
+  // Handle copy button click
+  copyBtn.addEventListener('click', function(event) {
+    // Must be inside user gesture
+    const refToCopy = copyBtn.dataset.ref;
+    if (!refToCopy) return;
+
+    // Create temporary textarea for reliable copy
+    const textarea = document.createElement('textarea');
+    textarea.value = refToCopy;
+    document.body.appendChild(textarea);
+    textarea.select();
+    textarea.setSelectionRange(0, 99999); // For mobile
+
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) copyToast.show();
+      else console.error('Copy failed via execCommand');
+    } catch (err) {
+      console.error('Copy error:', err);
+    }
+
+    document.body.removeChild(textarea);
+  });
+});
+</script>
+{% endblock %}

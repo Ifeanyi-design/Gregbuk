@@ -34,6 +34,8 @@
             </li>
           {% elif items.name == "Contact Us" %}
             <li class="nav-item"><a class="nav-link drop {% if request.endpoint == items.end_url %}active{% endif %}" href="{{ url_for(items.end_url, head=the_name) }}">{{ items.name }}</a></li>
+          {% elif items.name == "Bulk SMS" %}
+            <li class="nav-item"><a class="nav-link bulk drop {% if request.endpoint == items.end_url %}active{% endif %}" href="{{ url_for(items.end_url) }}">{{ items.name }}</a></li>
           {% else %}
             <li class="nav-item"><a class="nav-link drop {% if request.endpoint == items.end_url %}active{% endif %}" href="{{ url_for(items.end_url) }}">{{ items.name }}</a></li>
           {% endif %}
@@ -69,7 +71,7 @@
           </ul>
         </li>
 
-        {% if false %}
+        {% if current_user.is_authenticated %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">{{ current_user.username }}</a>

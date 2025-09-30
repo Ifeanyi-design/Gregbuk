@@ -1,5 +1,5 @@
 from main import app
-from db import db, Services, SubService, Products, Header, ProductCollection
+from db import db, Services, SubService, Products, Header, ProductCollection, SMSPricing
 from random import choice
 from flask import url_for
 
@@ -4620,7 +4620,7 @@ Stand out at every event with <strong>custom Retractable Banners</strong> from G
                 services=service,
                 description=sub_data["description"],
                 alt_texts=sub_data["alt_texts"],
-                content=service_data["content"] if "content" in sub_data else None
+                content=sub_data["content"] if "content" in sub_data else None
             )
             # Products under SubService
             for prod_data in sub_data.get("products", []):
@@ -4631,7 +4631,7 @@ Stand out at every event with <strong>custom Retractable Banners</strong> from G
                     subservice=sub,
                     description=prod_data["description"],
                     alt_texts=prod_data["alt_texts"],
-                    content=service_data["content"] if "content" in prod_data else None
+                    content=prod_data["content"] if "content" in prod_data else None
                 )
                 for prod_image in prod_data.get("image_collection", []):
                     collection = ProductCollection(
@@ -4649,7 +4649,7 @@ Stand out at every event with <strong>custom Retractable Banners</strong> from G
                 services=service,
                 description=prod_data["description"],
                 alt_texts=prod_data["alt_texts"],
-                content=service_data["content"] if "content" in prod_data else None
+                content=prod_data["content"] if "content" in prod_data else None
             )
             for prod_image in prod_data.get("image_collection", []):
                 collection = ProductCollection(
@@ -4696,5 +4696,12 @@ Stand out at every event with <strong>custom Retractable Banners</strong> from G
         )
         db.session.add(da)
 
+    db.session.commit()
+
+    # Local SMS = 5₦, International SMS = 7₦ (or 8₦, you can adjust)
+    local_sms = SMSPricing(sms_type="local", price_per_sms=5)
+    international_sms = SMSPricing(sms_type="international", price_per_sms=7)
+
+    db.session.add_all([local_sms, international_sms])
     db.session.commit()
 

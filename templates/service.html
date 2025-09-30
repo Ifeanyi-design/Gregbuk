@@ -107,7 +107,7 @@
       {% if the_data.sub_service|length != 0 %}
         {% for sub in the_data.sub_service|reverse %}
           <div class="col">
-            <div class="card shadow-sm">
+            <div class="card cards shadow-sm">
               <img src="{{ url_for('static', filename='images/'+sub.image_url) }}"
                 class="card-img-top"
                 alt="My Service"
@@ -119,11 +119,10 @@
                 <p class="card-text">
                   {{ sub.description }}
                 </p>
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex b justify-content-between align-items-center">
                   <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{{ url_for('services', name=the_data.category_name, sec=sub.category_name) }}'">View Products</button>
                   </div>
-                  <small class="text-body-secondary">9 mins</small>
                 </div>
               </div>
             </div>
@@ -132,7 +131,7 @@
       {% else %}
         {% for pro in the_data.products|reverse %}
           <div class="col">
-            <div class="card shadow-sm">
+            <div class="card cards shadow-sm">
               <img src="{{ url_for('static', filename='images/'+pro.image_url) }}"
                 class="card-img-top"
                 alt="My Service"

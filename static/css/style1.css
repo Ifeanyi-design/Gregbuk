@@ -53,7 +53,7 @@ header {
   color: var(--bs-body-color) !important;
 }
 .btn-outline-primary.my-btn {
-  color: blue !important;
+  color: #007bff !important;
 }
 .btn-outline-primary.my-btn:hover {
   color: white !important;
@@ -67,6 +67,7 @@ header {
   color: white !important;   /* White text */
   border-radius: 4px;
   padding-left: 1rem;
+  padding-right: 1rem;
 }
 .nav-item.dropdown .dropdown-menu .dropdown-item.active{
   background-color: #007bff; /* Blue background */
@@ -102,6 +103,9 @@ header {
   gap: 10px;
   scroll-behavior: smooth;
   padding: 10px;
+}
+.product-name a{
+    color: #007bff !important;
 }
 
 .product-slider::-webkit-scrollbar {
@@ -183,7 +187,7 @@ header {
 /* Dark mode via JS toggle */
 
 html[data-coreui-theme="dark"] .boxer {
-  background-color: black;  /* dark background */
+  background-color: #1a1a1a;  /* dark background */
   color: #f8f9fa;             /* light text */
 }
 html[data-coreui-theme="dark"] .hole {
@@ -205,6 +209,50 @@ html[data-coreui-theme="dark"] .change {
   padding-bottom: 2% !important;
   position: relative;
 }
+.btn-primary{
+  background-color: #007bff;
+  border: 2px solid #007bff;
+  border-radius: 25px;
+  transition: all 0.3s ease-in-out
+}
+.btn-outline-secondary{
+  color: #007bff !important;
+  border: 1.8px solid #007bff !important;
+  border-radius: 25px;
+  transition: all 0.3s ease-in-out
+}
+.btn-outline-secondary:hover{
+  background-color: #007bff;
+  color: white !important;
+}
+.btn-outline-primary{
+  color: #007bff !important;
+  border: 2px solid #007bff !important;
+  border-radius: 25px;
+  transition: all 0.3s ease-in-out
+}
+.text-primary{
+  color: #007bff !important;
+}
+.btn-outline-primary:hover{
+  background-color: #007bff;
+  border: 2px solid #007bff !important;
+  color: white !important;
+}
+.btn-outline-primary:active{
+  background-color: #007bff !important;
+  border: 2px solid #007bff !important;
+}
+.btn-primary:active{
+  background-color: #007bff !important;
+  border: 2px solid #007bff !important;
+}
+.btn-primary:hover{
+    background-color: #fff;
+    color: #007bff !important;
+    border: 2px solid #007bff;
+}
+
 .navbar.hole{
   background-color: white !important;
 }
@@ -218,8 +266,20 @@ html[data-coreui-theme="dark"] .bg-section {
 html[data-coreui-theme="dark"] .wrapper.hell {
   background-color: #212529 !important;
 }
+html[data-coreui-theme="light"] .row.now form {
+  background-color: white;
+}
+html[data-coreui-theme="dark"] .row.now form {
+  background-color: #212529;
+}
+html[data-coreui-theme="dark"] .row.now form .form-label{
+  color: white;
+}
 html[data-coreui-theme="light"] .wrapper.hell {
   background-color: white !important;
+}
+html[data-coreui-theme="dark"] .dark-white {
+  color: white;
 }
 
 h2.display-5 {
@@ -292,11 +352,26 @@ html[data-coreui-theme="light"] .nav-icon-bullet {
 }
 
 
+
 html[data-coreui-theme="light"] #sidebar .nav-group .nav-group-toggle:hover{
   background-color: white;
   color: #007bff !important;
 }
+html[data-coreui-theme="light"] #sidebar .nav-group-toggle:hover{
+  background-color: white;
+  color: #007bff !important;
+}
+html[data-coreui-theme="light"] #sidebar .nav-group .nav-link:hover{
+  background-color: white;
+  color: #007bff !important;
+}
+html[data-coreui-theme="light"] #sidebar .nav-group .nav-link:hover .nav-icon-bullet{
+  color: #007bff !important;
+}
 html[data-coreui-theme="light"] #sidebar .nav-group .nav-group-toggle:hover svg {
+  color: #007bff !important;  /* changes the icon color */
+}
+html[data-coreui-theme="light"] #sidebar .nav-group-toggle:hover svg {
   color: #007bff !important;  /* changes the icon color */
 }
 
@@ -304,7 +379,57 @@ html[data-coreui-theme="light"] #sidebar .nav-group .nav-group-toggle.active-tab
   background-color: white !important;
   color: #007bff !important;
 }
+html[data-coreui-theme="light"] #sidebar .nav-group-toggle.active-tab{
+  background-color: white !important;
+  color: #007bff !important;
+}
+
+/* Slide + Fade animation for toast */
+.fade-slide {
+  opacity: 0;
+  transform: translateX(100%); /* start off screen */
+  transition: all 0.5s ease-in-out;
+}
+
+.fade-slide.showing,
+.fade-slide.show {
+  opacity: 1;
+  transform: translateX(0); /* slide in */
+}
+
+.fade-slide.hide {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+
+html[data-coreui-theme="light"] .bg-primary{
+  background-color: #007bff !important;
+}
+html[data-coreui-theme="dark"] .bg-primary{
+  background-color: #007bff !important;
+}
+
+html[data-coreui-theme="dark"] #sidebar .nav-group .nav-group-toggle.active-tab{
+  background-color: #1a1a1a !important;
+
+}
+html[data-coreui-theme="light"] #sidebar .nav-item .nav-link.bul{
+  background-color: #007bff !important;
+  color: white !important;
+}
+html[data-coreui-theme="dark"] #sidebar .nav-group .nav-group-toggle.active-tab{
+  background-color: #1a1a1a !important;
+
+}
+html[data-coreui-theme="dark"] #sidebar .nav-group-toggle.active-tab{
+  background-color: #1a1a1a !important;
+
+}
 html[data-coreui-theme="light"] #sidebar .nav-group .nav-group-toggle.active-tab svg{
+  color: #007bff !important;
+}
+html[data-coreui-theme="light"] #sidebar .nav-group-toggle.active-tab svg{
   color: #007bff !important;
 }
 html[data-coreui-theme="light"] #sidebar .nav-group .nav-group-toggle.active-tab::after{
@@ -378,7 +503,7 @@ html[data-coreui-theme="dark"] .ol.thetitle {
   margin-top: 5%;
   margin-bottom: 5%;/* spacing between image and text */
   text-align: center;
-  color: #333;
+  color: #007bff !important;
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -608,6 +733,13 @@ html[data-coreui-theme="dark"] .ol.thetitle {
   .upp{
     margin-top: 15% !important;
   }
+
+}
+.upp li a{
+  color: #007bff;
+}
+body a{
+ color: #007bff;
 }
 
 
@@ -641,4 +773,93 @@ html[data-coreui-theme="dark"] .ol.thetitle {
 .wrapper.hell {
   flex-grow: 1; /* take remaining space */
   min-width: 0; /* prevent overflow */
+}
+
+html[data-coreui-theme="light"] .nav-item .bulk{
+  background-color: green;
+  color: white !important;
+}
+html[data-coreui-theme="dark"] .nav-item .bulk{
+  background-color: white;
+  color: green !important;
+}
+.cards{
+  height: 100%;
+}
+.tops{
+  margin-top: 10%;
+}
+@media only screen and (max-width: 767.9px){
+  .top-up{
+    font-size: 15px !important;
+  }
+  .top{
+    width: 99% !important;
+    height: 150px !important;
+  }
+  .flexer{
+    width: 45% !important;
+  }
+  .flexer-2{
+    width: 55% !important;
+  }
+  .flexer-2 a{
+    font-size: 75% !important;
+  }
+}
+.foooter{
+    margin-bottom: 0px;
+}
+.imag:hover{
+  animation: scale 2s ease-in-out alternate-reverse;
+}
+@keyframes scale {
+  0%{
+    transform: scale(1.3);
+  }
+  50{
+    transform: scale(1.15)
+  }
+  100%{
+    transform: scale(1);
+  }
+}
+
+@media only screen and (min-width: 768px){
+    .all-service-card{
+     width: 50%;
+    }
+    .all-card-row{
+        width: 1100px;
+    }
+}
+@media only screen and (min-width: 992px){
+    .hero-carousel{
+      margin-top: 50px;
+    }
+}
+
+html[data-coreui-theme="light"] .active-tab-all{
+  background-color: white !important;
+  color: #007bff !important;
+}
+html[data-coreui-theme="light"] .active-tab-all .all-icon{
+  color: #007bff !important;
+}
+html[data-coreui-theme="dark"] .active-tab-all{
+  color: white !important;
+}html[data-coreui-theme="dark"] .active-tab-all .all-icon{
+  color: white !important;
+}
+html[data-coreui-theme="light"] .carousel-caption{
+ background: rgba(0, 0, 0, 0.5);
+ border-radius: 150px;
+ padding-left: 5%;
+ padding-right: 5%;
+}
+html[data-coreui-theme="dark"] .carousel-caption{
+ background: rgba(255, 255, 255, 0.5);
+ border-radius: 150px;
+ padding-left: 5%;
+ padding-right: 5%;
 }

@@ -56,7 +56,7 @@
       <!-- Card 1 -->
         {% for pro in the_data.products|reverse %}
           <div class="col">
-            <div class="card shadow-sm">
+            <div class="card cards shadow-sm">
               <img src="{{ url_for('static', filename='images/'+pro.image_url) }}"
                 class="card-img-top"
                 alt="My Service"
@@ -72,7 +72,6 @@
                   <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{{ url_for('services', name=the_data.services.category_name, sec=the_data.category_name, pro=pro.category_name) }}'">Product details</button>
                   </div>
-                  <small class="text-body-secondary">9 mins</small>
                 </div>
               </div>
             </div>

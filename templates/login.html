@@ -10,18 +10,27 @@
                 <div class="card-body">
                   <h1>Login</h1>
                   <p class="text-body-secondary">Sign In to your account</p>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                   <form method="POST">
                       <div class="input-group mb-3"><span class="input-group-text">
                           <svg class="icon">
                             <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg')}}#cil-user"></use>
                           </svg></span>
-                        <input class="form-control" type="text" placeholder="Username or Email">
+                        <input class="form-control" name="email" type="text" placeholder="Username or Email" required>
                       </div>
                       <div class="input-group mb-4"><span class="input-group-text">
                           <svg class="icon">
                             <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg')}}#cil-lock-locked"></use>
                           </svg></span>
-                        <input class="form-control" type="password" placeholder="Password">
+                        <input class="form-control" name="password" type="password" placeholder="Password" required>
                       </div>
                       <div class="row">
                         <div class="col-6">

@@ -7,10 +7,10 @@
       </div>
       <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
         <li class="nav-item">
-            <a class="nav-link all" href="{{ url_for('all') }}">
-            <svg class="nav-icon">
+            <a class="nav-link all {% if the_name ==  'var' %}active-tab-all{% endif %}" style=" {% if the_name ==  'var' %} color: #007bff !important; {% endif %}" href="{{ url_for('all') }}">
+            <svg style=" {% if the_name ==  'var' %} color: #007bff !important; {% endif %}" class="nav-icon all-icon">
               <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-speedometer"></use>
-            </svg> All Sevices<span class="badge badge-sm bg-danger ms-auto">HOT</span>
+            </svg> All Sevices
             </a>
         </li>
 

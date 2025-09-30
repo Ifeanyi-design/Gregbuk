@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+{% block title %} Dashboard {% endblock %}
+
+{% block style %}
+.upper {
+    margin-top: 8%;
+}
+.foooter {
+    margin-top: 5%;
+}
+.top-up {
+    padding-top: 3%;
+    padding-bottom: 3%;
+    font-size: 20px;
+}
+{% endblock %}
+
+{% block content %}
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1050">
+    <div id="welcomeToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Welcome, {{ current_user.username }}! You are now logged in.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }} upper">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="container-fluid mt-4">
+    <h6 class="tops"><i class="bi bi-credit-card me-2"></i>
+        Hi {{ current_user.username }}! Welcome to your Dashboard
+    </h6>
+
+    <!-- Balance Card -->
+    <div class="card d-flex flex-row text-white bg-primary top" style="height: 200px; width: 90%;">
+        <div class="card-body flexer" style="width: 50%;">
+            <h3 class="card-title" style="font-size: 1.2rem;">Balance</h3>
+            <h1 class="card-text" style="font-size: 1.6rem;">₦{{ current_user.wallet.balance or "0" }}</h1>
+            <small>{{ current_user.sms_units or "500" }} SMS Units</small>
+        </div>
+        <div class="d-flex flexer-2 flex-column" style="width: 50%; justify-content: center; text-align: center;">
+            <a class="btn btn-primary top-up" style="width: 65%; border: 2px solid white; margin: auto;" href="{{ url_for('wallet')}}">
+                <i class="bi bi-wallet me-2"></i>Fund wallet <i class="bi bi-chevron-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Top Cards Row -->
+    <div class="row mt-4">
+        <div class="col-md-4 mb-3">
+          <div class="card cards text-white bg-success">
+            <div class="card-body">
+              <h5 class="card-title">All Messages Sent</h5>
+              <p class="card-text" id="stat-total">{{ messages_sent or "1,200" }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <div class="card cards text-white bg-info">
+            <div class="card-body">
+              <h5 class="card-title">Delivery Rate</h5>
+              <p class="card-text" id="stat-rate">{{ delivery_rate or "92%" }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <div class="card cards text-white bg-warning">
+            <div class="card-body">
+              <h5 class="card-title">Pending Messages</h5>
+              <p class="card-text" id="stat-pending">{{ pending_messages or "5,000" }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card cards bg-danger text-white">
+            <div class="card-body">
+              <h5 class="card-title">Failed Messages</h5>
+              <p class="card-text display-6" id="stat-failed">{{ failed or "0" }}</p>
+            </div>
+          </div>
+        </div>
+
+
+    </div>
+    <div class="mt-4 mb-3">
+    <h4>Delivery Rate: <span id="progress-rate-text">{{ delivery_rate }}</span>%</h4>
+    <div class="progress">
+      <div class="progress-bar" id="progress-rate"
+           style="width: {{ delivery_rate }}%"
+           aria-valuenow="{{ delivery_rate }}" aria-valuemin="0" aria-valuemax="100">
+      </div>
+    </div>
+  </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Messages Sent (This Month)</h5>
+                    <canvas id="messagesSentChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Delivery Status</h5>
+                    <canvas id="deliveryStatusChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Messages Table -->
+    <div class="card mt-3 mb-3">
+        <div class="card-header">Recent Messages</div>
+        <div class="card-body p-0">
+            <table class="table mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Recipient(s)</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for msg in recent_messages or [
+                    {'date':'Sept 21, 2025','recipient':'0803****123','body':'Hello, welcome!','status':'delivered'},
+                    {'date':'Sept 20, 2025','recipient':'0706****567','body':'Reminder: Meeting tomorrow','status':'pending'},
+                    {'date':'Sept 19, 2025','recipient':'0812****890','body':'Promo: Get 20% off!','status':'failed'}
+                ] %}
+                    <tr>
+                        <td>{{ msg.date }}</td>
+                        <td>{{ msg.recipient }}</td>
+                        <td>{{ msg.body }}</td>
+                        <td>
+                            {% if msg.status == "delivered" %}
+                                <span class="badge bg-success">Delivered</span>
+                            {% elif msg.status == "pending" %}
+                                <span class="badge bg-warning">Pending</span>
+                            {% else %}
+                                <span class="badge bg-danger">Failed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Shortcut Buttons -->
+    <div class="mt-4 mb-4">
+        <a href="{{ url_for('send_sms') if false else '#' }}" class="btn btn-primary me-2">Send SMS</a>
+        <a href="{{ url_for('buy_credits') if false else '#' }}" class="btn btn-success me-2">Buy Credits</a>
+        <a href="{{ url_for('reports') if false else '#' }}" class="btn btn-info">View Reports</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    {% if show_welcome_toast %}
+    const toastEl = document.getElementById('welcomeToast');
+    const toast = new bootstrap.Toast(toastEl, {delay: 10000});
+    toast.show();
+    {% endif %}
+
+    const messagesCtx = document.getElementById("messagesSentChart").getContext("2d");
+    window.messagesChart = new Chart(messagesCtx, {
+    type: "bar",
+    data: {
+        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        datasets: [{
+            label: "Messages Sent",
+            data: [0, 0, 0, 0, 0, 0, 0],
+            backgroundColor: "rgba(54, 162, 235, 0.6)"
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0, // integers only
+                    callback: function(value) {
+                        return value.toLocaleString(); // format large numbers with commas
+                    }
+                }
+            }
+        }
+    }
+});
+
+    function updateDeliveryChart(delivered, pending, failed) {
+    const data = [delivered, pending, failed];
+
+    // Check if all values are zero
+    const allZero = data.every(val => val === 0);
+
+    if (allZero) {
+        // Replace with a single "No Data" slice
+        window.deliveryChart.data.datasets[0].data = [1];
+        window.deliveryChart.data.labels = ["No Data"];
+        window.deliveryChart.data.datasets[0].backgroundColor = ["#cccccc"]; // gray
+    } else {
+        window.deliveryChart.data.datasets[0].data = data;
+        window.deliveryChart.data.labels = ["Delivered", "Pending", "Failed"];
+        window.deliveryChart.data.datasets[0].backgroundColor = ["#28a745", "#ffc107", "#dc3545"];
+    }
+
+    window.deliveryChart.update();
+}
+
+    const deliveryCtx = document.getElementById("deliveryStatusChart").getContext("2d");
+    window.deliveryChart = new Chart(deliveryCtx, {
+        type: "pie",
+        data: {
+            labels: ["Delivered", "Pending", "Failed"],
+            datasets: [{
+                data: [0, 0, 0],
+                backgroundColor: ["#28a745", "#ffc107", "#dc3545"]
+            }]
+        },
+        options: { responsive: true, plugins: { legend: { position: "bottom" } } }
+    });
+
+    function fetchStats() {
+        fetch("/api/stats")
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("stat-total").innerText = data.messages_sent;
+                document.getElementById("stat-rate").innerText = data.delivery_rate + "%";
+                document.getElementById("stat-pending").innerText = data.pending;
+                document.getElementById("stat-failed").innerText = data.failed;
+                document.getElementById("progress-rate-text").innerText = data.delivery_rate;
+                document.getElementById("progress-rate").style.width = data.delivery_rate + "%";
+                document.getElementById("progress-rate").setAttribute("aria-valuenow", data.delivery_rate);
+
+                window.messagesChart.data.datasets[0].data = data.messages_chart_data;
+                window.messagesChart.update();
+
+                updateDeliveryChart(data.delivered, data.pending, data.failed);
+            })
+            .catch(err => console.error("Error fetching stats:", err));
+    }
+
+    fetchStats();
+    setInterval(fetchStats, 10000);
+});
+
+</script>
+{% endblock %}

@@ -1,10 +1,10 @@
-<footer class="bg-dark text-light pt-5 pb-4">
+<footer class="bg-dark text-light foooter pt-5 pb-4">
   <div class="container-fluid text-md-left">
     <div class="row text-md-left">
 
       <!-- Company Info -->
       <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-        <h5 class="text-uppercase mb-4 fw-bold text-warning">Your Printing Brand</h5>
+        <h5 class="text-uppercase mb-4 fw-bold text-warning">GREGBUK INT'L LTD</h5>
         <p>
           High-quality printing solutions for all your business and personal needs.
           From mugs to banners, we bring your ideas to life with precision and style.
@@ -23,19 +23,18 @@
       <!-- Useful Links -->
       <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
         <h5 class="text-uppercase mb-4 fw-bold text-warning">Useful Links</h5>
-        <p><a href="#" class="text-light text-decoration-none">Pricing</a></p>
-        <p><a href="#" class="text-light text-decoration-none">Portfolio</a></p>
-        <p><a href="#" class="text-light text-decoration-none">Contact Us</a></p>
-        <p><a href="#" class="text-light text-decoration-none">FAQs</a></p>
+        <p><a href="{{ url_for('pricing') }}" class="text-light text-decoration-none">Pricing</a></p>
+        <p><a href="{{ url_for('contact') }}" class="text-light text-decoration-none">Contact Us</a></p>
+        <p><a href="{{ url_for('about_us') }}" class="text-light text-decoration-none">About Us</a></p>
       </div>
 
       <!-- Contact -->
       <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
         <h5 class="text-uppercase mb-4 fw-bold text-warning">Contact</h5>
-        <p><i class="bi bi-house-door"></i> 123 Printing Street, Lagos</p>
-        <p><i class="bi bi-envelope"></i> info@printingcompany.com</p>
-        <p><i class="bi bi-phone"></i> +234 800 123 4567</p>
-        <p><i class="bi bi-whatsapp"></i> +234 800 987 6543</p>
+        <p><i class="bi bi-house-door"></i> 68, Isolo Road, Mushin, Lagos State, Nigeria</p>
+        <p><i class="bi bi-envelope"></i> <a style="text-decoration: none;" href="mailto:gregbukyv2004@yahoo.com">gregbukyv2004@yahoo.com</a> </p>
+        <p><i class="bi bi-phone"></i> <a style="text-decoration: none;" href="tel:+2347062889833">+234 706 288 9833</a></p>
+        <p><i class="bi bi-whatsapp"></i> <a style="text-decoration: none;" href="https://wa.me/2347012074489?text=Hello%20I%20want%20to%20make%20an%20inquiry " target="_blank">+234 701 207 4489</a></p>
       </div>
 
     </div>
@@ -43,16 +42,16 @@
     <!-- Social icons -->
     <div class="row mt-4">
       <div class="col-md-12 text-center">
-        <a href="#" class="text-light me-3"><i class="bi bi-facebook fs-4"></i></a>
+        <a href="https://www.facebook.com/gregbuk" class="text-light me-3"><i class="bi bi-facebook fs-4"></i></a>
         <a href="#" class="text-light me-3"><i class="bi bi-instagram fs-4"></i></a>
-        <a href="#" class="text-light me-3"><i class="bi bi-twitter fs-4"></i></a>
+        <a href="https://x.com/gregbuk1?s=08" class="text-light me-3"><i class="bi bi-twitter fs-4"></i></a>
         <a href="#" class="text-light"><i class="bi bi-linkedin fs-4"></i></a>
       </div>
     </div>
 
     <hr class="mt-4">
     <div class="text-center">
-      <p class="mb-0">&copy; 2025 Your Printing Brand. All rights reserved.</p>
+      <p class="mb-0">&copy; {{ date() }} Your Printing Brand. All rights reserved.</p>
     </div>
   </div>
 </footer>

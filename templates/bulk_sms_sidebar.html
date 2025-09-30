@@ -1,0 +1,107 @@
+    <!-- CoreUI Header (for sidebar toggle only) -->
+
+<div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar">
+      <div class="sidebar-header border-bottom">
+
+        <button class="btn-close d-lg-none " type="button" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector(&quot;#sidebar&quot;)).toggle()"></button>
+      </div>
+      <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+        <li class="nav-item">
+            <a class="nav-link all {% if the_name ==  'var' %}active-tab-all{% endif %}" style=" {% if the_name ==  'var' %} color: #007bff !important; {% endif %}" href="{{ url_for('dashboard') }}">
+            <svg style=" {% if the_name ==  'var' %} color: #007bff !important; {% endif %}" class="nav-icon all-icon">
+              <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-speedometer"></use>
+            </svg> Dashboard
+            </a>
+        </li>
+
+        <li class="nav-title">Services</li>
+
+
+<li class="nav-group">
+  <a class="nav-link" href="{{ url_for('contacts') }}">
+    <svg class="nav-icon">
+        <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-people"></use>
+    </svg>
+    Contacts
+  </a>
+
+</li>
+          <li class="nav-group">
+  <a class="nav-link " href="#">
+    <svg class="nav-icon">
+        <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-send"></use>
+    </svg>
+    Send Message
+  </a>
+</li>
+
+          <li class="nav-group">
+  <a class="nav-link nav-group-toggle " href="#">
+    <svg class="nav-icon">
+        <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-bar-chart"></use>
+    </svg>
+    Reports
+  </a>
+      <ul class="nav-group-items ms-3">
+        <li class="nav-item">
+          <a class="nav-link bul" href="{{ url_for('report.delivery_report') }}">
+            <span class="nav-icon"><span class="nav-icon-bullet"></span></span> Delivery Reports
+          </a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link bul" href="">
+            <span class="nav-icon"><span class="nav-icon-bullet"></span></span> Message History
+          </a>
+        </li>
+      </ul>
+</li>
+
+<li class="nav-group">
+  <a class="nav-link nav-group-toggle " href="#">
+    <svg class="nav-icon">
+        <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-wallet"></use>
+    </svg>
+    Wallet
+  </a>
+      <ul class="nav-group-items ms-3">
+        <li class="nav-item">
+          <a class="nav-link bul" href="{{ url_for('wallet') }}">
+            <span class="nav-icon"><span class="nav-icon-bullet"></span></span> Add Funds
+          </a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link bul" href="{{ url_for('transactions') }}">
+            <span class="nav-icon"><span class="nav-icon-bullet"></span></span> Transaction History
+          </a>
+        </li>
+      </ul>
+</li>
+
+  <li class="nav-group">
+  <a class="nav-link nav-group-toggle " href="#">
+    <svg class="nav-icon">
+        <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-settings"></use>
+    </svg>
+    Settings
+  </a>
+      <ul class="nav-group-items ms-3">
+        <li class="nav-item">
+          <a class="nav-link bul" href="">
+            <span class="nav-icon"><span class="nav-icon-bullet"></span></span> Update Profile
+          </a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link bul" href="">
+            <span class="nav-icon"><span class="nav-icon-bullet"></span></span> Change Password
+          </a>
+        </li>
+      </ul>
+</li>
+
+
+
+      </ul>
+      <div class="sidebar-footer border-top d-none d-md-flex">
+        <button class="sidebar-toggler c" type="button" data-coreui-toggle="unfoldable"></button>
+      </div>
+    </div>

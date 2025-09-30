@@ -1,5 +1,13 @@
 {% extends "base.html" %}
-{% block title %}Gregbuk{% endblock %}
+{% block title %}All Service{% endblock %}
+{% block style %}
+    html[data-coreui-theme="light"] .active-tab-all{
+        color: white !important;
+    }
+    html[data-coreui-theme="light"] .active-tab-all .all-icon{
+        color: white !important;
+    }
+{% endblock %}
 {% block content %}
     <main>
   <!-- Hero Section -->
@@ -35,10 +43,10 @@
   <div class="container-fluid my-md-3">
       {% for row in rows %}
           <div class="d-md-flex flex-md-equal justify-content-center mb-3">
-            <div class="row mb-3">
-                <div class="col-md-6">
+            <div class="row mb-3 all-card-row">
+                <div class="col-md-6 all-service-card">
                     <a href="{{ url_for('services', name=row[0].category_name) }}"
-                       class="text-decoration-none text-reset d-block card-link">
+                       class="text-decoration-none text-reset d-block card-link all-service-card-link">
                         <div class="text-bg-dark pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden card-hover">
                           <div class="my-3 py-3">
                             <h2 class="display-5" style="font-size: 270%;">{{row[0].name}}</h2>
@@ -50,9 +58,9 @@
                     </a>
                 </div>
             {% if row|length == 2 %}
-                <div class="col-md-6">
+                <div class="col-md-6 all-service-card">
                     <a href="{{ url_for('services', name=row[1].category_name) }}"
-                       class="text-decoration-none text-reset d-block card-link">
+                       class="text-decoration-none text-reset d-block card-link all-service-card-link">
                         <div class="bg-body-tertiary pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden card-hover">
                           <div class="my-3 p-3">
                             <h2 class="display-5" style="font-size: 270%;">{{row[1].name}}</h2>
