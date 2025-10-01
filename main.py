@@ -38,8 +38,8 @@ login_manager = LoginManager(app)
 login_manager.login_view = "login"
 logger = logging.getLogger(__name__)
 
-PAYSTACK_PUBLIC_KEY = "pk_test_10d987b1938d5cfbdc8479fea0238bb7db38e015"
-PAYSTACK_SECRET_KEY = "sk_test_adc0139baf8d91f8480325b309a6769c2c9e5c17"
+PAYSTACK_PUBLIC_KEY = os.getenv("PAYSTACK_PUBLIC_KEY")
+PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 UPLOAD_FOLDER = "uploads"
 ALLOWED = {"csv", "xlsx"}
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)   # ensure folder exists
