@@ -1,7 +1,7 @@
 from celery import Celery
 from flask import current_app
 from datetime import datetime, timezone
-from db import Message, ContactTransact, Gateway, SMSPricing, db
+from db import Message, ContactTransact, Gateway, SMSPricing, db,Contact
 from gateway import send_sms_via_gateway, normalize_number, chunk_list, get_gateway_balance
 from main import create_app
 import redis
@@ -82,13 +82,31 @@ def process_messages(self, message_id: int):
             ContactTransact.status.in_(["pending", "retrying"])
         ).all()
 
-        if not pending_cts:
-            msg.status = "completed"
-            db.session.commit()
-            current_app.logger.info(f"[Task] No pending contacts for Message {message_id}.")
-            return {"status": "ok", "processed": 0}
+        # ----------------------------
+        # Filter out invalid contact_ids
+        # ----------------------------
+        valid_cts = []
+        for ct in pending_cts:
+            if ct.contact_id and ct.contact_id > 0:
+                valid_cts.append(ct)
+            else:
+                ct.status = "failed"
+                ct.error_message = "Invalid contact_id"
+                ct.updated_at = datetime.now(timezone.utc)
+                db.session.add(ct)
+        db.session.commit()
 
+        if not valid_cts:
+            msg.status = "failed"
+            db.session.commit()
+            current_app.logger.warning(f"[Task] All ContactTransact rows for Message {message_id} have invalid contact_id.")
+            return {"status": "error", "reason": "invalid_contact_ids"}
+
+        pending_cts = valid_cts
+
+        # ----------------------------
         # Load active gateways
+        # ----------------------------
         gateways = {g.id: g for g in Gateway.query.filter_by(active=True).order_by(Gateway.id).all()}
         if not gateways:
             msg.status = "failed"
