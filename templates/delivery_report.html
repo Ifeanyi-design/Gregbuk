@@ -62,10 +62,19 @@ async function loadDeliveryData() {
                 data: data.messages_chart_data,
                 backgroundColor: 'rgba(54, 162, 235, 0.6)'
             }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
         }
     });
 
-    // Doughnut chart
+    // Doughnut chart for delivery status
     const ctx2 = document.getElementById('statusChart').getContext('2d');
     new Chart(ctx2, {
         type: 'doughnut',
@@ -79,6 +88,12 @@ async function loadDeliveryData() {
                     'rgba(255, 99, 132, 0.7)'
                 ]
             }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
         }
     });
 }

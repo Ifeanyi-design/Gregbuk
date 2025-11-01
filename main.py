@@ -19,7 +19,8 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 from flask_bcrypt import Bcrypt
 import re
 import pandas as pd
-
+from routes import bp
+from flask_migrate import Migrate
 
 
 def create_app():
@@ -27,12 +28,15 @@ def create_app():
     app.config.from_object(Config)
     app.config["SECRET_KEY"] = "hellodear"
     db.init_app(app)
+    Migrate(app, db)
     with app.app_context():
         db.create_all()  # creates tables
 
     return app
 
 app = create_app()
+
+
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
@@ -43,6 +47,8 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 UPLOAD_FOLDER = "uploads"
 ALLOWED = {"csv", "xlsx"}
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)   # ensure folder exists
+
+app.register_blueprint(bp)
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED
@@ -312,7 +318,23 @@ def all():
 @login_required
 def bulk_sms():
     the_name = 'var'
-    return render_template("dashboard.html", the_name=the_name, bulkk_sms=True)
+    show_welcome_toast = False
+    the_name = 'var'
+    if current_user.new:
+        current_user.new = False
+        show_welcome_toast = True
+        db.session.commit()
+    total = Message.query.filter_by(user_id=current_user.id).count()
+    delivered = Message.query.filter_by(user_id=current_user.id, status="delivered").count()
+    pending = Message.query.filter_by(user_id=current_user.id, status="pending").count()
+    failed = Message.query.filter_by(user_id=current_user.id, status="failed").count()
+    recent_messages = ContactTransact.query.order_by(ContactTransact.created_at.desc()).limit(5).all()
+
+    delivery_rate = (delivered / total * 100) if total > 0 else 0
+
+    return render_template("dashboard.html", recent_messages=recent_messages, the_name=the_name,
+                           delivery_rate=delivery_rate, total=total, delivered=delivered, pending=pending,
+                           failed=failed, bulkk_sms=True, show_welcome_toast=show_welcome_toast)
 
 @app.route("/about-us")
 def about_us():
@@ -446,10 +468,11 @@ def dashboard():
     delivered = Message.query.filter_by(user_id=current_user.id, status="delivered").count()
     pending = Message.query.filter_by(user_id=current_user.id, status="pending").count()
     failed = Message.query.filter_by(user_id=current_user.id, status="failed").count()
+    recent_messages = ContactTransact.query.order_by(ContactTransact.created_at.desc()).limit(5).all()
 
     delivery_rate = (delivered / total * 100) if total > 0 else 0
 
-    return render_template("dashboard.html", the_name=the_name, delivery_rate=delivery_rate, total=total, delivered=delivered, pending=pending, failed=failed, bulkk_sms=True, show_welcome_toast=show_welcome_toast)
+    return render_template("dashboard.html", recent_messages=recent_messages, the_name=the_name, delivery_rate=delivery_rate, total=total, delivered=delivered, pending=pending, failed=failed, bulkk_sms=True, show_welcome_toast=show_welcome_toast)
 
 @app.route("/api/stats")
 @login_required

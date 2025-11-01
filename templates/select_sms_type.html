@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .sms-card {
+        transition: transform 0.2s, box-shadow 0.2s;
+        cursor: pointer;
+    }
+
+    .sms-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .sms-icon {
+        font-size: 3rem;
+        transition: transform 0.2s;
+    }
+
+    .sms-card:hover .sms-icon {
+        transform: scale(1.2);
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Choose SMS Type</h2>
+    <p class="text-center">Select whether you want to send a single SMS or a bulk campaign.</p>
+
+    <div class="row justify-content-center mt-4">
+        <!-- Manual SMS Card -->
+        <div class="col-md-4 mb-3">
+            <div class="card sms-card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-person-fill sms-icon" style="color: #0d6efd;"></i>
+                    <h4 class="card-title mt-3">Manual SMS</h4>
+                    <p class="card-text">Send an SMS to a single contact instantly.</p>
+                    <a href="{{ url_for('main.send_bulk_sms_manually') }}" class="btn btn-primary w-100">Send Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bulk SMS Card -->
+        <div class="col-md-4 mb-3">
+            <div class="card sms-card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-people-fill sms-icon" style="color: #198754;"></i>
+                    <h4 class="card-title mt-3">Bulk SMS</h4>
+                    <p class="card-text">Send a message to multiple contacts at once.</p>
+                    <a href="{{ url_for('main.send_sms_phonebook') }}" class="btn btn-success w-100">Send Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

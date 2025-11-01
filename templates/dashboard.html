@@ -141,14 +141,14 @@
                 </thead>
                 <tbody>
                 {% for msg in recent_messages or [
-                    {'date':'Sept 21, 2025','recipient':'0803****123','body':'Hello, welcome!','status':'delivered'},
-                    {'date':'Sept 20, 2025','recipient':'0706****567','body':'Reminder: Meeting tomorrow','status':'pending'},
-                    {'date':'Sept 19, 2025','recipient':'0812****890','body':'Promo: Get 20% off!','status':'failed'}
+                    {'created_at':'Sept 21, 2025','phone_number':'0803****123','message':'Hello, welcome!','status':'delivered'},
+                    {'created_at':'Sept 20, 2025','phone_number':'0706****567','message':'Reminder: Meeting tomorrow','status':'pending'},
+                    {'sent_at':'Sept 19, 2025','phone_number':'0812****890','message':'Promo: Get 20% off!','status':'failed'}
                 ] %}
                     <tr>
-                        <td>{{ msg.date }}</td>
-                        <td>{{ msg.recipient }}</td>
-                        <td>{{ msg.body }}</td>
+                        <td>{{ msg.created_at.strftime("%b %d, %Y") }}</td>
+                        <td>{{ msg.phone_number }}</td>
+                        <td>{{ msg.message.message or message }}</td>
                         <td>
                             {% if msg.status == "delivered" %}
                                 <span class="badge bg-success">Delivered</span>

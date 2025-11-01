@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from datetime import datetime, timezone
 from sqlalchemy import Enum, Numeric, event
 from decimal import Decimal
+from flask import current_app
 
 db = SQLAlchemy()
 
@@ -89,6 +90,9 @@ class Message(db.Model):
     message = db.Column(db.Text, nullable=False)
     scheduled_at = db.Column(db.DateTime, nullable=True)  # for scheduling
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    raw_status = db.Column(db.String(100), nullable=True)
+    units = db.Column(db.Integer, default=0)
+    cost = db.Column(db.Numeric(10, 2), default=0.00)
 
     # Relationship
     transactions = db.relationship("ContactTransact", backref="message", cascade="all, delete-orphan", lazy=True)
@@ -121,7 +125,7 @@ class Variable(db.Model):
     content = db.Column(db.String(255), nullable=False)  # e.g., "John"
 
 class SMSPricing(db.Model):
-    _tablename_ = "sms_pricing"
+    __tablename__ = "sms_pricing"
     id = db.Column(db.Integer, primary_key=True)
     sms_type = db.Column(db.String(50), unique=True, nullable=False)  # 'local' or 'international'
     price_per_sms = db.Column(db.Numeric(10, 2), nullable=False)      # Cost per SMS in ₦
@@ -136,12 +140,18 @@ class Wallet(db.Model):
     transactions = db.relationship("Transaction", backref="wallet", lazy=True, cascade="all, delete-orphan")
 
 class Gateway(db.Model):
+    __tablename__ = "gateway"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True, nullable=False)
-    api_key = db.Column(db.String(255), nullable=False)
-    max_per_sec = db.Column(db.Integer, default=1)
-    active = db.Column(db.Boolean, default=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)       # e.g., "Termii" or "Africa's Talking"
+    api_key = db.Column(db.String(255), nullable=False)                 # API key for the gateway
+    username = db.Column(db.String(100), nullable=True)                 # Needed for Africa's Talking
+    sender_id = db.Column(db.String(50), nullable=True)                 # Sender ID to display on recipients
+    max_per_sec = db.Column(db.Integer, default=1)                      # Optional: rate limiting
+    active = db.Column(db.Boolean, default=True)                        # Enable/disable gateway
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    priority = db.Column(db.Integer, default=1)
+    country = db.Column(db.String(50), nullable=True)
 
 class Transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -166,6 +176,22 @@ class ContactTransact(db.Model):
     error_message = db.Column(db.Text, nullable=True)  # store failure reason if any
     variables_applied = db.Column(db.JSON, nullable=True)  # optional: store personalized values used
     gateway = db.Column(db.String(50), nullable=True)
+    retry_count = db.Column(db.Integer, default=0)
+    sent_at=db.Column(db.DateTime, nullable=True)
+    last_attempt_at = db.Column(db.DateTime, nullable=True)
+    response_id = db.Column(db.String(100), nullable=True, index=True)
+    raw_status = db.Column(db.String(100), nullable=True)
+    # NEW FIELD: tracks if the gateway has charged this contact
+    gateway_charged = db.Column(db.Boolean, default=False)
+
+    def refund(self):
+        """
+        Implement your refund logic here. Example:
+        Only refund if gateway_charged is False.
+        """
+        if not self.gateway_charged:
+            # call your payment/refund API
+            current_app.logger.info(f"Refunding contact {self.phone_number}")
 
 
 class ProductCollection(db.Model):

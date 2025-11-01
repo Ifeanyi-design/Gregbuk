@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Send Bulk SMS (Manual Entry)</h2>
+  <form id="bulkSmsForm">
+    <div class="mb-3">
+      <label for="campaign_name" class="form-label">Campaign Name</label>
+      <input type="text" class="form-control" id="campaign_name" placeholder="Optional">
+    </div>
+
+    <div class="mb-3">
+      <label for="message" class="form-label">Message</label>
+      <textarea class="form-control" id="message" rows="3" required></textarea>
+      <small id="messageCounter" class="text-muted">0 / 160 characters (1 SMS)</small>
+    </div>
+
+    <div class="mb-3">
+      <label for="contacts" class="form-label">Phone Numbers</label>
+      <textarea class="form-control" id="contacts" rows="5"
+        placeholder="Enter numbers separated by commas or new lines" required></textarea>
+      <small class="text-muted" id="contactsPreview">0 numbers detected</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Send</button>
+  </form>
+
+  <div id="responseMessage" class="mt-3"></div>
+</div>
+
+<script>
+function parseContacts(raw) {
+  return raw
+    .split(/[\n,]+/)          // split on commas or newlines
+    .map(c => c.trim())       // trim spaces
+    .filter(Boolean);         // remove empty
+}
+
+// ✅ Live contacts preview
+document.getElementById("contacts").addEventListener("input", function() {
+  const contacts = parseContacts(this.value);
+  const uniqueContacts = [...new Set(contacts)];
+
+  let previewText = `${uniqueContacts.length} numbers detected`;
+  if (uniqueContacts.length > 0) {
+    previewText += ` (first 3: ${uniqueContacts.slice(0,3).join(", ")}${uniqueContacts.length > 3 ? "..." : ""})`;
+  }
+  document.getElementById("contactsPreview").innerText = previewText;
+});
+
+// ✅ Live message character counter
+document.getElementById("message").addEventListener("input", function() {
+  const length = this.value.length;
+  const smsParts = Math.ceil(length / 160) || 1;
+  const counter = document.getElementById("messageCounter");
+
+  counter.innerText = `${length} / 160 characters (${smsParts} SMS${smsParts > 1 ? "s" : ""})`;
+  counter.classList.toggle("text-danger", length > 160);
+});
+
+// ✅ Submit form
+document.getElementById("bulkSmsForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const campaign_name = document.getElementById("campaign_name").value;
+  const message = document.getElementById("message").value.trim();
+  const contactsRaw = document.getElementById("contacts").value.trim();
+  const contacts = [...new Set(parseContacts(contactsRaw))];
+
+  if (!message || contacts.length === 0) {
+    alert("Please enter a message and at least one phone number.");
+    return;
+  }
+
+  try {
+    const res = await fetch("/send_bulk_sms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ campaign_name, message, contacts })
+    });
+
+    const data = await res.json();
+    document.getElementById("responseMessage").innerText = data.message || "Done";
+  } catch (err) {
+    document.getElementById("responseMessage").innerText = "Error sending request.";
+  }
+});
+</script>
+{% endblock %}

@@ -6,6 +6,8 @@
         <div class="mb-3">
             <label for="campaign_name" class="form-label">Campaign Name</label>
             <input id="campaign_name" class="form-control" name="campaign_name" type="text">
+        </div>
+        <div class="mb-3">
             <label for="group" class="form-label">Select Group</label>
             <select id="group" name="group" class="form-control">
                 {% for group in groups %}
@@ -16,6 +18,7 @@
         <div class="mb-3">
             <label for="message" class="form-label">Message</label>
             <textarea id="message" name="message" class="form-control" rows="4"></textarea>
+            <small id="charCount" class="text-muted">0 characters (0 SMS part)</small>
         </div>
         <button type="submit" class="btn btn-primary">Send SMS</button>
     </form>
@@ -34,6 +37,18 @@ function showNotification(type, message) {
     notif.classList.remove("d-none");
 }
 
+// --- Character Counter Logic ---
+const messageBox = document.getElementById("message");
+const charCount = document.getElementById("charCount");
+
+messageBox.addEventListener("input", function () {
+    const len = messageBox.value.length;
+    // Each SMS is 160 chars, round up for parts
+    const parts = len > 0 ? Math.ceil(len / 160) : 0;
+    charCount.textContent = `${len} characters (${parts} SMS part${parts !== 1 ? 's' : ''})`;
+});
+
+// --- Submit Logic ---
 document.getElementById("bulkSmsForm").addEventListener("submit", async function(e){
     e.preventDefault();
 
