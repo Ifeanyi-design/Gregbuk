@@ -1,3 +1,1 @@
-web: gunicorn main:app
-worker1: celery -A tasks.celery worker --loglevel=info -Q queue1
-worker2: celery -A tasks.celery worker --loglevel=info -Q queue2
+web: bash -c "celery -A tasks.celery worker --loglevel=info & gunicorn main:app --bind 0.0.0.0:$PORT"
