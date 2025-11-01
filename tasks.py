@@ -6,7 +6,7 @@ from gateway import send_sms_via_gateway, normalize_number, chunk_list, get_gate
 from main import create_app
 import redis
 import uuid
-
+import os
 # ---------------------------------------------------------------------
 # CONFIGURATION
 # ---------------------------------------------------------------------
@@ -20,8 +20,8 @@ LOCK_TIMEOUT = 300       # 5 minutes lock to prevent duplicates
 # ---------------------------------------------------------------------
 celery = Celery(
     "tasks",
-    broker="redis://localhost:6379/0",
-    backend="redis://localhost:6379/1"
+    broker=os.getenv("REDIS_URL", "redis://localhost:6379/0"),
+    backend=os.getenv("REDIS_URL", "redis://localhost:6379/1")
 )
 
 flask_app = create_app()

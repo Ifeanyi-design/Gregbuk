@@ -141,12 +141,16 @@
                 </thead>
                 <tbody>
                 {% for msg in recent_messages or [
-                    {'created_at':'Sept 21, 2025','phone_number':'0803****123','message':'Hello, welcome!','status':'delivered'},
-                    {'created_at':'Sept 20, 2025','phone_number':'0706****567','message':'Reminder: Meeting tomorrow','status':'pending'},
+                    {'sent_at':'Sept 21, 2025','phone_number':'0803****123','message':'Hello, welcome!','status':'delivered'},
+                    {'sent_at':'Sept 20, 2025','phone_number':'0706****567','message':'Reminder: Meeting tomorrow','status':'pending'},
                     {'sent_at':'Sept 19, 2025','phone_number':'0812****890','message':'Promo: Get 20% off!','status':'failed'}
                 ] %}
                     <tr>
-                        <td>{{ msg.created_at.strftime("%b %d, %Y") }}</td>
+                        <td>{% if msg.created_at %}
+                        {{msg.created_at.strftime("%b %d, %Y")}}
+                        {%else%}
+                        {{msg.sent_at}}
+                        {%endif%}</td>
                         <td>{{ msg.phone_number }}</td>
                         <td>{{ msg.message.message or message }}</td>
                         <td>
