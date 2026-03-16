@@ -1,39 +1,39 @@
-<footer class="bg-dark text-light foooter pt-5 pb-4">
-  <div class="container-fluid text-md-left">
-    <div class="row text-md-left">
+<footer class="foooter pt-5 pb-4">
+  <div class="container-xl text-md-left">
+    <div class="row text-md-left g-4">
 
       <!-- Company Info -->
       <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-        <h5 class="text-uppercase mb-4 fw-bold text-warning">{{ company_name|default('Gregbuk Intl Company Ltd', true) }}</h5>
-        <p>
+        <h5 class="footer-heading text-uppercase mb-3 fw-bold">{{ company_name|default('Gregbuk Intl Company Ltd', true) }}</h5>
+        <p class="footer-copy mb-0">
           Corporate identity, secure document production, digital ID solutions, and enterprise branding services designed for institutions and growing businesses.
         </p>
       </div>
 
       <!-- Services -->
       <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-        <h5 class="text-uppercase mb-4 fw-bold text-warning">Services</h5>
-        <p><a href="{{ url_for('all') }}" class="text-light text-decoration-none">Corporate Printing</a></p>
-        <p><a href="{{ url_for('home') }}#digital-id-solutions" class="text-light text-decoration-none">Digital ID Solutions</a></p>
-        <p><a href="{{ url_for('all') }}" class="text-light text-decoration-none">Document Security</a></p>
-        <p><a href="{{ url_for('all') }}" class="text-light text-decoration-none">Branding & Signage</a></p>
+        <h5 class="footer-heading text-uppercase mb-3 fw-bold">Services</h5>
+        <p class="mb-2"><a href="{{ url_for('all') }}" class="footer-link text-decoration-none">Corporate Printing</a></p>
+        <p class="mb-2"><a href="{{ url_for('home') }}#digital-id-solutions" class="footer-link text-decoration-none">Digital ID Solutions</a></p>
+        <p class="mb-2"><a href="{{ url_for('all') }}" class="footer-link text-decoration-none">Document Security</a></p>
+        <p class="mb-0"><a href="{{ url_for('all') }}" class="footer-link text-decoration-none">Branding & Signage</a></p>
       </div>
 
       <!-- Useful Links -->
       <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
-        <h5 class="text-uppercase mb-4 fw-bold text-warning">Useful Links</h5>
-        <p><a href="{{ url_for('home') }}" class="text-light text-decoration-none">Home</a></p>
-        <p><a href="{{ url_for('about_us') }}" class="text-light text-decoration-none">About Us</a></p>
-        <p><a href="{{ url_for('contact') }}" class="text-light text-decoration-none">Contact</a></p>
+        <h5 class="footer-heading text-uppercase mb-3 fw-bold">Useful Links</h5>
+        <p class="mb-2"><a href="{{ url_for('home') }}" class="footer-link text-decoration-none">Home</a></p>
+        <p class="mb-2"><a href="{{ url_for('about_us') }}" class="footer-link text-decoration-none">About Us</a></p>
+        <p class="mb-0"><a href="{{ url_for('contact') }}" class="footer-link text-decoration-none">Contact</a></p>
       </div>
 
       <!-- Contact -->
       <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-        <h5 class="text-uppercase mb-4 fw-bold text-warning">Contact</h5>
-        <p><i class="bi bi-house-door"></i> {{ company_address|default('[COMPANY_ADDRESS_HERE]', true) }}</p>
-        <p><i class="bi bi-envelope"></i> <a style="text-decoration: none;" href="mailto:{{ company_email|default('info@example.com', true) }}">{{ company_email|default('[COMPANY_EMAIL_HERE]', true) }}</a></p>
-        <p><i class="bi bi-phone"></i> <a style="text-decoration: none;" href="tel:{{ company_phone_primary|default('+00000000000', true) }}">{{ company_phone_primary|default('[COMPANY_PHONE_PRIMARY]', true) }}</a></p>
-        <p><i class="bi bi-telephone-plus"></i> <a style="text-decoration: none;" href="tel:{{ company_phone_secondary|default('+00000000000', true) }}">{{ company_phone_secondary|default('[COMPANY_PHONE_SECONDARY]', true) }}</a></p>
+        <h5 class="footer-heading text-uppercase mb-3 fw-bold">Contact</h5>
+        <p class="footer-copy mb-2"><i class="bi bi-house-door me-2"></i>{{ company_address|default('[COMPANY_ADDRESS_HERE]', true) }}</p>
+        <p class="mb-2"><i class="bi bi-envelope me-2"></i><a class="footer-link text-decoration-none" href="mailto:{{ company_email|default('info@example.com', true) }}">{{ company_email|default('[COMPANY_EMAIL_HERE]', true) }}</a></p>
+        <p class="mb-2"><i class="bi bi-phone me-2"></i><a class="footer-link text-decoration-none" href="tel:{{ company_phone_primary|default('+00000000000', true) }}">{{ company_phone_primary|default('[COMPANY_PHONE_PRIMARY]', true) }}</a></p>
+        <p class="mb-0"><i class="bi bi-telephone-plus me-2"></i><a class="footer-link text-decoration-none" href="tel:{{ company_phone_secondary|default('+00000000000', true) }}">{{ company_phone_secondary|default('[COMPANY_PHONE_SECONDARY]', true) }}</a></p>
       </div>
 
     </div>
@@ -41,16 +41,16 @@
     <!-- Social icons -->
     <div class="row mt-4">
       <div class="col-md-12 text-center">
-        <a href="https://www.facebook.com/gregbuk" class="text-light me-3"><i class="bi bi-facebook fs-4"></i></a>
-        <a href="#" class="text-light me-3"><i class="bi bi-instagram fs-4"></i></a>
-        <a href="https://x.com/gregbuk1?s=08" class="text-light me-3"><i class="bi bi-twitter fs-4"></i></a>
-        <a href="#" class="text-light"><i class="bi bi-linkedin fs-4"></i></a>
+        <a href="https://www.facebook.com/gregbuk" class="social-link me-2" aria-label="Facebook"><i class="bi bi-facebook fs-5"></i></a>
+        <a href="#" class="social-link me-2" aria-label="Instagram"><i class="bi bi-instagram fs-5"></i></a>
+        <a href="https://x.com/gregbuk1?s=08" class="social-link me-2" aria-label="Twitter"><i class="bi bi-twitter fs-5"></i></a>
+        <a href="#" class="social-link" aria-label="LinkedIn"><i class="bi bi-linkedin fs-5"></i></a>
       </div>
     </div>
 
     <hr class="mt-4">
     <div class="text-center">
-      <p class="mb-0">&copy; {{ current_year }} {{ company_name|default('Gregbuk Intl Company Ltd', true) }}. All rights reserved.</p>
+      <p class="mb-0 footer-copy">&copy; {{ current_year }} {{ company_name|default('Gregbuk Intl Company Ltd', true) }}. All rights reserved.</p>
     </div>
   </div>
 </footer>

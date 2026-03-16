@@ -72,6 +72,10 @@
 
 {% block content %}
 <main class="container-xl services-main pb-5">
+  {% set cards_service = services|selectattr('name', 'equalto', 'Cards')|list|first %}
+  {% set marketing_service = services|selectattr('name', 'equalto', 'Marketing Essentials')|list|first %}
+  {% set signs_service = services|selectattr('name', 'equalto', 'Signs & Banners')|list|first %}
+
   <section class="services-hero p-4 p-md-5 mb-4 mb-md-5">
     <div class="row">
       <div class="col-lg-8">
@@ -103,7 +107,7 @@
             <li>Event, visibility, and campaign print production</li>
             <li>Quality finishing and delivery coordination</li>
           </ul>
-          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Request Service Inquiry</a>
+          <a href="{% if marketing_service %}{{ url_for('services', name=marketing_service.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-primary">Explore Related Category</a>
         </div>
       </div>
 
@@ -117,7 +121,7 @@
             <li>Ribbons, PVC cards, and consumables supply</li>
             <li>Issuance workflow support for schools and institutions</li>
           </ul>
-          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Request ID Solution</a>
+          <a href="{% if cards_service %}{{ url_for('services', name=cards_service.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-primary">Explore Related Category</a>
         </div>
       </div>
 
@@ -131,7 +135,7 @@
             <li>Pharmaceutical-related distribution support</li>
             <li>Supply planning and fulfillment coordination</li>
           </ul>
-          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Discuss Distribution Needs</a>
+          <a href="{% if signs_service %}{{ url_for('services', name=signs_service.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-primary">Explore Related Category</a>
         </div>
       </div>
 
@@ -162,6 +166,34 @@
           <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Start Corporate Support Request</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="live-service-categories" class="mb-5">
+    <div class="mb-3">
+      <h2 class="section-title mb-2">Browse Live Service Categories</h2>
+      <p class="section-subtitle mb-0">Use these dynamic links to open specific service, subservice, and product pages.</p>
+    </div>
+    <div class="row g-3">
+      {% for svc in services %}
+        <div class="col-md-6 col-lg-4">
+          <div class="service-group-card p-3 h-100">
+            <h5 class="mb-2">{{ svc.name }}</h5>
+            <p class="text-muted small mb-3">{{ svc.description or 'Corporate service category.' }}</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="{{ url_for('services', name=svc.category_name) }}" class="btn btn-outline-secondary btn-sm">Open Category</a>
+              {% if svc.sub_service and svc.sub_service|length > 0 %}
+                <a href="{{ url_for('services', name=svc.category_name, sec=svc.sub_service[0].category_name) }}" class="btn btn-outline-primary btn-sm">First Subservice</a>
+                {% if svc.sub_service[0].products and svc.sub_service[0].products|length > 0 %}
+                  <a href="{{ url_for('services', name=svc.category_name, sec=svc.sub_service[0].category_name, pro=svc.sub_service[0].products[0].category_name) }}" class="btn btn-primary btn-sm">Sample Detail</a>
+                {% endif %}
+              {% elif svc.products and svc.products|length > 0 %}
+                <a href="{{ url_for('services', name=svc.category_name, sec=svc.products[0].category_name) }}" class="btn btn-primary btn-sm">Sample Detail</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
     </div>
   </section>
 

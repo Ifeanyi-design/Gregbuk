@@ -279,7 +279,6 @@ def services(name=None, sec=None, pro=None):
     elif name and sec:
         if Services.query.filter_by(category_name=name).first():
             if SubService.query.filter_by(category_name=sec).first():
-                print("hello")
                 the_name = name
                 templates = "subservice.html"
                 data = SubService.query.filter_by(category_name=sec).first()
@@ -303,7 +302,7 @@ def services(name=None, sec=None, pro=None):
     the_data = data
     header = Header.query.all()
     service = Services.query.all()
-    change=False
+    change=True
     rows = [service[n:n+2] for n in range(0, len(service), 2)]
     random_service = [choice(service), choice(service)]
     return render_template(f"{templates}", the_data=the_data, random_service=random_service, rows=rows, change=change, header=header, services=service, the_name=the_name)
@@ -313,7 +312,7 @@ def all():
     the_name = "var"
     header = Header.query.all()
     service = Services.query.all()
-    change=False
+    change=True
     rows = [service[n:n+2] for n in range(0, len(service), 2)]
     random_service = [choice(service), choice(service)]
     return render_template('all_services.html', random_service=random_service, rows=rows, change=change, header=header, services=service, the_name=the_name)

@@ -1,125 +1,220 @@
 {% extends "base.html" %}
+{% block title %}{{ the_data.name }}{% endblock %}
+
 {% block style %}
-  .products .img:hover{
-    opacity: 70%;
+  :root {
+    --brand-primary: #004aad;
+    --brand-muted: #6b7280;
+  }
+
+  .product-main {
+    margin-top: 84px;
+  }
+
+  .product-hero {
+    background: linear-gradient(120deg, rgba(15, 28, 47, 0.92), rgba(0, 74, 173, 0.84));
+    color: #fff;
+    border-radius: 1rem;
+  }
+
+  .section-title {
+    color: var(--brand-primary);
+    font-weight: 700;
+  }
+
+  .nav-chip {
+    border-radius: 999px;
+    border: 1px solid #d9e5f6;
+    background: #fff;
+    color: #1f2a3a;
+    font-weight: 500;
+  }
+
+  .nav-chip.active {
+    background: #eaf2ff;
+    border-color: #bfd5fb;
+  }
+
+  .main-image,
+  .info-card,
+  .related-card {
+    border: 1px solid #e7edf6;
+    border-radius: 0.9rem;
+    background: #fff;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .main-image img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+  }
+
+  .thumb-image {
+    border: 1px solid #e7edf6;
+    border-radius: 0.7rem;
+    overflow: hidden;
+  }
+
+  .thumb-image img {
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+  }
+
+  .related-card img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 991.98px) {
+    .product-main {
+      margin-top: 76px;
+    }
   }
 {% endblock %}
+
 {% block content %}
-  <div class="container-fluid upp" style="margin-top: 9%; margin-bottom: 0px; z-index: 2;" >
+<main class="container-xl product-main pb-5">
+  {% set parent_service = the_data.subservice.services if the_data.subservice else the_data.services %}
+  {% set parent_sub = the_data.subservice %}
+  {% set sibling_products = parent_sub.products if parent_sub else parent_service.products %}
+  {% set primary_image = the_data.image_collections[0].image_collections if the_data.image_collections|length > 0 else the_data.image_url %}
+
+  <section class="mb-3">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
         <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
         <li class="breadcrumb-item"><a href="{{ url_for('all') }}">Services</a></li>
-        {% if not the_data.subservice %}
-          <li class="breadcrumb-item"><a href="{{ url_for('services', name=the_data.services.category_name) }}">{{the_data.services.name}}</a></li>
-        {% else %}
-          <li class="breadcrumb-item"><a href="{{ url_for('services', name=the_data.subservice.services.category_name) }}">{{the_data.subservice.services.name}}</a></li>
-          <li class="breadcrumb-item"><a href="{{ url_for('services', name=the_data.subservice.services.category_name, sec=the_data.subservice.category_name) }}">{{the_data.subservice.name}}</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('services', name=parent_service.category_name) }}">{{ parent_service.name }}</a></li>
+        {% if parent_sub %}
+          <li class="breadcrumb-item"><a href="{{ url_for('services', name=parent_service.category_name, sec=parent_sub.category_name) }}">{{ parent_sub.name }}</a></li>
         {% endif %}
         <li class="breadcrumb-item active" aria-current="page">{{ the_data.name }}</li>
       </ol>
     </nav>
-  </div>
+  </section>
 
-
-  <div class="row flex-lg-row-reverse service-hero g-5 mb-5 pb-5 container-fluid" >
-    <div class="col-12 col-sm-12 order-2 order-lg-1 service-c col-lg-7" >
-        <div id="myCarousel" class="carousel slide mb-2" data-bs-ride="carousel" >
-          <div class="carousel-indicators" >
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
-            {% for i in range(1, 3) %}
-              {% if the_data.image_collections|length >= i %}
-                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ i }}" aria-label="Slide {{i+1}}" class=""></button>
-              {% endif %}
-            {% endfor %}
-          </div>
-          <div class="carousel-inner" >
-            <div class="carousel-item active" >
-              {% if the_data.image_collections|length == 0 %}
-                <img src="{{ url_for('static', filename='images/'+the_data.image_url) }}">
-              {% else %}
-                <img src="{{ url_for('static', filename='images/'+the_data.image_collections[0].image_collections) }}">
-              {% endif %}
-            </div>
-            {% for n in range(1, 3) %}
-              {% if the_data.image_collections|length != 0 %}
-                      <div class="carousel-item">
-                        <img src="{{ url_for('static', filename='images/'+the_data.image_collections[n].image_collections) }}">
-                      </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-              <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-            </svg>
-            <span class="visually-hidden">Previous</span>
-          </button> <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
-            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
-          </svg>
-          <span class="visually-hidden">Next</span>
-        </button>
+  <section class="product-hero p-4 p-md-5 mb-4">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-8">
+        <p class="text-uppercase fw-semibold mb-2 opacity-75">{{ parent_service.name }}</p>
+        <h1 class="display-6 fw-bold mb-3">{{ the_data.name }}</h1>
+        <p class="lead mb-4">{{ the_data.description or "Detailed offering page with practical delivery support and inquiry-based engagement." }}</p>
+        <a href="{{ url_for('contact', head=parent_service.category_name) }}" class="btn btn-light btn-lg px-4">Request This Service</a>
       </div>
-  </div>
-    <div class="col-lg-5 service-c-2 order-1 order-lg-2">
-      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">{{ the_data.name }}</h1>
-      <p class="lead">{{ the_data.description }}
-        <br>
-      {% if not the_data.subservice %}
-        <a href="{{url_for('contact', head=the_data.services.category_name)}}" style="font-size: 100%; border: 4px solid" class="btn btn-outline-primary rounded-pill mt-5 px-3 py-2">Get Quote Now</a>
-      {% else %}
-        <a href="{{url_for('contact', head=the_data.subservice.services.category_name)}}" style="font-size: 100%; border: 4px solid" class="btn btn-outline-primary rounded-pill mt-5 px-3 py-2">Get Quote Now</a>
-      {% endif %}
     </div>
-  </div>
+  </section>
 
-
-
-<div class="container-fluid product-pad"><h2>Product Gallery</h2></div>
-  <div class="row container-fluid product-edit row-cols-1 row-cols-lg-3 row-cols-md-2 align-items-stretch g-4 pt-2 pb-5">
-
-
-  <!-- Card 1 -->
-  {% for data in the_data.image_collections|reverse %}
-    <div class="col">
-      <div class="card cards card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-           style="background-image: url({{data.image_collections}}); background-repeat: no-repeat; background-size: cover;
-background-position: center;">
-        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">
-            Short title, long jacket
-          </h3>
-          <ul class="d-flex list-unstyled mt-auto">
-            <li class="me-auto">
-              <img src="https://github.com/twbs.png"
-                   alt="Bootstrap" width="32" height="32"
-                   class="rounded-circle border border-white">
-            </li>
-            <li class="d-flex align-items-center me-3">
-                <i class="bi bi-geo-fill"></i>
-              <small>Earth</small>
-            </li>
-            <li class="d-flex align-items-center">
-                <i class="bi bi-calendar3"></i>
-              <small>3d</small>
-            </li>
-          </ul>
+  <section class="mb-4">
+    <div class="d-flex flex-wrap gap-2">
+      {% for pro in sibling_products %}
+        <a class="btn nav-chip {% if pro.category_name == the_data.category_name %}active{% endif %}"
+           href="{% if parent_sub %}{{ url_for('services', name=parent_service.category_name, sec=parent_sub.category_name, pro=pro.category_name) }}{% else %}{{ url_for('services', name=parent_service.category_name, sec=pro.category_name) }}{% endif %}">
+          {{ pro.name }}
+        </a>
+      {% endfor %}
+    </div>
+    <div class="d-md-none mt-3">
+      <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#productQuickJump" aria-controls="productQuickJump">
+        Quick Jump
+      </button>
+    </div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="productQuickJump" aria-labelledby="productQuickJumpLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="productQuickJumpLabel">Related Offerings</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="list-group">
+          {% for pro in sibling_products %}
+            <a class="list-group-item list-group-item-action {% if pro.category_name == the_data.category_name %}active{% endif %}"
+               href="{% if parent_sub %}{{ url_for('services', name=parent_service.category_name, sec=parent_sub.category_name, pro=pro.category_name) }}{% else %}{{ url_for('services', name=parent_service.category_name, sec=pro.category_name) }}{% endif %}">
+              {{ pro.name }}
+            </a>
+          {% endfor %}
         </div>
       </div>
     </div>
-  {% endfor %}
+  </section>
 
-</div>
+  <section class="mb-5">
+    <div class="row g-3 g-md-4">
+      <div class="col-lg-7">
+        <div class="main-image">
+          <img src="{{ url_for('static', filename='images/' + primary_image) }}" alt="{{ the_data.name }}">
+        </div>
+        {% if the_data.image_collections|length > 1 %}
+          <div class="row g-2 mt-2">
+            {% for image_item in the_data.image_collections[1:5] %}
+              <div class="col-3">
+                <div class="thumb-image">
+                  <img src="{{ url_for('static', filename='images/' + image_item.image_collections) }}" alt="{{ the_data.name }} gallery image">
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      <div class="col-lg-5">
+        <div class="info-card p-4">
+          <h2 class="h4 section-title mb-3">What This Includes</h2>
+          <ul class="mb-4">
+            <li>Service scope aligned to {{ parent_service.name }}</li>
+            <li>Professional execution and quality-focused delivery</li>
+            <li>Consultative inquiry process for tailored requirements</li>
+            <li>Post-delivery support and follow-up as needed</li>
+          </ul>
+          <a href="{{ url_for('contact', head=parent_service.category_name) }}" class="btn btn-primary">Request Quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  {% if the_data.content %}
+    <section class="mb-5">
+      <div class="accordion" id="productContentAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#productContentBody" aria-expanded="false" aria-controls="productContentBody">
+              Additional Service Details
+            </button>
+          </h2>
+          <div id="productContentBody" class="accordion-collapse collapse" data-bs-parent="#productContentAccordion">
+            <div class="accordion-body">
+              {{ the_data.content|safe }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
 
-<div class="special-text py-5 container-fluid">
-{{ the_data.content|safe }}
-</div>
+  <section>
+    <div class="mb-3">
+      <h2 class="h4 section-title mb-1">Related Offerings</h2>
+      <p class="text-muted mb-0">Explore other options within this same service context.</p>
+    </div>
+    <div class="row g-3">
+      {% for pro in sibling_products if pro.category_name != the_data.category_name %}
+        <div class="col-md-6 col-lg-4">
+          <div class="related-card">
+            <img src="{{ url_for('static', filename='images/' + pro.image_url) }}" alt="{{ pro.name }}">
+            <div class="p-3">
+              <h6 class="mb-2">{{ pro.name }}</h6>
+              <a class="btn btn-outline-secondary btn-sm"
+                 href="{% if parent_sub %}{{ url_for('services', name=parent_service.category_name, sec=parent_sub.category_name, pro=pro.category_name) }}{% else %}{{ url_for('services', name=parent_service.category_name, sec=pro.category_name) }}{% endif %}">
+                View Details
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+</main>
 {% endblock %}
 
-{% block script %}
-
-{% endblock %}
+{% block script %}{% endblock %}

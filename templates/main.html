@@ -125,6 +125,10 @@
 
 {% block content %}
 <main class="container-xl home-main pb-5">
+  {% set cards_service = services|selectattr('name', 'equalto', 'Cards')|list|first %}
+  {% set marketing_service = services|selectattr('name', 'equalto', 'Marketing Essentials')|list|first %}
+  {% set signs_service = services|selectattr('name', 'equalto', 'Signs & Banners')|list|first %}
+
   <section class="hero-corporate p-4 p-md-5 mb-4 mb-md-5">
     <div class="row align-items-center g-4">
       <div class="col-lg-8">
@@ -198,7 +202,7 @@
     </div>
     <div class="row g-3 g-md-4">
       <div class="col-md-6 col-lg-4">
-        <a href="{{ url_for('all') }}" class="text-decoration-none text-reset d-block h-100">
+        <a href="{% if marketing_service %}{{ url_for('services', name=marketing_service.category_name) }}{% else %}{{ url_for('all') }}{% endif %}" class="text-decoration-none text-reset d-block h-100">
           <div class="card service-card p-3 p-md-4">
             <span class="icon-chip"><i class="bi bi-printer fs-5"></i></span>
             <h5>Printing & Supplies</h5>
@@ -209,7 +213,7 @@
         </a>
       </div>
       <div class="col-md-6 col-lg-4">
-        <a href="#digital-id-solutions" class="text-decoration-none text-reset d-block h-100">
+        <a href="{% if cards_service %}{{ url_for('services', name=cards_service.category_name) }}{% else %}{{ url_for('home') }}#digital-id-solutions{% endif %}" class="text-decoration-none text-reset d-block h-100">
           <div class="card service-card p-3 p-md-4">
             <span class="icon-chip"><i class="bi bi-person-vcard fs-5"></i></span>
             <h5>Digital ID Solutions</h5>
@@ -220,7 +224,7 @@
         </a>
       </div>
       <div class="col-md-6 col-lg-4">
-        <a href="{{ url_for('all') }}" class="text-decoration-none text-reset d-block h-100">
+        <a href="{% if signs_service %}{{ url_for('services', name=signs_service.category_name) }}{% else %}{{ url_for('all') }}{% endif %}" class="text-decoration-none text-reset d-block h-100">
           <div class="card service-card p-3 p-md-4">
             <span class="icon-chip"><i class="bi bi-truck fs-5"></i></span>
             <h5>Sales & Distribution</h5>

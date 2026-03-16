@@ -1,5 +1,5 @@
-<nav class="navbar hole navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
-  <div class="container-fluid">
+<nav class="navbar hole navbar-expand-lg shadow-sm fixed-top">
+  <div class="container-xl">
     {% if not change %}
     <!-- Sidebar toggle button (only visible on mobile) -->
     <button class="btn btn-primary d-lg-none"
@@ -12,7 +12,13 @@
 </button>
     {% endif %}
 
-    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Gregbuk Intl Company Ltd</a>
+    <a class="navbar-brand brand-lockup" href="{{ url_for('home') }}">
+      <span class="brand-mark" aria-hidden="true">GI</span>
+      <span class="brand-text">
+        <span class="brand-title">Gregbuk Intl Company Ltd</span>
+        <small class="brand-tagline">Corporate Services Since 2004</small>
+      </span>
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
       aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -20,7 +26,7 @@
 
 
     <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 mt-3">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 mt-3 mt-lg-0 align-items-lg-center nav-main-list">
         <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">Home</a></li>
         <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'about_us' %}active{% endif %}" href="{{ url_for('about_us') }}">About Us</a></li>
         <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'all' %}active{% endif %}" href="{{ url_for('all') }}">Services</a></li>
@@ -28,7 +34,7 @@
         <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'leadership' %}active{% endif %}" href="{{ url_for('leadership') }}">Leadership</a></li>
         <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'contact' %}active{% endif %}" href="{{ url_for('contact') }}">Contact</a></li>
         <li class="nav-item nn dropdown">
-          <button class="btn mm btn-link nav-link py-2 px-2 d-flex align-items-center" type="button" aria-expanded="false" data-coreui-toggle="dropdown">
+          <button class="btn mm btn-link nav-link py-2 px-2 d-flex align-items-center theme-switcher-btn" type="button" aria-expanded="false" data-coreui-toggle="dropdown">
             <svg class="icon icon-lg theme-icon-active">
               <use xlink:href="{{ url_for('static', filename='vendors/@coreui/icons/svg/free.svg') }}#cil-contrast"></use>
             </svg>
