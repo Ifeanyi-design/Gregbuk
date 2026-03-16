@@ -83,6 +83,47 @@ body.change .text-muted {
   background: var(--corp-surface);
 }
 
+.visual-card {
+  position: relative;
+  border-radius: 0.95rem;
+  overflow: hidden;
+  border: 1px solid var(--corp-line);
+  box-shadow: var(--corp-shadow-soft);
+  min-height: 220px;
+}
+
+.visual-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.visual-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 28, 47, 0.1) 30%, rgba(15, 28, 47, 0.75) 100%);
+}
+
+.visual-label {
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.8rem;
+  z-index: 2;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.visual-card:hover img {
+  transform: scale(1.04);
+}
+
 .service-card:hover,
 .why-card:hover,
 .leader-card:hover,
@@ -317,6 +358,70 @@ body.change .text-muted {
   transform: translateY(-1px);
 }
 
+.partner-logo {
+  border: 1px solid var(--corp-line);
+  border-radius: 0.75rem;
+  background: var(--corp-surface);
+  padding: 0.75rem 0.9rem;
+  text-align: center;
+  font-weight: 700;
+  color: var(--corp-muted);
+}
+
+.project-card {
+  border-radius: 0.95rem;
+  border: 1px solid var(--corp-line);
+  background: var(--corp-surface);
+  box-shadow: var(--corp-shadow-soft);
+  overflow: hidden;
+  height: 100%;
+}
+
+.project-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.floating-contact-actions {
+  position: fixed;
+  right: 0.95rem;
+  bottom: 1rem;
+  z-index: 1080;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quick-action {
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(8, 12, 18, 0.28);
+}
+
+.quick-action-whatsapp {
+  background: #1fa851;
+}
+
+.quick-action-call {
+  background: #0b6bd3;
+}
+
+.quick-action-mail {
+  background: #cc9933;
+}
+
+.quick-action.disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
 html[data-coreui-theme="dark"] .foooter {
   background: linear-gradient(135deg, #0a111e, #121d31);
 }
@@ -349,6 +454,10 @@ html[data-coreui-theme="dark"] .contact-form-card,
 html[data-coreui-theme="dark"] .facts-card,
 html[data-coreui-theme="dark"] .coverage-card,
 html[data-coreui-theme="dark"] .mv-card,
+html[data-coreui-theme="dark"] .about-photo-card,
+html[data-coreui-theme="dark"] .work-pill,
+html[data-coreui-theme="dark"] .focus-card,
+html[data-coreui-theme="dark"] .leadership-extra,
 html[data-coreui-theme="dark"] .child-card,
 html[data-coreui-theme="dark"] .product-card,
 html[data-coreui-theme="dark"] .related-card,
@@ -363,6 +472,25 @@ html[data-coreui-theme="dark"] .thumb-image {
 html[data-coreui-theme="dark"] .icon-chip {
   background: rgba(121, 179, 255, 0.16) !important;
   color: #90beff !important;
+}
+
+html[data-coreui-theme="dark"] .why-icon,
+html[data-coreui-theme="dark"] .focus-chip {
+  background: rgba(121, 179, 255, 0.16) !important;
+  color: #90beff !important;
+}
+
+html[data-coreui-theme="dark"] .about-highlight-image,
+html[data-coreui-theme="dark"] .about-photo-card,
+html[data-coreui-theme="dark"] .work-pill,
+html[data-coreui-theme="dark"] .focus-card,
+html[data-coreui-theme="dark"] .leadership-extra {
+  border-color: var(--corp-line) !important;
+}
+
+html[data-coreui-theme="dark"] .work-pill,
+html[data-coreui-theme="dark"] .focus-card {
+  background: var(--corp-surface-soft) !important;
 }
 
 html[data-coreui-theme="dark"] .nav-chip {
@@ -446,8 +574,27 @@ html[data-coreui-theme="dark"] .contact-form-card .form-select {
   color: var(--corp-ink);
 }
 
+html[data-coreui-theme="dark"] .service-glance-row .glance-badge {
+  background: #1a2a43 !important;
+  color: #dbe9ff !important;
+  border-color: #35527d !important;
+}
+
 html[data-coreui-theme="dark"] .navbar.hole .navbar-toggler-icon {
   filter: invert(1) grayscale(1) brightness(2);
+}
+
+html[data-coreui-theme="dark"] .visual-card {
+  border-color: var(--corp-line);
+}
+
+html[data-coreui-theme="dark"] .visual-card::after {
+  background: linear-gradient(180deg, rgba(6, 10, 17, 0.05) 28%, rgba(6, 10, 17, 0.82) 100%);
+}
+
+html[data-coreui-theme="dark"] .partner-logo {
+  background: var(--corp-surface-soft);
+  color: #d3def2;
 }
 
 .service-main .breadcrumb,
@@ -464,6 +611,10 @@ html[data-coreui-theme="dark"] .navbar.hole .navbar-toggler-icon {
 .subservice-main .breadcrumb::-webkit-scrollbar,
 .product-main .breadcrumb::-webkit-scrollbar {
   height: 5px;
+}
+
+.nav-chip-row .nav-chip {
+  white-space: nowrap;
 }
 
 @media (max-width: 991.98px) {
@@ -595,6 +746,44 @@ html[data-coreui-theme="dark"] .navbar.hole .navbar-toggler-icon {
     height: 170px !important;
   }
 
+  .home-main .trust-item,
+  .about-main .facts-chip {
+    min-height: 100%;
+  }
+
+  .home-main .why-card h6 {
+    font-size: 0.9rem;
+  }
+
+  .home-main .why-card p {
+    font-size: 0.83rem;
+    line-height: 1.45;
+  }
+
+  .home-main .service-card,
+  .home-main .why-card,
+  .home-main .leader-card,
+  .services-main .service-group-card,
+  .service-main .child-card,
+  .subservice-main .product-card,
+  .product-main .related-card,
+  .contact-main .support-pill,
+  .leadership-main .leader-card {
+    margin-inline: 0;
+  }
+
+  .home-visuals .visual-card {
+    min-height: 190px;
+  }
+
+  .home-visuals .visual-card img {
+    min-height: 190px;
+  }
+
+  .project-card img {
+    height: 165px;
+  }
+
   .foooter {
     margin-top: 1.75rem;
   }
@@ -603,6 +792,46 @@ html[data-coreui-theme="dark"] .navbar.hole .navbar-toggler-icon {
   .foooter .col-md-2,
   .foooter .col-md-4 {
     text-align: center;
+  }
+
+  .home-main > section.mb-5,
+  .about-main > section.mb-5,
+  .leadership-main > section.mb-5,
+  .contact-main > section.mb-5,
+  .services-main > section.mb-5,
+  .service-main > section.mb-5,
+  .subservice-main > section.mb-5,
+  .product-main > section.mb-5 {
+    margin-bottom: 2rem !important;
+  }
+
+  .nav-chip-row {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 0.2rem;
+    scrollbar-width: thin;
+  }
+
+  .nav-chip-row .nav-chip {
+    flex: 0 0 auto;
+  }
+
+  .card-action-row .btn,
+  .child-card .btn,
+  .product-card .btn,
+  .related-card .btn,
+  .service-group-card > .btn,
+  .contact-main .submit-btn {
+    width: 100%;
+  }
+
+  .card-action-row .btn + .btn {
+    margin-top: 0.1rem;
+  }
+
+  .contact-main .status-note {
+    width: 100%;
   }
 
   .brand-tagline {

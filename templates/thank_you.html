@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Thank You{% endblock %}
+{% block meta_description %}Thank you for contacting Gregbuk Intl Company Ltd. Our team will respond with practical next steps.{% endblock %}
+
+{% block style %}
+  .contact-main {
+    margin-top: 84px;
+  }
+
+  .contact-hero {
+    background: linear-gradient(120deg, rgba(15, 28, 47, 0.9), rgba(0, 74, 173, 0.82));
+    color: #fff;
+    border-radius: 1rem;
+  }
+
+  @media (max-width: 991.98px) {
+    .contact-main {
+      margin-top: 76px;
+    }
+  }
+{% endblock %}
+
+{% block content %}
+<main class="container-xl contact-main pb-5">
+  <section class="contact-hero p-4 p-md-5 mb-4 mb-md-5 text-center">
+    <p class="text-uppercase fw-semibold mb-2 opacity-75">Inquiry Received</p>
+    <h1 class="display-5 fw-bold mb-3">Thank You</h1>
+    <p class="lead mb-0">Your request has been received. Our team will contact you shortly.</p>
+  </section>
+
+  <section class="text-center">
+    <div class="d-flex flex-wrap gap-2 justify-content-center">
+      <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg px-4">Back To Home</a>
+      <a href="{{ url_for('all') }}" class="btn btn-outline-primary btn-lg px-4">Explore Services</a>
+    </div>
+  </section>
+</main>
+{% endblock %}
+
+{% block script %}{% endblock %}

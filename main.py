@@ -82,7 +82,16 @@ def date():
 @app.context_processor
 def inject_template_globals():
     # Single source for current year across templates.
-    return {"current_year": datetime.now().year}
+    return {
+        "current_year": datetime.now().year,
+        "company_name": os.getenv("COMPANY_NAME", "Gregbuk Intl Company Ltd"),
+        "company_email": os.getenv("COMPANY_EMAIL", "[COMPANY_EMAIL_HERE]"),
+        "company_phone_primary": os.getenv("COMPANY_PHONE_PRIMARY", "[COMPANY_PHONE_PRIMARY]"),
+        "company_phone_secondary": os.getenv("COMPANY_PHONE_SECONDARY", "[COMPANY_PHONE_SECONDARY]"),
+        "company_address": os.getenv("COMPANY_ADDRESS", "[COMPANY_ADDRESS_HERE]"),
+        "company_whatsapp": os.getenv("COMPANY_WHATSAPP", "[COMPANY_WHATSAPP_HERE]"),
+        "ga4_measurement_id": os.getenv("GA4_MEASUREMENT_ID", "")
+    }
 
 # --- Helpers ---
 PHONE_RE = re.compile(r"^\+?\d[\d\-\s()]{5,}$")  # simple permissive pattern
@@ -112,6 +121,53 @@ def valid_phone(phone):
     # allow + and digits
     cleaned = phone if phone.startswith("+") else phone
     return bool(PHONE_RE.match(cleaned)) and len(re.sub(r"[^\d]", "", cleaned)) >= 7
+
+
+INQUIRY_SERVICE_KEYWORDS = (
+    "pharma",
+    "pharmaceutical",
+    "engineering",
+    "consult",
+    "travel",
+    "cac",
+    "trademark",
+    "commission",
+    "crypto",
+    "advisory",
+)
+
+
+def classify_service_mode(service_obj):
+    """Classify dynamic service branches as catalog-oriented or inquiry-oriented."""
+    if not service_obj:
+        return "catalog"
+    source = f"{getattr(service_obj, 'name', '')} {getattr(service_obj, 'category_name', '')}".lower()
+    if any(keyword in source for keyword in INQUIRY_SERVICE_KEYWORDS):
+        return "inquiry"
+    return "catalog"
+
+
+def dynamic_cta_copy(service_mode):
+    """Return template-friendly CTA labels by service mode."""
+    if service_mode == "inquiry":
+        return {
+            "primary": "Book Consultation",
+            "secondary": "Submit Service Inquiry",
+            "card_view": "View Service Brief",
+            "related_title": "Related Service Areas",
+            "list_title": "Service Engagement Areas",
+            "quick_label": "Consultation Areas",
+            "section_hint": "Review the service areas below and send an inquiry for tailored support."
+        }
+    return {
+        "primary": "Request Quote",
+        "secondary": "Request This Service",
+        "card_view": "View Details",
+        "related_title": "Related Offerings",
+        "list_title": "Offerings",
+        "quick_label": "Related Offerings",
+        "section_hint": "Browse available items and select one to view details."
+    }
 
 def contact_to_dict(c):
     return {
@@ -305,7 +361,30 @@ def services(name=None, sec=None, pro=None):
     change=True
     rows = [service[n:n+2] for n in range(0, len(service), 2)]
     random_service = [choice(service), choice(service)]
-    return render_template(f"{templates}", the_data=the_data, random_service=random_service, rows=rows, change=change, header=header, services=service, the_name=the_name)
+
+    parent_service = None
+    if isinstance(the_data, Services):
+        parent_service = the_data
+    elif isinstance(the_data, SubService):
+        parent_service = the_data.services
+    elif isinstance(the_data, Products):
+        parent_service = the_data.subservice.services if the_data.subservice else the_data.services
+
+    service_mode = classify_service_mode(parent_service)
+    cta_copy = dynamic_cta_copy(service_mode)
+
+    return render_template(
+        f"{templates}",
+        the_data=the_data,
+        random_service=random_service,
+        rows=rows,
+        change=change,
+        header=header,
+        services=service,
+        the_name=the_name,
+        service_mode=service_mode,
+        cta_copy=cta_copy
+    )
 
 @app.route("/all_services")
 def all():
@@ -411,6 +490,14 @@ def contact():
             return jsonify({"success": False, "errors": errors})
 
     return render_template("contact_us.html", form=form, change=change, header=header, services=service)
+
+
+@app.route("/thank-you")
+def thank_you():
+    header = Header.query.all()
+    service = Services.query.all()
+    change = True
+    return render_template("thank_you.html", change=change, header=header, services=service)
 
 @app.route("/logout")
 @login_required

@@ -23,18 +23,6 @@
     font-weight: 700;
   }
 
-  .nav-chip {
-    border-radius: 999px;
-    border: 1px solid #d9e5f6;
-    background: #fff;
-    color: #1f2a3a;
-    font-weight: 500;
-  }
-
-  .nav-chip:hover {
-    background: #f2f7ff;
-  }
-
   .child-card,
   .related-card,
   .capability-card {
@@ -59,6 +47,16 @@
 
 {% block content %}
 <main class="container-xl service-main pb-5">
+  {% set mode = service_mode if service_mode is defined else "catalog" %}
+  {% set cta = cta_copy if cta_copy is defined else {
+    "primary": "Request Quote",
+    "secondary": "Request This Service",
+    "card_view": "View Details",
+    "related_title": "Related Offerings",
+    "list_title": "Offerings",
+    "quick_label": "Related Offerings",
+    "section_hint": "Browse available items and select one to view details."
+  } %}
   {% set has_subservices = the_data.sub_service|length > 0 %}
   {% set nav_items = the_data.sub_service if has_subservices else the_data.products %}
 
@@ -75,18 +73,22 @@
   <section class="service-hero p-4 p-md-5 mb-4">
     <div class="row g-4 align-items-center">
       <div class="col-lg-8">
-        <p class="text-uppercase fw-semibold mb-2 opacity-75">Service Category</p>
+        <p class="text-uppercase fw-semibold mb-2 opacity-75">
+          {{ "Professional Service Category" if mode == "inquiry" else "Service Category" }}
+        </p>
         <h1 class="display-6 fw-bold mb-3">{{ the_data.name }}</h1>
-        <p class="lead mb-4">{{ the_data.description or "Explore this service category and discover practical capabilities tailored for your organization." }}</p>
-        <a href="{{ url_for('contact', head=the_data.category_name) }}" class="btn btn-light btn-lg px-4">Request Service Inquiry</a>
+        <p class="lead mb-4">
+          {{ the_data.description or ("Engagement-led service category tailored for organizations that need professional advisory and implementation support." if mode == "inquiry" else "Explore this service category and discover practical capabilities tailored for your organization.") }}
+        </p>
+        <a href="{{ url_for('contact', head=the_data.category_name) }}" class="btn btn-light btn-lg px-4">{{ cta.primary }}</a>
       </div>
       <div class="col-lg-4">
         <div class="capability-card p-3 p-md-4 text-dark">
           <h6 class="section-title">Category Snapshot</h6>
           <ul class="mb-0">
-            <li>{{ "Subservice groups available" if has_subservices else "Direct offerings available" }}</li>
-            <li>Corporate delivery and support model</li>
-            <li>Inquiry-led engagement workflow</li>
+            <li>{{ "Subservice groups available" if has_subservices else ("Service areas available" if mode == "inquiry" else "Direct offerings available") }}</li>
+            <li>{{ "Consultative delivery and advisory support" if mode == "inquiry" else "Corporate delivery and support model" }}</li>
+            <li>{{ "Inquiry-first engagement workflow" if mode == "inquiry" else "Structured quote and delivery workflow" }}</li>
           </ul>
         </div>
       </div>
@@ -94,7 +96,7 @@
   </section>
 
   <section class="mb-4">
-    <div class="d-flex flex-wrap gap-2">
+    <div class="d-flex flex-wrap gap-2 nav-chip-row">
       {% for item in nav_items %}
         {% if has_subservices %}
           <a class="btn nav-chip" href="{{ url_for('services', name=the_data.category_name, sec=item.category_name) }}">{{ item.name }}</a>
@@ -111,7 +113,7 @@
     </div>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="serviceQuickJump" aria-labelledby="serviceQuickJumpLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="serviceQuickJumpLabel">Browse {{ the_data.name }}</h5>
+        <h5 class="offcanvas-title" id="serviceQuickJumpLabel">{{ cta.quick_label }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
@@ -126,36 +128,47 @@
 
   <section class="mb-5">
     <div class="mb-3">
-      <h2 class="h3 section-title mb-2">{{ "Subservices" if has_subservices else "Offerings" }}</h2>
-      <p class="text-muted mb-0">Select an item below to view details and request tailored support.</p>
+      <h2 class="h3 section-title mb-2">{{ "Subservices" if has_subservices else cta.list_title }}</h2>
+      <p class="text-muted mb-0">{{ cta.section_hint }}</p>
     </div>
     <div class="row g-3 g-md-4">
       {% if has_subservices %}
         {% for sub in the_data.sub_service %}
+          {% set sub_image = sub.image_url if sub.image_url else 'placeholder-company.svg' %}
           <div class="col-md-6 col-xl-4">
             <div class="child-card overflow-hidden">
-              <img src="{{ url_for('static', filename='images/' + sub.image_url) }}" class="w-100" alt="{{ sub.name }}">
+              <img src="{{ url_for('static', filename='images/' + sub_image) }}" class="w-100" alt="{{ sub.name }}">
               <div class="p-3">
                 <h5>{{ sub.name }}</h5>
                 <p class="text-muted mb-3">{{ sub.description or "Service grouping within this category." }}</p>
-                <a class="btn btn-outline-primary btn-sm" href="{{ url_for('services', name=the_data.category_name, sec=sub.category_name) }}">View Details</a>
+                <a class="btn btn-outline-primary btn-sm" href="{{ url_for('services', name=the_data.category_name, sec=sub.category_name) }}">{{ cta.card_view }}</a>
               </div>
             </div>
           </div>
         {% endfor %}
       {% else %}
         {% for pro in the_data.products %}
+          {% set product_image = pro.image_url if pro.image_url else 'placeholder-company.svg' %}
           <div class="col-md-6 col-xl-4">
             <div class="child-card overflow-hidden">
-              <img src="{{ url_for('static', filename='images/' + pro.image_url) }}" class="w-100" alt="{{ pro.name }}">
+              <img src="{{ url_for('static', filename='images/' + product_image) }}" class="w-100" alt="{{ pro.name }}">
               <div class="p-3">
                 <h5>{{ pro.name }}</h5>
-                <p class="text-muted mb-3">{{ pro.description or "Service offering within this category." }}</p>
-                <a class="btn btn-outline-primary btn-sm" href="{{ url_for('services', name=the_data.category_name, sec=pro.category_name) }}">View Details</a>
+                <p class="text-muted mb-3">{{ pro.description or ("Professional service area within this category." if mode == "inquiry" else "Service offering within this category.") }}</p>
+                <a class="btn btn-outline-primary btn-sm" href="{{ url_for('services', name=the_data.category_name, sec=pro.category_name) }}">{{ cta.card_view }}</a>
               </div>
             </div>
           </div>
         {% endfor %}
+      {% endif %}
+      {% if nav_items|length == 0 %}
+        <div class="col-12">
+          <div class="child-card p-4">
+            <h5 class="mb-2">More details coming soon</h5>
+            <p class="text-muted mb-3">This service branch has limited published details right now. You can still contact us for a tailored response.</p>
+            <a href="{{ url_for('contact', head=the_data.category_name) }}" class="btn btn-primary btn-sm">{{ cta.primary }}</a>
+          </div>
+        </div>
       {% endif %}
     </div>
   </section>
@@ -181,14 +194,15 @@
 
   <section>
     <div class="mb-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
-      <h2 class="h4 section-title mb-0">Related Service Categories</h2>
+      <h2 class="h4 section-title mb-0">{{ cta.related_title }}</h2>
       <a class="btn btn-outline-primary btn-sm" href="{{ url_for('all') }}">View All Services</a>
     </div>
     <div class="row g-3">
       {% for svc in services if svc.category_name != the_data.category_name %}
+        {% set svc_image = svc.image_url if svc.image_url else 'placeholder-company.svg' %}
         <div class="col-md-6 col-lg-4">
           <div class="related-card overflow-hidden">
-            <img src="{{ url_for('static', filename='images/' + svc.image_url) }}" class="w-100" alt="{{ svc.name }}">
+            <img src="{{ url_for('static', filename='images/' + svc_image) }}" class="w-100" alt="{{ svc.name }}">
             <div class="p-3">
               <h6 class="mb-2">{{ svc.name }}</h6>
               <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('services', name=svc.category_name) }}">Explore</a>

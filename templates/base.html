@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Gregbuk{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Gregbuk Intl Company Ltd provides corporate printing, digital ID solutions, distribution, consultancy, and business support services in Lagos, Nigeria.{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}Gregbuk Intl Company Ltd{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Trusted multi-service corporate solutions since 2004.{% endblock %}">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='images/printing-press-about.jpg', _external=True) }}{% endblock %}">
 
   <!-- Theme Script (runs instantly, before CSS loads) -->
   <script>
@@ -57,6 +62,24 @@
 </div>
 </div>
 
+{% if change %}
+  {% set wa_digits = company_whatsapp|replace('+', '')|replace(' ', '')|replace('-', '') %}
+  {% set has_wa = company_whatsapp and '[' not in company_whatsapp %}
+  {% set has_phone = company_phone_primary and '[' not in company_phone_primary %}
+  {% set has_email = company_email and '[' not in company_email %}
+  <div class="floating-contact-actions d-md-none" aria-label="Quick contact actions">
+    <a class="quick-action quick-action-whatsapp {% if not has_wa %}disabled{% endif %}" href="{% if has_wa %}https://wa.me/{{ wa_digits }}{% else %}#{% endif %}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+      <i class="bi bi-whatsapp"></i>
+    </a>
+    <a class="quick-action quick-action-call {% if not has_phone %}disabled{% endif %}" href="{% if has_phone %}tel:{{ company_phone_primary }}{% else %}#{% endif %}" aria-label="Call us">
+      <i class="bi bi-telephone-fill"></i>
+    </a>
+    <a class="quick-action quick-action-mail {% if not has_email %}disabled{% endif %}" href="{% if has_email %}mailto:{{ company_email }}{% else %}#{% endif %}" aria-label="Email us">
+      <i class="bi bi-envelope-fill"></i>
+    </a>
+  </div>
+{% endif %}
+
 <!-- CoreUI and plugins -->
 <script src="{{ url_for('static', filename='vendors/@coreui/coreui/js/coreui.bundle.min.js') }}"></script>
 <script src="{{ url_for('static', filename='vendors/simplebar/js/simplebar.min.js') }}" defer></script>
@@ -91,6 +114,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 </script>
+
+{% if ga4_measurement_id %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ ga4_measurement_id }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ ga4_measurement_id }}');
+</script>
+{% endif %}
 
 {% block script %}{% endblock %}
 </body>

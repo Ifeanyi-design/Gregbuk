@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}About Us{% endblock %}
+{% block meta_description %}Learn about Gregbuk Intl Company Ltd, a family-owned multi-service company established in 2004 and incorporated in Lagos, Nigeria.{% endblock %}
 
 {% block style %}
   :root {
@@ -50,6 +51,54 @@
     border-radius: 1rem;
   }
 
+  .about-highlight-image {
+    border-radius: 0.85rem;
+    border: 1px solid #e8edf5;
+    overflow: hidden;
+    box-shadow: 0 0.5rem 1.4rem rgba(15, 28, 47, 0.08);
+  }
+
+  .about-highlight-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .about-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .about-mini-grid .about-highlight-image {
+    min-height: 130px;
+  }
+
+  .about-photo-card {
+    border: 1px solid #e8edf5;
+    border-radius: 0.85rem;
+    overflow: hidden;
+    background: #fff;
+    height: 100%;
+  }
+
+  .about-photo-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .work-pill {
+    border: 1px solid #e8edf5;
+    border-radius: 0.75rem;
+    background: var(--brand-light);
+    padding: 0.9rem;
+    height: 100%;
+  }
+
   @media (max-width: 991.98px) {
     .about-main {
       margin-top: 76px;
@@ -87,7 +136,17 @@
         </p>
       </div>
       <div class="col-lg-5">
-        <img src="{{ url_for('static', filename='images/print_about_us.webp') }}" class="img-fluid rounded-4 shadow-sm" alt="Gregbuk operations">
+        <div class="about-highlight-image">
+          <img src="{{ url_for('static', filename='images/print_about_us.webp') }}" alt="Gregbuk operations">
+        </div>
+        <div class="about-mini-grid">
+          <div class="about-highlight-image">
+            <img src="{{ url_for('static', filename='images/about_us_machinery.jpeg') }}" alt="Production and machinery">
+          </div>
+          <div class="about-highlight-image">
+            <img src="{{ url_for('static', filename='images/business-card.jpg') }}" alt="Identity and print detail">
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -178,6 +237,68 @@
             <li>Travel agency services</li>
             <li>CAC, trademark, and commission support</li>
           </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="mb-3">
+      <h2 class="section-title mb-2">How We Work</h2>
+      <p class="text-muted mb-0">Our process is simple, transparent, and built for reliable delivery.</p>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-3 col-6">
+        <div class="work-pill">
+          <h6 class="mb-1">1. Discovery</h6>
+          <p class="text-muted mb-0 small">Understand scope, timeline, and output expectations.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="work-pill">
+          <h6 class="mb-1">2. Planning</h6>
+          <p class="text-muted mb-0 small">Define execution path, resources, and checkpoints.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="work-pill">
+          <h6 class="mb-1">3. Delivery</h6>
+          <p class="text-muted mb-0 small">Implement with quality controls and clear communication.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="work-pill">
+          <h6 class="mb-1">4. Support</h6>
+          <p class="text-muted mb-0 small">Provide post-delivery guidance and ongoing service support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="mb-3">
+      <h2 class="section-title mb-2">Photo Highlights</h2>
+      <p class="text-muted mb-0">Replace any placeholder image later with your preferred photos.</p>
+    </div>
+    <div class="row g-3">
+      <div class="col-6 col-lg-3">
+        <div class="about-photo-card">
+          <img src="{{ url_for('static', filename='images/printing-press-about.jpg') }}" alt="Production activity">
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="about-photo-card">
+          <img src="{{ url_for('static', filename='images/id_cards.jpeg') }}" alt="ID solution work">
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="about-photo-card">
+          <img src="{{ url_for('static', filename='images/marketing-essentials.jpeg') }}" alt="Branding materials">
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="about-photo-card">
+          <img src="{{ url_for('static', filename='images/placeholder-company.svg') }}" alt="Placeholder image to replace">
         </div>
       </div>
     </div>

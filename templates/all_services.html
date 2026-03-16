@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Services{% endblock %}
+{% block meta_description %}Explore Gregbuk Intl Company Ltd service categories including printing, digital ID solutions, distribution, consultancy, and corporate support services.{% endblock %}
+{% block og_title %}Services | Gregbuk Intl Company Ltd{% endblock %}
+{% block og_description %}Corporate multi-service support for institutions, SMEs, and enterprises since 2004.{% endblock %}
+{% block og_image %}{{ url_for('static', filename='images/marketing-essentials.jpeg', _external=True) }}{% endblock %}
 
 {% block style %}
   :root {
@@ -180,7 +184,7 @@
           <div class="service-group-card p-3 h-100">
             <h5 class="mb-2">{{ svc.name }}</h5>
             <p class="text-muted small mb-3">{{ svc.description or 'Corporate service category.' }}</p>
-            <div class="d-flex flex-wrap gap-2">
+            <div class="d-flex flex-wrap gap-2 card-action-row">
               <a href="{{ url_for('services', name=svc.category_name) }}" class="btn btn-outline-secondary btn-sm">Open Category</a>
               {% if svc.sub_service and svc.sub_service|length > 0 %}
                 <a href="{{ url_for('services', name=svc.category_name, sec=svc.sub_service[0].category_name) }}" class="btn btn-outline-primary btn-sm">First Subservice</a>
@@ -215,6 +219,45 @@
       </div>
       <div class="col-lg-5">
         <div class="feature-image"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="mb-3">
+      <h2 class="section-title mb-2">Frequently Asked Questions</h2>
+      <p class="section-subtitle mb-0">Quick answers before you submit an inquiry.</p>
+    </div>
+    <div class="accordion" id="servicesFaqAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne" aria-expanded="true" aria-controls="faqOne">
+            Do you handle both one-off and recurring service requests?
+          </button>
+        </h2>
+        <div id="faqOne" class="accordion-collapse collapse show" data-bs-parent="#servicesFaqAccordion">
+          <div class="accordion-body">Yes. We support one-time projects and recurring service delivery plans depending on your operational needs.</div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo" aria-expanded="false" aria-controls="faqTwo">
+            Can we request multiple services under one engagement?
+          </button>
+        </h2>
+        <div id="faqTwo" class="accordion-collapse collapse" data-bs-parent="#servicesFaqAccordion">
+          <div class="accordion-body">Yes. We can structure combined support across printing, identity, distribution, consultancy, and compliance services.</div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqThree" aria-expanded="false" aria-controls="faqThree">
+            How do we get a quote?
+          </button>
+        </h2>
+        <div id="faqThree" class="accordion-collapse collapse" data-bs-parent="#servicesFaqAccordion">
+          <div class="accordion-body">Use the inquiry form on the Contact page. Share your scope, quantity, and timeline, and our team will respond with next steps.</div>
+        </div>
       </div>
     </div>
   </section>

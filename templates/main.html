@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
+{% block meta_description %}Gregbuk Intl Company Ltd delivers corporate printing, digital ID solutions, distribution, consultancy, and business support services across Lagos, Nigeria and beyond.{% endblock %}
+{% block og_title %}Gregbuk Intl Company Ltd | Corporate Multi-Service Solutions{% endblock %}
+{% block og_description %}Trusted since 2004 for digital ID, printing, supplies, consultancy, and corporate support services.{% endblock %}
+{% block og_image %}{{ url_for('static', filename='images/printing-press-about.jpg', _external=True) }}{% endblock %}
 
 {% block style %}
   :root {
@@ -35,6 +39,34 @@
 
   .hero-corporate .btn-outline-light:hover {
     color: var(--brand-dark);
+  }
+
+  .hero-media {
+    position: relative;
+    border-radius: 0.9rem;
+    overflow: hidden;
+    min-height: 270px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 16px 34px rgba(15, 28, 47, 0.26);
+    background: rgba(15, 28, 47, 0.25);
+  }
+
+  .hero-fallback,
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-video {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .hero-video.is-ready {
+    opacity: 1;
   }
 
   .trust-strip {
@@ -104,6 +136,18 @@
     height: 100%;
   }
 
+  .why-icon {
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 74, 173, 0.12);
+    color: var(--brand-primary);
+    margin-bottom: 0.65rem;
+  }
+
   .leader-card {
     border: 1px solid #e8edf5;
     border-radius: 0.85rem;
@@ -114,6 +158,15 @@
     background: linear-gradient(135deg, var(--brand-primary), #0d5fc9);
     color: #fff;
     border-radius: 1rem;
+  }
+
+  .service-glance-row .glance-badge {
+    background: #eef4ff;
+    color: #154088;
+    border: 1px solid #d7e3f7;
+    border-radius: 999px;
+    padding: 0.42rem 0.72rem;
+    font-weight: 600;
   }
 
   @media (max-width: 991.98px) {
@@ -131,7 +184,7 @@
 
   <section class="hero-corporate p-4 p-md-5 mb-4 mb-md-5">
     <div class="row align-items-center g-4">
-      <div class="col-lg-8">
+      <div class="col-lg-7">
         <p class="text-uppercase fw-semibold mb-2 opacity-75">Gregbuk Intl Company Ltd</p>
         <h1 class="display-5 fw-bold mb-3">Corporate Multi-Service Solutions Built on Trust Since 2004</h1>
         <p class="lead mb-4">
@@ -141,6 +194,14 @@
         <div class="d-flex flex-wrap gap-2">
           <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg px-4">Request Consultation</a>
           <a href="{{ url_for('all') }}" class="btn btn-outline-light btn-lg px-4">Explore Services</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="hero-media">
+          <img src="{{ url_for('static', filename='images/printing-press-about.jpg') }}" alt="Gregbuk operations" class="hero-fallback">
+          <video class="hero-video" muted loop autoplay playsinline preload="none" poster="{{ url_for('static', filename='images/printing-press-about.jpg') }}" id="heroLoopVideo">
+            <source src="{{ url_for('static', filename='videos/hero-loop.mp4') }}" type="video/mp4">
+          </video>
         </div>
       </div>
     </div>
@@ -174,6 +235,60 @@
     </div>
   </section>
 
+  <section class="home-visuals mb-5">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-3">
+      <h2 class="section-title mb-0">Operational Highlights</h2>
+      <small class="text-muted">A quick look at our work environment and delivery focus</small>
+    </div>
+    <div class="row g-3">
+      <div class="col-6 col-lg-4">
+        <a href="{{ url_for('all') }}" class="visual-card d-block text-decoration-none">
+          <img src="{{ url_for('static', filename='images/printing-press-about.jpg') }}" alt="Printing operations">
+          <span class="visual-label">Printing & Production</span>
+        </a>
+      </div>
+      <div class="col-6 col-lg-4">
+        <a href="{{ url_for('home') }}#digital-id-solutions" class="visual-card d-block text-decoration-none">
+          <img src="{{ url_for('static', filename='images/business-card.jpg') }}" alt="Digital ID solutions">
+          <span class="visual-label">Digital ID Solutions</span>
+        </a>
+      </div>
+      <div class="col-6 col-lg-4">
+        <a href="{{ url_for('about_us') }}" class="visual-card d-block text-decoration-none">
+          <img src="{{ url_for('static', filename='images/about_us_machinery.jpeg') }}" alt="Equipment and support operations">
+          <span class="visual-label">Equipment & Support</span>
+        </a>
+      </div>
+      <div class="col-6 col-lg-4">
+        <a href="{{ url_for('all') }}" class="visual-card d-block text-decoration-none">
+          <img src="{{ url_for('static', filename='images/marketing-essentials.jpeg') }}" alt="Corporate branding and supplies">
+          <span class="visual-label">Branding & Supplies</span>
+        </a>
+      </div>
+      <div class="col-6 col-lg-4">
+        <a href="{{ url_for('contact') }}" class="visual-card d-block text-decoration-none">
+          <img src="{{ url_for('static', filename='images/signs&banners.jpeg') }}" alt="Consultation and business support">
+          <span class="visual-label">Business Support</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="mb-3">
+      <h2 class="section-title mb-2">Trusted Across Sectors</h2>
+      <p class="section-subtitle mb-0">We support institutions, private businesses, and project teams with dependable service delivery.</p>
+    </div>
+    <div class="row g-2 g-md-3">
+      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Schools</div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Healthcare</div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">SMEs</div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Corporate Offices</div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Public Sector</div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Event Teams</div></div>
+    </div>
+  </section>
+
   <section class="mb-5">
     <div class="row g-4 align-items-center">
       <div class="col-lg-7">
@@ -199,6 +314,13 @@
     <div class="mb-4">
       <h2 class="section-title mb-2">Core Services</h2>
       <p class="section-subtitle mb-0">Structured solutions designed to support institutions, SMEs, and large organizations.</p>
+      <div class="d-flex flex-wrap gap-2 mt-3 service-glance-row">
+        <span class="glance-badge">Printing & Supplies</span>
+        <span class="glance-badge">Digital ID Solutions</span>
+        <span class="glance-badge">Sales & Distribution</span>
+        <span class="glance-badge">Consultancy & Agency</span>
+        <span class="glance-badge">Corporate Support</span>
+      </div>
     </div>
     <div class="row g-3 g-md-4">
       <div class="col-md-6 col-lg-4">
@@ -282,30 +404,70 @@
 
   <section class="mb-5">
     <div class="mb-4">
+      <h2 class="section-title mb-2">Project Highlights</h2>
+      <p class="section-subtitle mb-0">Sample delivery outcomes that reflect our practical execution model.</p>
+    </div>
+    <div class="row g-3 g-md-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="project-card">
+          <img src="{{ url_for('static', filename='images/id_cards.jpeg') }}" alt="Institutional ID card rollout">
+          <div class="p-3">
+            <h6 class="mb-2">Institutional ID Rollout</h6>
+            <p class="text-muted mb-0">Delivered secure card design, print setup, and consumable continuity for structured identity issuance.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="project-card">
+          <img src="{{ url_for('static', filename='images/marketing-essentials.jpeg') }}" alt="Corporate brand support">
+          <div class="p-3">
+            <h6 class="mb-2">Corporate Branding Support</h6>
+            <p class="text-muted mb-0">Executed coordinated print and branding materials for business visibility and internal operations.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="project-card">
+          <img src="{{ url_for('static', filename='images/signs&banners.jpeg') }}" alt="Campaign signage and displays">
+          <div class="p-3">
+            <h6 class="mb-2">Signage & Display Delivery</h6>
+            <p class="text-muted mb-0">Produced campaign and event display materials with rapid turnaround and quality finishing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="mb-4">
       <h2 class="section-title mb-2">Why Choose Us</h2>
       <p class="section-subtitle mb-0">A practical partner for organizations that value consistency, speed, and quality.</p>
     </div>
     <div class="row g-3 g-md-4">
-      <div class="col-md-6 col-lg-3">
+      <div class="col-6 col-lg-3">
         <div class="why-card p-3 p-md-4">
+          <span class="why-icon"><i class="bi bi-award"></i></span>
           <h6 class="fw-bold">Industry Experience</h6>
           <p class="text-muted mb-0">Operating since 2004 with proven business continuity and delivery discipline.</p>
         </div>
       </div>
-      <div class="col-md-6 col-lg-3">
+      <div class="col-6 col-lg-3">
         <div class="why-card p-3 p-md-4">
+          <span class="why-icon"><i class="bi bi-diagram-3"></i></span>
           <h6 class="fw-bold">Multi-Sector Capability</h6>
           <p class="text-muted mb-0">Integrated services across contracts, printing, distribution, and corporate support.</p>
         </div>
       </div>
-      <div class="col-md-6 col-lg-3">
+      <div class="col-6 col-lg-3">
         <div class="why-card p-3 p-md-4">
+          <span class="why-icon"><i class="bi bi-shield-check"></i></span>
           <h6 class="fw-bold">Professional Standards</h6>
           <p class="text-muted mb-0">Clear communication, process-driven delivery, and strong attention to detail.</p>
         </div>
       </div>
-      <div class="col-md-6 col-lg-3">
+      <div class="col-6 col-lg-3">
         <div class="why-card p-3 p-md-4">
+          <span class="why-icon"><i class="bi bi-people-fill"></i></span>
           <h6 class="fw-bold">Client-Centered</h6>
           <p class="text-muted mb-0">Flexible support for long-term partnerships with institutions and businesses.</p>
         </div>
@@ -368,5 +530,15 @@
 
 {% block script %}
 <script>
+  (function () {
+    const heroVideo = document.getElementById("heroLoopVideo");
+    if (!heroVideo) return;
+    heroVideo.addEventListener("loadeddata", () => {
+      heroVideo.classList.add("is-ready");
+    });
+    heroVideo.addEventListener("error", () => {
+      heroVideo.classList.remove("is-ready");
+    });
+  })();
 </script>
 {% endblock %}

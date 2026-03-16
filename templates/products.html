@@ -22,19 +22,6 @@
     font-weight: 700;
   }
 
-  .nav-chip {
-    border-radius: 999px;
-    border: 1px solid #d9e5f6;
-    background: #fff;
-    color: #1f2a3a;
-    font-weight: 500;
-  }
-
-  .nav-chip.active {
-    background: #eaf2ff;
-    border-color: #bfd5fb;
-  }
-
   .main-image,
   .info-card,
   .related-card {
@@ -78,10 +65,20 @@
 
 {% block content %}
 <main class="container-xl product-main pb-5">
+  {% set mode = service_mode if service_mode is defined else "catalog" %}
+  {% set cta = cta_copy if cta_copy is defined else {
+    "primary": "Request Quote",
+    "secondary": "Request This Service",
+    "card_view": "View Details",
+    "related_title": "Related Offerings",
+    "list_title": "Offerings",
+    "quick_label": "Related Offerings",
+    "section_hint": "Browse available items and select one to view details."
+  } %}
   {% set parent_service = the_data.subservice.services if the_data.subservice else the_data.services %}
   {% set parent_sub = the_data.subservice %}
   {% set sibling_products = parent_sub.products if parent_sub else parent_service.products %}
-  {% set primary_image = the_data.image_collections[0].image_collections if the_data.image_collections|length > 0 else the_data.image_url %}
+  {% set primary_image = the_data.image_collections[0].image_collections if the_data.image_collections|length > 0 else (the_data.image_url if the_data.image_url else 'placeholder-company.svg') %}
 
   <section class="mb-3">
     <nav aria-label="breadcrumb">
@@ -102,14 +99,16 @@
       <div class="col-lg-8">
         <p class="text-uppercase fw-semibold mb-2 opacity-75">{{ parent_service.name }}</p>
         <h1 class="display-6 fw-bold mb-3">{{ the_data.name }}</h1>
-        <p class="lead mb-4">{{ the_data.description or "Detailed offering page with practical delivery support and inquiry-based engagement." }}</p>
-        <a href="{{ url_for('contact', head=parent_service.category_name) }}" class="btn btn-light btn-lg px-4">Request This Service</a>
+        <p class="lead mb-4">
+          {{ the_data.description or ("Professional service brief with consultation-led engagement and delivery guidance." if mode == "inquiry" else "Detailed offering page with practical delivery support and inquiry-based engagement.") }}
+        </p>
+        <a href="{{ url_for('contact', head=parent_service.category_name) }}" class="btn btn-light btn-lg px-4">{{ cta.secondary }}</a>
       </div>
     </div>
   </section>
 
   <section class="mb-4">
-    <div class="d-flex flex-wrap gap-2">
+    <div class="d-flex flex-wrap gap-2 nav-chip-row">
       {% for pro in sibling_products %}
         <a class="btn nav-chip {% if pro.category_name == the_data.category_name %}active{% endif %}"
            href="{% if parent_sub %}{{ url_for('services', name=parent_service.category_name, sec=parent_sub.category_name, pro=pro.category_name) }}{% else %}{{ url_for('services', name=parent_service.category_name, sec=pro.category_name) }}{% endif %}">
@@ -124,7 +123,7 @@
     </div>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="productQuickJump" aria-labelledby="productQuickJumpLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="productQuickJumpLabel">Related Offerings</h5>
+        <h5 class="offcanvas-title" id="productQuickJumpLabel">{{ cta.quick_label }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
@@ -146,7 +145,7 @@
         <div class="main-image">
           <img src="{{ url_for('static', filename='images/' + primary_image) }}" alt="{{ the_data.name }}">
         </div>
-        {% if the_data.image_collections|length > 1 %}
+        {% if mode != "inquiry" and the_data.image_collections|length > 1 %}
           <div class="row g-2 mt-2">
             {% for image_item in the_data.image_collections[1:5] %}
               <div class="col-3">
@@ -160,14 +159,14 @@
       </div>
       <div class="col-lg-5">
         <div class="info-card p-4">
-          <h2 class="h4 section-title mb-3">What This Includes</h2>
+          <h2 class="h4 section-title mb-3">{{ "How Engagement Works" if mode == "inquiry" else "What This Includes" }}</h2>
           <ul class="mb-4">
-            <li>Service scope aligned to {{ parent_service.name }}</li>
-            <li>Professional execution and quality-focused delivery</li>
-            <li>Consultative inquiry process for tailored requirements</li>
-            <li>Post-delivery support and follow-up as needed</li>
+            <li>{{ "Service scope alignment and consultation intake" if mode == "inquiry" else "Service scope aligned to " + parent_service.name }}</li>
+            <li>{{ "Needs assessment and advisory guidance" if mode == "inquiry" else "Professional execution and quality-focused delivery" }}</li>
+            <li>{{ "Delivery roadmap tailored to your organization" if mode == "inquiry" else "Consultative inquiry process for tailored requirements" }}</li>
+            <li>{{ "Follow-up support and implementation guidance" if mode == "inquiry" else "Post-delivery support and follow-up as needed" }}</li>
           </ul>
-          <a href="{{ url_for('contact', head=parent_service.category_name) }}" class="btn btn-primary">Request Quote</a>
+          <a href="{{ url_for('contact', head=parent_service.category_name) }}" class="btn btn-primary">{{ cta.primary }}</a>
         </div>
       </div>
     </div>
@@ -194,24 +193,34 @@
 
   <section>
     <div class="mb-3">
-      <h2 class="h4 section-title mb-1">Related Offerings</h2>
-      <p class="text-muted mb-0">Explore other options within this same service context.</p>
+      <h2 class="h4 section-title mb-1">{{ cta.related_title }}</h2>
+      <p class="text-muted mb-0">{{ "Explore related areas within this service context." if mode == "inquiry" else "Explore other options within this same service context." }}</p>
     </div>
     <div class="row g-3">
       {% for pro in sibling_products if pro.category_name != the_data.category_name %}
+        {% set related_image = pro.image_url if pro.image_url else 'placeholder-company.svg' %}
         <div class="col-md-6 col-lg-4">
           <div class="related-card">
-            <img src="{{ url_for('static', filename='images/' + pro.image_url) }}" alt="{{ pro.name }}">
+            <img src="{{ url_for('static', filename='images/' + related_image) }}" alt="{{ pro.name }}">
             <div class="p-3">
               <h6 class="mb-2">{{ pro.name }}</h6>
               <a class="btn btn-outline-secondary btn-sm"
                  href="{% if parent_sub %}{{ url_for('services', name=parent_service.category_name, sec=parent_sub.category_name, pro=pro.category_name) }}{% else %}{{ url_for('services', name=parent_service.category_name, sec=pro.category_name) }}{% endif %}">
-                View Details
+                {{ cta.card_view }}
               </a>
             </div>
           </div>
         </div>
       {% endfor %}
+      {% if sibling_products|length <= 1 %}
+        <div class="col-12">
+          <div class="related-card p-4">
+            <h6 class="mb-2">Need a tailored recommendation?</h6>
+            <p class="text-muted mb-3">This branch currently has limited published related entries. Our team can guide you based on your exact requirements.</p>
+            <a href="{{ url_for('contact', head=parent_service.category_name) }}" class="btn btn-primary btn-sm">{{ cta.primary }}</a>
+          </div>
+        </div>
+      {% endif %}
     </div>
   </section>
 </main>

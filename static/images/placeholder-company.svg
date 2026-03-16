@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Company Placeholder Image</title>
+  <desc id="desc">Replace this placeholder with your real company photo.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f1c2f"/>
+      <stop offset="100%" stop-color="#004aad"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <g fill="none" stroke="rgba(255,255,255,0.24)" stroke-width="2">
+    <circle cx="150" cy="160" r="80"/>
+    <circle cx="1040" cy="620" r="120"/>
+    <rect x="360" y="240" width="480" height="320" rx="22"/>
+  </g>
+  <text x="600" y="375" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="44" fill="#ffffff" font-weight="700">
+    PLACEHOLDER IMAGE
+  </text>
+  <text x="600" y="430" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.82)">
+    Replace with your real company photo
+  </text>
+</svg>

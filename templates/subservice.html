@@ -22,19 +22,6 @@
     font-weight: 700;
   }
 
-  .nav-chip {
-    border-radius: 999px;
-    border: 1px solid #d9e5f6;
-    background: #fff;
-    color: #1f2a3a;
-    font-weight: 500;
-  }
-
-  .nav-chip.active {
-    background: #eaf2ff;
-    border-color: #bfd5fb;
-  }
-
   .product-card,
   .capability-card {
     border: 1px solid #e7edf6;
@@ -57,6 +44,16 @@
 
 {% block content %}
 <main class="container-xl subservice-main pb-5">
+  {% set mode = service_mode if service_mode is defined else "catalog" %}
+  {% set cta = cta_copy if cta_copy is defined else {
+    "primary": "Request Quote",
+    "secondary": "Request This Service",
+    "card_view": "View Details",
+    "related_title": "Related Offerings",
+    "list_title": "Offerings",
+    "quick_label": "Related Offerings",
+    "section_hint": "Browse available items and select one to view details."
+  } %}
   {% set siblings = the_data.services.sub_service %}
   {% set products = the_data.products %}
   {% set visible_limit = 5 %}
@@ -77,16 +74,18 @@
       <div class="col-lg-8">
         <p class="text-uppercase fw-semibold mb-2 opacity-75">{{ the_data.services.name }}</p>
         <h1 class="display-6 fw-bold mb-3">{{ the_data.name }}</h1>
-        <p class="lead mb-4">{{ the_data.description or "Explore offerings in this subcategory and request support based on your specific needs." }}</p>
-        <a href="{{ url_for('contact', head=the_data.services.category_name) }}" class="btn btn-light btn-lg px-4">Get Quote Now</a>
+        <p class="lead mb-4">
+          {{ the_data.description or ("Review this service area and submit a consultation request for tailored engagement." if mode == "inquiry" else "Explore offerings in this subcategory and request support based on your specific needs.") }}
+        </p>
+        <a href="{{ url_for('contact', head=the_data.services.category_name) }}" class="btn btn-light btn-lg px-4">{{ cta.primary }}</a>
       </div>
       <div class="col-lg-4">
         <div class="capability-card p-3 p-md-4 text-dark">
           <h6 class="section-title">Subcategory Highlights</h6>
           <ul class="mb-0">
-            <li>{{ products|length }} offering{{ "" if products|length == 1 else "s" }} available</li>
-            <li>Corporate delivery model</li>
-            <li>Inquiry-first engagement</li>
+            <li>{{ products|length }} {{ "service area" if mode == "inquiry" else "offering" }}{{ "" if products|length == 1 else "s" }} available</li>
+            <li>{{ "Consultation-led delivery model" if mode == "inquiry" else "Corporate delivery model" }}</li>
+            <li>{{ "Inquiry-first engagement" if mode == "inquiry" else "Quote and execution workflow" }}</li>
           </ul>
         </div>
       </div>
@@ -94,7 +93,7 @@
   </section>
 
   <section class="mb-4">
-    <div class="d-flex flex-wrap gap-2">
+    <div class="d-flex flex-wrap gap-2 nav-chip-row">
       {% for sub in siblings %}
         <a class="btn nav-chip {% if sub.category_name == the_data.category_name %}active{% endif %}"
            href="{{ url_for('services', name=the_data.services.category_name, sec=sub.category_name) }}">
@@ -109,7 +108,7 @@
     </div>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="subserviceQuickJump" aria-labelledby="subserviceQuickJumpLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="subserviceQuickJumpLabel">{{ the_data.services.name }} Sections</h5>
+        <h5 class="offcanvas-title" id="subserviceQuickJumpLabel">{{ cta.quick_label }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
@@ -127,22 +126,32 @@
 
   <section class="mb-5">
     <div class="mb-3">
-      <h2 class="h3 section-title mb-2">Offerings In {{ the_data.name }}</h2>
-      <p class="text-muted mb-0">Browse available offerings and select one to view details.</p>
+      <h2 class="h3 section-title mb-2">{{ "Service Areas In " + the_data.name if mode == "inquiry" else "Offerings In " + the_data.name }}</h2>
+      <p class="text-muted mb-0">{{ cta.section_hint }}</p>
     </div>
     <div class="row g-3 g-md-4">
       {% for pro in products %}
+        {% set product_image = pro.image_url if pro.image_url else 'placeholder-company.svg' %}
         <div class="col-md-6 col-xl-4 {% if loop.index > visible_limit %}collapse extra-product{% endif %}">
           <div class="product-card overflow-hidden">
-            <img src="{{ url_for('static', filename='images/' + pro.image_url) }}" class="w-100" alt="{{ pro.name }}">
+            <img src="{{ url_for('static', filename='images/' + product_image) }}" class="w-100" alt="{{ pro.name }}">
             <div class="p-3">
               <h5>{{ pro.name }}</h5>
-              <p class="text-muted mb-3">{{ pro.description or "Service detail offering." }}</p>
-              <a class="btn btn-outline-primary btn-sm" href="{{ url_for('services', name=the_data.services.category_name, sec=the_data.category_name, pro=pro.category_name) }}">View Details</a>
+              <p class="text-muted mb-3">{{ pro.description or ("Professional service brief." if mode == "inquiry" else "Service detail offering.") }}</p>
+              <a class="btn btn-outline-primary btn-sm" href="{{ url_for('services', name=the_data.services.category_name, sec=the_data.category_name, pro=pro.category_name) }}">{{ cta.card_view }}</a>
             </div>
           </div>
         </div>
       {% endfor %}
+      {% if products|length == 0 %}
+        <div class="col-12">
+          <div class="product-card p-4">
+            <h5 class="mb-2">Service details are being prepared</h5>
+            <p class="text-muted mb-3">This branch is currently inquiry-first. Contact us to discuss your specific requirements.</p>
+            <a href="{{ url_for('contact', head=the_data.services.category_name) }}" class="btn btn-primary btn-sm">{{ cta.primary }}</a>
+          </div>
+        </div>
+      {% endif %}
     </div>
     {% if products|length > visible_limit %}
       <div class="mt-3">
@@ -173,7 +182,7 @@
   {% endif %}
 
   <section class="text-center">
-    <a href="{{ url_for('contact', head=the_data.services.category_name) }}" class="btn btn-primary btn-lg px-4">Request A Tailored Quote</a>
+    <a href="{{ url_for('contact', head=the_data.services.category_name) }}" class="btn btn-primary btn-lg px-4">{{ cta.secondary }}</a>
   </section>
 </main>
 {% endblock %}
