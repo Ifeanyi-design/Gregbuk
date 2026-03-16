@@ -90,7 +90,9 @@ def inject_template_globals():
         "company_phone_secondary": os.getenv("COMPANY_PHONE_SECONDARY", "[COMPANY_PHONE_SECONDARY]"),
         "company_address": os.getenv("COMPANY_ADDRESS", "[COMPANY_ADDRESS_HERE]"),
         "company_whatsapp": os.getenv("COMPANY_WHATSAPP", "[COMPANY_WHATSAPP_HERE]"),
-        "ga4_measurement_id": os.getenv("GA4_MEASUREMENT_ID", "")
+        "ga4_measurement_id": os.getenv("GA4_MEASUREMENT_ID", ""),
+        "service_mode": "catalog",
+        "cta_copy": dynamic_cta_copy("catalog")
     }
 
 # --- Helpers ---

@@ -180,7 +180,19 @@
 <main class="container-xl home-main pb-5">
   {% set cards_service = services|selectattr('name', 'equalto', 'Cards')|list|first %}
   {% set marketing_service = services|selectattr('name', 'equalto', 'Marketing Essentials')|list|first %}
-  {% set signs_service = services|selectattr('name', 'equalto', 'Signs & Banners')|list|first %}
+  {% set ns = namespace(machine_service=None, pharma_service=None, distribution_service=None) %}
+  {% for svc in services %}
+    {% set svc_key = (svc.name ~ ' ' ~ svc.category_name)|lower %}
+    {% if ns.machine_service is none and ('machine' in svc_key or 'equipment' in svc_key or 'consumable' in svc_key) %}
+      {% set ns.machine_service = svc %}
+    {% endif %}
+    {% if ns.distribution_service is none and 'distribution' in svc_key %}
+      {% set ns.distribution_service = svc %}
+    {% endif %}
+    {% if ns.pharma_service is none and ('pharma' in svc_key or 'pharmaceutical' in svc_key) %}
+      {% set ns.pharma_service = svc %}
+    {% endif %}
+  {% endfor %}
 
   <section class="hero-corporate p-4 p-md-5 mb-4 mb-md-5">
     <div class="row align-items-center g-4">
@@ -346,13 +358,13 @@
         </a>
       </div>
       <div class="col-md-6 col-lg-4">
-        <a href="{% if signs_service %}{{ url_for('services', name=signs_service.category_name) }}{% else %}{{ url_for('all') }}{% endif %}" class="text-decoration-none text-reset d-block h-100">
+        <a href="{% if ns.machine_service %}{{ url_for('services', name=ns.machine_service.category_name) }}{% elif ns.distribution_service %}{{ url_for('services', name=ns.distribution_service.category_name) }}{% elif ns.pharma_service %}{{ url_for('services', name=ns.pharma_service.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="text-decoration-none text-reset d-block h-100">
           <div class="card service-card p-3 p-md-4">
             <span class="icon-chip"><i class="bi bi-truck fs-5"></i></span>
             <h5>Sales & Distribution</h5>
             <p class="text-muted mb-2">Machine sales, technical product distribution, and pharmaceutical-related channels.</p>
             <small class="text-muted d-block">Includes: equipment and consumable distribution</small>
-            <small class="text-muted d-block">Coverage: pharmaceutical-related supply channels</small>
+            <small class="text-muted d-block">Pharmaceutical channels are inquiry-led where catalog entries are not yet published.</small>
           </div>
         </a>
       </div>

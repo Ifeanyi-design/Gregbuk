@@ -78,7 +78,19 @@
 <main class="container-xl services-main pb-5">
   {% set cards_service = services|selectattr('name', 'equalto', 'Cards')|list|first %}
   {% set marketing_service = services|selectattr('name', 'equalto', 'Marketing Essentials')|list|first %}
-  {% set signs_service = services|selectattr('name', 'equalto', 'Signs & Banners')|list|first %}
+  {% set ns = namespace(machine_service=None, pharma_service=None, distribution_service=None) %}
+  {% for svc in services %}
+    {% set svc_key = (svc.name ~ ' ' ~ svc.category_name)|lower %}
+    {% if ns.machine_service is none and ('machine' in svc_key or 'equipment' in svc_key or 'consumable' in svc_key) %}
+      {% set ns.machine_service = svc %}
+    {% endif %}
+    {% if ns.distribution_service is none and 'distribution' in svc_key %}
+      {% set ns.distribution_service = svc %}
+    {% endif %}
+    {% if ns.pharma_service is none and ('pharma' in svc_key or 'pharmaceutical' in svc_key) %}
+      {% set ns.pharma_service = svc %}
+    {% endif %}
+  {% endfor %}
 
   <section class="services-hero p-4 p-md-5 mb-4 mb-md-5">
     <div class="row">
@@ -139,7 +151,10 @@
             <li>Pharmaceutical-related distribution support</li>
             <li>Supply planning and fulfillment coordination</li>
           </ul>
-          <a href="{% if signs_service %}{{ url_for('services', name=signs_service.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-primary">Explore Related Category</a>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="{% if ns.machine_service %}{{ url_for('services', name=ns.machine_service.category_name) }}{% elif ns.distribution_service %}{{ url_for('services', name=ns.distribution_service.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-primary">Browse Machine & Distribution</a>
+            <a href="{% if ns.pharma_service %}{{ url_for('services', name=ns.pharma_service.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-secondary">Pharmaceutical Inquiry</a>
+          </div>
         </div>
       </div>
 
