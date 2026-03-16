@@ -1,521 +1,341 @@
-{%extends "base.html"%}
-{%block title%} HOME{%endblock%}
-{%block style %}
-  .products{
-    margin-top: 5%;
-    margin-bottom: 5%;
-    display: flex;
-    flex-direction: column;
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block style %}
+  :root {
+    --brand-primary: #004aad;
+    --brand-accent: #cc9933;
+    --brand-dark: #0f1c2f;
+    --brand-muted: #6b7280;
+    --brand-light: #f7f9fc;
+  }
+
+  .home-main {
+    margin-top: 84px;
+  }
+
+  .hero-corporate {
+    background:
+      linear-gradient(120deg, rgba(15, 28, 47, 0.9), rgba(0, 74, 173, 0.82)),
+      url("{{ url_for('static', filename='images/printing-press-about.jpg') }}") center/cover no-repeat;
+    color: #fff;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  .hero-corporate .btn-primary {
+    background-color: var(--brand-accent);
+    border-color: var(--brand-accent);
+    color: #fff;
+  }
+
+  .hero-corporate .btn-primary:hover {
+    filter: brightness(1.05);
+  }
+
+  .hero-corporate .btn-outline-light:hover {
+    color: var(--brand-dark);
+  }
+
+  .trust-strip {
+    background: #fff;
+    border: 1px solid #e8edf5;
+    border-radius: 0.75rem;
+  }
+
+  .trust-item h6 {
+    color: var(--brand-primary);
+    margin-bottom: 0.2rem;
+    font-weight: 700;
+  }
+
+  .section-title {
+    color: var(--brand-primary);
+    font-weight: 700;
+  }
+
+  .section-subtitle {
+    color: var(--brand-muted);
+    max-width: 760px;
+  }
+
+  .service-card {
+    border: 1px solid #e9eef6;
+    border-radius: 0.85rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+  }
+
+  .service-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.6rem 1.6rem rgba(15, 28, 47, 0.08);
+  }
+
+  .icon-chip {
+    width: 2.6rem;
+    height: 2.6rem;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-
-
+    border-radius: 50%;
+    background: rgba(0, 74, 173, 0.1);
+    color: var(--brand-primary);
+    margin-bottom: 0.85rem;
   }
-  .product .product-name{
-    padding-bottom: 5%;
+
+  .digital-id-feature {
+    background: var(--brand-light);
+    border: 1px solid #e5ebf4;
+    border-radius: 1rem;
   }
-  .products img{
-    width: auto;
+
+  .digital-id-image {
+    min-height: 240px;
+    border-radius: 0.8rem;
+    background:
+      linear-gradient(145deg, rgba(15, 28, 47, 0.2), rgba(0, 74, 173, 0.2)),
+      url("{{ url_for('static', filename='images/business-card.jpg') }}") center/cover no-repeat;
+  }
+
+  .why-card {
     background: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: 1px solid #e8edf5;
+    border-radius: 0.8rem;
+    height: 100%;
   }
-  .products img:hover{
-    opacity: 70%;
+
+  .leader-card {
+    border: 1px solid #e8edf5;
+    border-radius: 0.85rem;
+    height: 100%;
   }
-  .attributes .things{
-    margin-left: auto;
-    margin-right: auto;
+
+  .final-cta {
+    background: linear-gradient(135deg, var(--brand-primary), #0d5fc9);
+    color: #fff;
+    border-radius: 1rem;
+  }
+
+  @media (max-width: 991.98px) {
+    .home-main {
+      margin-top: 76px;
+    }
   }
 {% endblock %}
-{%block content%}
 
-<!--Carousel-->
-  <div class="container-fluid hero-carousel container-lg">
-    <div id="myCarousel" class="carousel slide mb-2" data-bs-ride="carousel" >
-      <div class="carousel-indicators" >
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4" class=""></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4" aria-label="Slide 5" class=""></button>
-      </div>
-      <div class="carousel-inner" >
-        <div class="carousel-item active" >
-          <img src="{{ url_for('static', filename='images/business-card.jpg') }}">
-          <div class="container-fluid" >
-            <div class="carousel-caption text-start" >
-              <h1>Trusted Corporate Identity Solutions.</h1>
-              <p class="opacity-75">Delivering dependable, enterprise-ready branding and identity services.</p>
-              <p><a class="btn btn-lg btn-primary" href="{{ url_for('contact') }}">Request Consultation</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item" >
-          <img src="{{ url_for('static', filename='images/t-shirt.jpg') }}">
-          <div class="container-fluid" >
-            <div class="carousel-caption" >
-              <h1 class="h">Your Design. Your Shirt. Your Style.</h1>
-              <p>From bold graphics to subtle branding—print it your way.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Learn more</a>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item" >
-          <img src="{{ url_for('static', filename='images/brochure-2.jpg') }}">
-          <div class="container-fluid" >
-            <div class="carousel-caption text-end" >
-              <h1>Your Message, in Their Hands.</h1>
-              <p>Durable, beautiful brochures for events, promos, and sales.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item" >
-          <img src="{{ url_for('static', filename='images/mug.jpg') }}">
-          <div class="container-fluid" >
-            <div class="carousel-caption text-end" >
-              <h1>If You Can Dream It, We Can Print It.</h1>
-              <p>Full-color mug printing for photos, art, and text.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item" >
-          <img src="{{ url_for('static', filename='images/business-card.jpg') }}">
-          <div class="container-fluid" >
-            <div class="carousel-caption text-end" >
-              <h1>Your Brand in Your Pocket – Ready in 24H.</h1>
-              <p>Fast, professional business card printing at unbeatable quality.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-          <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-        </svg>
-        <span class="visually-hidden">Previous</span>
-      </button> <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
-        <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
-      </svg>
-      <span class="visually-hidden">Next</span>
-    </button>
-    </div>
-  </div>
-<main class="container-lg">
-
-
-    <div class="container-lg attributes text-center my-4">
-  <div class="row">
-    <div class="col-6 things col-md-2 mb-3">
-      <img class="img icon-small" src="{{ url_for('static', filename='images/1.png') }}">
-      <p>Premium materials</p>
-    </div>
-    <div class="col-6 things col-md-2 mb-3">
-      <img class="img icon-small" src="{{ url_for('static', filename='images/2.png') }}">
-      <p>Value for money</p>
-    </div>
-    <div class="col-6 things col-md-2 mb-3">
-      <img class="img icon-small" src="{{ url_for('static', filename='images/3.png') }}">
-      <p>Express options</p>
-    </div>
-    <div class="col-6 things col-md-2 mb-3">
-      <img class="img icon-small" src="{{ url_for('static', filename='images/4.png') }}">
-      <p>No surprises at checkout</p>
-    </div>
-    <div class="col-6 things col-md-2 mb-3">
-      <img class="img icon-small" src="{{ url_for('static', filename='images/5.png') }}">
-      <p>Happy clients first</p>
-    </div>
-
-  </div>
-    </div>
-
-  <section class="services-section" id="digital-id-solutions">
-    <div class="slider-container">
-      <button id="btn-left" class="slider-btn left" onclick="scrollProducts(-1)">
-        <i class="bi bi-chevron-left"></i>
-      </button>
-
-
-    <h2>Services & Products</h2>
-    <div class="product-slider" id="slider">
-          {% for service in services %}
-        <div class="product">
-          <a href="{{ url_for('services', name=service.category_name)}}">
-          <img src="{{ url_for('static', filename='images/'+service.image_url) }}">
-        </a>
-          <div class="product-name"><a href="{{ url_for('services', name=service.category_name) }}">{{ service.name }}</a></div>
-        </div>
-          {% for sub in service.sub_service %}
-            <div class="product">
-              <a href="{{ url_for('services', name=service.category_name, sec=sub.category_name)}}">
-                <img src="{{ url_for('static', filename='images/'+sub.image_url) }}">
-              </a>
-              <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=sub.category_name) }}">{{ sub.name }}</a></div>
-            </div>
-            {% for product in sub.products %}
-              <div class="product">
-              <a href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=product.category_name)}}">
-                <img src="{{ url_for('static', filename='images/'+product.image_url) }}">
-              </a>
-                <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=product.category_name) }}">{{ product.name }}</a></div>
-            </div>
-            {% endfor %}
-          {% endfor %}
-          {% for product in service.products %}
-            <div class="product">
-              <a href="{{ url_for('services', name=service.category_name, pro=product.category_name)}}">
-                <img src="{{ url_for('static', filename='images/'+product.image_url) }}">
-              </a>
-              <div class="product-name"><a href="{{ url_for('services', name=service.category_name, pro=product.category_name) }}">{{ product.name }}</a></div>
-            </div>
-          {%endfor%}
-          {% endfor %}
-    </div>
-
-    <button id="btn-right" class="slider-btn right" onclick="scrollProducts(1)">
-      <i class="bi bi-chevron-right"></i>
-    </button>
-  </div>
-  </section>
-
-
-</main>
-
-
-<!-- sec1 -->
-<section class="bg-section col-xxl-8 px-4 py-0">
-  <div class="container-lg">
-    <div class="row flex-md-row-reverse align-items-center g-5">
-      <div class="col-10 order-md-1 order-2 exp col-sm-8 col-md-6">
-        {% for service in services %}
-          {% if service.name == "Marketing Essentials" %}
-            <img src="{{ url_for('static', filename='images/'+service.image_url) }}" class="d-block w-100 mx-md-auto img-fluid hero-img"
-             alt="Bootstrap Themes" width="700" height="500" loading="lazy">
-          {% endif %}
-        {% endfor %}
-      </div>
-      <div class="col-md-6 order-md-2 order-1">
-        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
-          Marketing Essentials
-        </h1>
-        <p class="lead">
-          From business cards and brochures to flyers, posters, banners, and more, our printing services deliver sharp detail, vibrant color, and lasting quality that ensures your brand always makes a powerful impression.
+{% block content %}
+<main class="container-xl home-main pb-5">
+  <section class="hero-corporate p-4 p-md-5 mb-4 mb-md-5">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <p class="text-uppercase fw-semibold mb-2 opacity-75">Gregbuk Intl Company Ltd</p>
+        <h1 class="display-5 fw-bold mb-3">Corporate Multi-Service Solutions Built on Trust Since 2004</h1>
+        <p class="lead mb-4">
+          We deliver dependable services across general contracts, digital ID printing, machine sales and distribution,
+          engineering consultancy, travel agency support, and corporate registration services.
         </p>
-
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          {% for service in services %}
-            {% if service.name == "Marketing Essentials" %}
-              <button type="button" onclick="window.location.href='{{ url_for('services', name=service.category_name) }}'" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
-            {% endif %}
-          {% endfor %}
+        <div class="d-flex flex-wrap gap-2">
+          <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg px-4">Request Consultation</a>
+          <a href="{{ url_for('all') }}" class="btn btn-outline-light btn-lg px-4">Explore Services</a>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="boxer">
-<div class="container-lg item-change old">
-  <div class="row g-2"> <!-- g-2 adds small gap between images -->
-    {% for service in services %}
-      {% if service.name == "Marketing Essentials" %}
-        {% for n in range(6) %}
-          {% if n < service.sub_service|length %}
-            <div class="products col-6 col-lg-2">
-              <div class="">
-                <a href="{{ url_for('services', name=service.category_name, sec=service.sub_service[n].category_name) }}"><img src="{{ url_for('static', filename='images/'+service.sub_service[n].image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
-              </div>
-              <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=service.sub_service[n].category_name) }}">{{ service.sub_service[n].name }}</a></div>
-            </div>
-          {% else %}
-            <div class="products col-6 col-lg-2">
-              <div class="">
-                <a href="{{ url_for('services', name=service.category_name, sec=random_sub1.category_name, pro=random_product1.category_name) }}"><img src="{{ url_for('static', filename='images/'+random_product1.image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
-              </div>
-              <div class="product-name"><a href="{{ url_for('services', sec=random_sub1.category_name, name=service.category_name, pro=random_product1.category_name) }}">{{ random_product1.name }}</a></div>
-            </div>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
-</section>
-<!-- sec2 -->
-
-<section class="bg-section col-xxl-8 px-4 py-0">
-  <div class="container-lg">
-  <div class="row flex-md-row align-items-center g-5" >
-    <div class="col-10 order-md-1 order-1 exp col-sm-8 col-md-6">
-        {% for service in services %}
-          {% if service.name == "Cards" %}
-            <img src="{{ url_for('static', filename='images/'+service.image_url) }}" class="d-block w-100 mx-md-auto img-fluid hero-img"
-             alt="Bootstrap Themes" width="700" height="500" loading="lazy">
-          {% endif %}
-        {% endfor %}
-      </div>
-    <div class="col-md-6 order-md-2 order-2" >
-      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Cards</h1>
-      <p class="lead">Stand out and create a memorable first impression with premium cards. Choose from elegant designs, durable materials, and personalized finishes that showcase your brand identity with style and professionalism.</p>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-start" >
-        {% for service in services %}
-          {% if service.name == "Cards" %}
-            <button type="button" onclick="window.location.href='{{ url_for('services', name=service.category_name) }}'" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
-          {% endif %}
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</div>
-</section>
-<section class="boxer">
-<div class="container-lg item-change">
-  <div class="row g-2"> <!-- g-2 adds small gap between images -->
-    {% for service in services %}
-      {% if service.name == "Cards" %}
-        {% for n in range(6) %}
-          {% if n < service.sub_service|length %}
-            <div class="products col-6 col-lg-2">
-              <div class="">
-                <a href="{{ url_for('services', name=service.category_name, sec=service.sub_service[n].category_name) }}"><img src="{{ url_for('static', filename='images/'+service.sub_service[n].image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
-              </div>
-              <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=service.sub_service[n].category_name) }}">{{ service.sub_service[n].name }}</a></div>
-            </div>
-          {% else %}
-            <div class="products col-6 col-lg-2">
-              {% set id_service = service.sub_service%}
-              {% set id_product = choose_from_list(id_service) %}
-              <div class="">
-                <a href="{{ url_for('services', name=service.category_name, sec=random_sub2.category_name, pro=id_product.category_name) }}"><img src="{{ url_for('static', filename='images/'+id_product.image_url) }}" class="img-fluid rounded" alt="Image 1"></a>
-              </div>
-              <div class="product-name"><a href="{{ url_for('services', sec=random_sub2.category_name, name=service.category_name, pro=id_product.category_name) }}">{{ id_product.name }}</a></div>
-            </div>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
-</section>
-
-<!-- sec3 -->
-<section class="bg-section col-xxl-8  pb-1">
-  <div class="container-lg item-change">
-
-  <div class=" row flex-md-row-reverse align-items-center g-5 pb-2 pt-0" >
-    <div class="borderss holder2 ho col-10  order-md-1 order-2 col-sm-6 pt-0 col-lg-6">
-  <div class="row g-2"> <!-- g-2 adds small gap between images -->
-    {% for service in services %}
-      {% if service.name == "Signs & Banners" %}
-        {% for s in range(2) %}
-          <div class="products col-6 col-lg-6">
-            <div class="products">
-            <img src="{{ url_for('static', filename='images/'+service.sub_service[0].products[s].image_url) }}" class="img-fluid rounded" alt="Image 1">
-            </div>
-              <div class="product-name mt-0"><a href="{{ url_for('services', name=service.category_name,sec=service.sub_service[0].category_name, pro=service.sub_service[0].products[s].category_name) }}">{{ service.sub_service[0].products[s].name }}</a></div>
-          </div>
-        {% endfor %}
-        {% for s in range(1) %}
-          <div class="products col-6 col-lg-6 mt-0">
-            <div class="products mt-0">
-            <img src="{{ url_for('static', filename='images/'+service.sub_service[1].products[s].image_url) }}" class="img-fluid rounded" alt="Image 1">
-            </div>
-              <div class="product-name mt-0"><a href="{{ url_for('services', name=service.category_name,sec=service.sub_service[1].category_name, pro=service.sub_service[1].products[s].category_name) }}">{{ service.sub_service[1].products[s].name }}</a></div>
-          </div>
-        {% endfor %}
-        {% for s in range(1) %}
-          <div class="products col-6 col-lg-6 mt-0">
-            <div class="products mt-0">
-            <img src="{{ url_for('static', filename='images/'+service.sub_service[2].products[s].image_url) }}" class="img-fluid rounded" alt="Image 1">
-            </div>
-              <div class="product-name mt-0"><a href="{{ url_for('services', name=service.category_name,sec=service.sub_service[2].category_name, pro=service.sub_service[2].products[s].category_name) }}">{{ service.sub_service[2].products[s].name }}</a></div>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
-    <div class="col-md-6 holder1 w-sm-100 order-lg-2 order-1" >
-      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Signs & Banners</h1>
-      <p class="lead">Make your message impossible to miss with custom banners, indoor signs, and storefront displays. Designed to be durable, professional, and cost-effective, they’re the perfect choice for promotions, events, trade shows, and everyday visibility.</p>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-start" >
-        {% for service in services %}
-          {% if service.name == "Signs & Banners" %}
-            <button type="button" onclick="window.location.href='{{ url_for('services', name=service.category_name) }}'" class="btn btn-outline-primary rounded-pill hello border border-2 border-primary btn-md px-3 py-1 me-md-2">Browse All</button>
-          {% endif %}
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</div>
-</section>
-
-
-  <section class="services-section boxer py-5 mb-5">
-    <div class="container-lg item-change">
-    <div class="slider-container">
-      <button id="btn-left2" class="slider-btn left" onclick="scrollProducts(-1)">
-        <i class="bi bi-chevron-left"></i>
-      </button>
-
-
-    <h2>Explore our Display Signs</h2>
-    <div class="product-slider" id="slider2">
-          {% for service in services %}
-            {% if service.name == "Signs & Banners" %}
-              {% for sub in service.sub_service %}
-                {% for pro in sub.products %}
-                  <div class="product">
-                    <a href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=pro.category_name)}}">
-                    <img src="{{url_for('static', filename='images/'+pro.image_url) }}">
-                  </a>
-                    <div class="product-name"><a href="{{ url_for('services', name=service.category_name, sec=sub.category_name, pro=pro.category_name) }}">{{ pro.name }}</a></div>
-                  </div>
-                {% endfor %}
-              {% endfor %}
-            {% endif %}
-          {% endfor %}
-
-    </div>
-
-    <button id="btn-right2" class="slider-btn right" onclick="scrollProducts(1)">
-      <i class="bi bi-chevron-right"></i>
-    </button>
-  </div>
     </div>
   </section>
-<section class="container-lg py-5" id="leadership">
-  <div class="row">
-    <div class="col-12 text-center mb-4">
-      <h2>Leadership</h2>
-      <p class="lead">Gregbuk Intl Company Ltd is led by an experienced team focused on quality delivery, operational excellence, and sustainable business growth.</p>
+
+  <section class="trust-strip p-3 p-md-4 mb-4 mb-md-5">
+    <div class="row text-center g-3">
+      <div class="col-6 col-md-3 trust-item">
+        <h6>Established 2004</h6>
+        <small class="text-muted">Over two decades of service</small>
+      </div>
+      <div class="col-6 col-md-3 trust-item">
+        <h6>Lagos, Nigeria</h6>
+        <small class="text-muted">Proudly Nigerian, business-focused</small>
+      </div>
+      <div class="col-6 col-md-3 trust-item">
+        <h6>Active Company</h6>
+        <small class="text-muted">Consistent delivery across sectors</small>
+      </div>
+      <div class="col-6 col-md-3 trust-item">
+        <h6>Family-Owned</h6>
+        <small class="text-muted">Value-driven long-term partnerships</small>
+      </div>
     </div>
-    <div class="col-md-6 col-lg-4 mb-3">
-      <div class="card h-100 shadow-sm border-0">
-        <div class="card-body">
-          <h5 class="card-title">Engr. Agada Sunday G.</h5>
-          <p class="card-text">MD/CEO</p>
+  </section>
+
+  <section class="mb-5">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-7">
+        <h2 class="section-title mb-3">About Gregbuk Intl Company Ltd</h2>
+        <p class="mb-3">
+          Gregbuk Intl Company Ltd is a family-owned company established in 2004, serving private and public organizations
+          with reliable, quality-focused business solutions.
+        </p>
+        <p class="mb-4">
+          Our operations span printing and supplies, digital ID solutions, machine sales and consumables, engineering consultancy,
+          pharmaceutical-related distribution, travel agency services, and corporate support functions like CAC, trademark,
+          and commission services.
+        </p>
+        <a href="{{ url_for('about_us') }}" class="btn btn-outline-primary">Read Company Profile</a>
+      </div>
+      <div class="col-lg-5">
+        <img src="{{ url_for('static', filename='images/print_about_us.webp') }}" class="img-fluid rounded-4 shadow-sm" alt="Gregbuk corporate operations">
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="mb-4">
+      <h2 class="section-title mb-2">Core Services</h2>
+      <p class="section-subtitle mb-0">Structured solutions designed to support institutions, SMEs, and large organizations.</p>
+    </div>
+    <div class="row g-3 g-md-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="card service-card p-3 p-md-4">
+          <span class="icon-chip"><i class="bi bi-printer fs-5"></i></span>
+          <h5>Printing & Supplies</h5>
+          <p class="text-muted mb-0">Corporate printing, branded materials, document production, and related supplies.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card service-card p-3 p-md-4">
+          <span class="icon-chip"><i class="bi bi-person-vcard fs-5"></i></span>
+          <h5>Digital ID Solutions</h5>
+          <p class="text-muted mb-0">ID card design and printing, machine sales, consumables, and issuance support.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card service-card p-3 p-md-4">
+          <span class="icon-chip"><i class="bi bi-truck fs-5"></i></span>
+          <h5>Sales & Distribution</h5>
+          <p class="text-muted mb-0">Machine sales, technical product distribution, and pharmaceutical-related channels.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="card service-card p-3 p-md-4">
+          <span class="icon-chip"><i class="bi bi-briefcase fs-5"></i></span>
+          <h5>Consultancy & Agency Services</h5>
+          <p class="text-muted mb-0">Engineering consultancy, travel agency support, and advisory services for growth-focused organizations.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="card service-card p-3 p-md-4">
+          <span class="icon-chip"><i class="bi bi-building-check fs-5"></i></span>
+          <h5>Corporate Support Services</h5>
+          <p class="text-muted mb-0">CAC registration, trademark processing, and commission support for compliant business operations.</p>
         </div>
       </div>
     </div>
-    <div class="col-md-6 col-lg-4 mb-3">
-      <div class="card h-100 shadow-sm border-0">
-        <div class="card-body">
-          <h5 class="card-title">Mrs Bukola Agada</h5>
-          <p class="card-text">GM</p>
+  </section>
+
+  <section id="digital-id-solutions" class="digital-id-feature p-4 p-md-5 mb-5">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <h2 class="section-title mb-3">Featured: Digital ID Solutions</h2>
+        <p class="mb-3">
+          We specialize in end-to-end digital identification systems for schools, corporations, government agencies, and institutions.
+        </p>
+        <ul class="mb-4">
+          <li>Professional ID card design and secure printing</li>
+          <li>Sales of ID card printers, ribbons, PVC cards, and accessories</li>
+          <li>Support for setup, issuance workflow, and replenishment</li>
+        </ul>
+        <a href="{{ url_for('contact') }}" class="btn btn-primary me-2">Request ID Solution</a>
+        <a href="{{ url_for('all') }}" class="btn btn-outline-primary">View Service Categories</a>
+      </div>
+      <div class="col-lg-5">
+        <div class="digital-id-image"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="mb-4">
+      <h2 class="section-title mb-2">Why Choose Us</h2>
+      <p class="section-subtitle mb-0">A practical partner for organizations that value consistency, speed, and quality.</p>
+    </div>
+    <div class="row g-3 g-md-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="why-card p-3 p-md-4">
+          <h6 class="fw-bold">Industry Experience</h6>
+          <p class="text-muted mb-0">Operating since 2004 with proven business continuity and delivery discipline.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="why-card p-3 p-md-4">
+          <h6 class="fw-bold">Multi-Sector Capability</h6>
+          <p class="text-muted mb-0">Integrated services across contracts, printing, distribution, and corporate support.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="why-card p-3 p-md-4">
+          <h6 class="fw-bold">Professional Standards</h6>
+          <p class="text-muted mb-0">Clear communication, process-driven delivery, and strong attention to detail.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="why-card p-3 p-md-4">
+          <h6 class="fw-bold">Client-Centered</h6>
+          <p class="text-muted mb-0">Flexible support for long-term partnerships with institutions and businesses.</p>
         </div>
       </div>
     </div>
-    <div class="col-md-6 col-lg-4 mb-3">
-      <div class="card h-100 shadow-sm border-0">
-        <div class="card-body">
-          <h5 class="card-title">Mrs Callista Agada</h5>
-          <p class="card-text">Business Development Manager / Secretary</p>
+  </section>
+
+  <section id="leadership" class="mb-5">
+    <div class="mb-4 text-center">
+      <h2 class="section-title mb-2">Leadership</h2>
+      <p class="section-subtitle mx-auto mb-0">A family-led team with strong technical, operational, and business leadership.</p>
+    </div>
+    <div class="row g-3 g-md-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="card leader-card p-3">
+          <h5 class="mb-1">Engr. Agada Sunday G.</h5>
+          <p class="text-muted mb-0">MD/CEO</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card leader-card p-3">
+          <h5 class="mb-1">Mrs Bukola Agada</h5>
+          <p class="text-muted mb-0">GM</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card leader-card p-3">
+          <h5 class="mb-1">Mrs Callista Agada</h5>
+          <p class="text-muted mb-0">Business Development Manager / Secretary</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="card leader-card p-3">
+          <h5 class="mb-1">Oluwatobi V. Onyedika Agada</h5>
+          <p class="text-muted mb-0">Manager &amp; Board Member</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="card leader-card p-3">
+          <h5 class="mb-1">Ifeanyi Agada</h5>
+          <p class="text-muted mb-0">IT Consultant / Board Member</p>
         </div>
       </div>
     </div>
-    <div class="col-md-6 col-lg-6 mb-3">
-      <div class="card h-100 shadow-sm border-0">
-        <div class="card-body">
-          <h5 class="card-title">Oluwatobi V. Onyedika Agada</h5>
-          <p class="card-text">Manager &amp; Board Member</p>
-        </div>
-      </div>
+  </section>
+
+  <section class="final-cta p-4 p-md-5 text-center">
+    <h2 class="fw-bold mb-3">Partner with Gregbuk for Reliable Corporate Service Delivery</h2>
+    <p class="mb-4">
+      Need support with digital IDs, contracts, supplies, distribution, or corporate filings?
+      Our team is ready to help.
+    </p>
+    <div class="d-flex flex-wrap gap-2 justify-content-center">
+      <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg px-4">Contact Us</a>
+      <a href="{{ url_for('about_us') }}" class="btn btn-outline-light btn-lg px-4">About The Company</a>
     </div>
-    <div class="col-md-6 col-lg-6 mb-3">
-      <div class="card h-100 shadow-sm border-0">
-        <div class="card-body">
-          <h5 class="card-title">Ifeanyi Agada</h5>
-          <p class="card-text">IT Consultant / Board Member</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<div class="container-lg">
-  <div class="special-text" >
-    <h1>Online Printing Services: Professional and Affordable Solutions for Your Business</h1>
+  </section>
+</main>
+{% endblock %}
 
-<p>Welcome to <strong>Gregbuk</strong>, your trusted partner for exceptional <strong>online printing services</strong>. With over 20 years of industry experience, we’ve built a reputation for delivering high-quality, affordable, and fully customized <strong>printing solutions</strong>. Today, we proudly serve thousands of businesses and individuals, ensuring every order meets the highest standards of quality and professionalism.</p>
-
-<p>At Gregbuk, we know printing is more than just putting ink on paper—it’s about creating lasting impressions. That’s why we provide expert guidance, tailored solutions, and professional file checks to guarantee flawless results. Our seamless ordering process, flexible payment options, and dedicated <b>customer support team</b> make it easy to get exactly what you need, whether for small runs or bulk projects.</p>
-
-<!-- Services Overview -->
-<nav aria-label="Gregbuk Services" class="services-overview">
-  <h2>Our Services</h2>
-  <ul>
-    {% for service in services %}
-    <li><a href="{{url_for('services', name=service.category_name)}}">{{service.name}}</a></li>
-    {% endfor %}
-  </ul>
-</nav>
-
-<!-- Stickers & Labels -->
-<h2 id="stickers-labels">Label and Sticker Printing: Custom Solutions for Your Branding Needs</h2>
-<p>Boost your brand visibility with our custom sticker and label printing services. Gregbuk provides durable, high-quality stickers and labels that are ideal for packaging, promotions, and product branding. Our <strong>custom stickers</strong> are designed to look great indoors or outdoors, ensuring your brand always stands out.</p>
-<p>From roll labels for packaging to unique designs for events, we offer fully <strong>personalized printing solutions</strong>. Choose from a wide range of shapes, sizes, and finishes to create labels that perfectly represent your brand identity.</p>
-
-<!-- Marketing Essentials -->
-<h2 id="marketing-essentials">Marketing Materials: Boost Your Marketing with Custom Printing Solutions</h2>
-<p>Make your marketing campaigns unforgettable with high-quality printed materials. Gregbuk produces marketing essentials such as flyers, brochures, postcards, letterheads, stationery, and envelopes. Whether for product launches, events, or brand awareness, our <strong>printing services</strong> help you communicate with impact.</p>
-<p>Fully customizable and budget-friendly, our <strong>online printing solutions</strong> allow you to design materials that reflect your unique brand voice. With fast delivery and professional results, Gregbuk keeps your business looking sharp and reliable.</p>
-
-<!-- Signs & Banners -->
-<h2 id="signs-banners">Signs and Banners: Custom Signs and Banners for Every Occasion</h2>
-<p>From events to storefront displays, Gregbuk specializes in custom signs and banners that get noticed. Whether you need rigid signs, retractable banners, or flags, we provide vibrant, weather-resistant prints built to last.</p>
-<p>Our <strong>custom banners</strong> come in a variety of sizes, finishes, and materials, making it easy to create signage that truly reflects your brand. With Gregbuk, your business gets the attention it deserves—anytime, anywhere.</p>
-
-<!-- Business Cards -->
-<h2 id="business-cards">Business Cards: Make a Lasting Impression with Custom Business Cards</h2>
-<p>Your <strong>business card</strong> is a powerful first impression. With Gregbuk’s custom business cards, you can stand out with premium finishes, materials, and creative designs. We also offer loyalty cards and appointment cards, all tailored to fit your brand identity.</p>
-<p>Thanks to our advanced <strong>digital printing services</strong>, every card comes out sharp, colorful, and professional. With fast turnaround times, Gregbuk ensures you always have the right tools to make meaningful business connections.</p>
-
-<!-- Posters -->
-<h2 id="posters">Posters: Large-Scale Printing for Maximum Impact</h2>
-<p>Need to capture attention fast? Our poster printing services deliver bold, high-quality visuals perfect for promotions, events, and artistic projects. Gregbuk offers a wide selection of sizes and finishes, powered by advanced <strong>digital printing technology</strong> for stunning results.</p>
-<p>Whether it’s a small local campaign or a nationwide rollout, we guarantee speed, quality, and consistency with every order. Gregbuk posters help your message get seen—and remembered.</p>
-
-<!-- NEW: Seals & Stamps -->
-<h2 id="seals-stamps">Seals &amp; Stamps: Crisp Impressions, Every Time</h2>
-<p>Authenticate documents and brand your packaging with precision-made <strong>seals and stamps</strong>. We produce self-inking, pre-inked, and traditional rubber stamps, plus company seals and date stamps for offices, schools, and government use.</p>
-<ul>
-  <li>Self-inking &amp; pre-inked stamps for clean, fast marking</li>
-  <li>Custom text, logos, signatures &amp; dates</li>
-  <li>Durable materials for long-term daily use</li>
-</ul>
-
-<!-- NEW: Frames & Plaques -->
-<h2 id="frames-plaques">Frames &amp; Plaques: Celebrate, Recognize, and Display</h2>
-<p>Honor achievements and elevate interiors with premium <strong>frames and plaques</strong>. From awards and recognition plaques to photo frames and corporate displays, we craft pieces that look professional and last.</p>
-<ul>
-  <li>Wood, acrylic, glass &amp; metal plaque options</li>
-  <li>Laser engraving, UV print, and full-color inserts</li>
-  <li>Custom sizes and branding to match your identity</li>
-</ul>
-
-<!-- Why Choose -->
-<h2>Why Choose Gregbuk for Your Online Printing Services?</h2>
-<p><strong>Gregbuk</strong> combines 20 years of expertise with a commitment to quality, affordability, and customer satisfaction. From books and magazines to business cards and banners, seals, stamps, frames, and plaques—we provide professional <strong>printing solutions</strong> that help your business shine.</p>
-
-<!-- Simple CTA -->
-<p><a href="{{ url_for('contact') }}" class="btn btn-primary rounded-pill">Get a Free Quote</a> &nbsp; <a href="{{ url_for('contact') }}" class="btn btn-outline-primary rounded-pill border border-2 border-primary">Contact Support</a></p>
-
-</div>
-
-
-</div>
-
-{%endblock%}
-{%block script%}
+{% block script %}
 <script>
-
-
 </script>
-{%endblock%}
+{% endblock %}
