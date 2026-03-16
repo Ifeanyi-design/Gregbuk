@@ -1,5 +1,5 @@
 from main import app
-from db import db, Services, SubService, Products, Header, ProductCollection, SMSPricing
+from db import db, Services, SubService, Products, Header, ProductCollection, SMSPricing, Gateway
 from random import choice
 from flask import url_for
 
@@ -4703,5 +4703,27 @@ Stand out at every event with <strong>custom Retractable Banners</strong> from G
     international_sms = SMSPricing(sms_type="international", price_per_sms=7)
 
     db.session.add_all([local_sms, international_sms])
+    gateways = [
+        {"name": "Termii", "api_key": "TLypwdXjfhUgTneYnFoaurTJgLUUpBuTALsZwcwTwtEyGfNVxYgYQUiaNdrqWo", "sender_id": "GREGBUKSMS", "country": "NG"},
+        {"name": "AfricaSTalking", "api_key": "TEST_AT", "sender_id": "AT1", "country": "NG", "active": False}
+    ]
+
+    if not SMSPricing.query.filter_by(sms_type="local"):
+        new = SMSPricing(
+            sms_type="local",
+            price_per_sms=7
+        )
+        db.session.add(new)
+
+    for g in gateways:
+        gw = Gateway.query.filter_by(name=g["name"], sender_id=g["sender_id"]).first()
+        if not gw:
+            gw = Gateway(
+                name=g["name"],
+                api_key=g["api_key"],
+                sender_id=g["sender_id"],
+                active=True
+            )
+            db.session.add(gw)
     db.session.commit()
 

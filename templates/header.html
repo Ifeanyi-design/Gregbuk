@@ -12,7 +12,7 @@
 </button>
     {% endif %}
 
-    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Gregbuk</a>
+    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Gregbuk Intl Company Ltd</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
       aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -21,25 +21,12 @@
 
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 mt-3">
-        {% for items in header %}
-          {% if items.name == "Service" %}
-            <li class="nav-item dropdown">
-              <a class="nav-link drop dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">{{items.name}}</a>
-              <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
-                {% for service in services %}
-                  <li><a class="dropdown-item drop {% if the_name ==  service.category_name %}active{% endif %}" href="{{ url_for('services', name=service.category_name) }}">{{service.name}}</a></li>
-                {% endfor %}
-              </ul>
-            </li>
-          {% elif items.name == "Contact Us" %}
-            <li class="nav-item"><a class="nav-link drop {% if request.endpoint == items.end_url %}active{% endif %}" href="{{ url_for(items.end_url, head=the_name) }}">{{ items.name }}</a></li>
-          {% elif items.name == "Bulk SMS" %}
-            <li class="nav-item"><a class="nav-link bulk drop {% if request.endpoint == items.end_url %}active{% endif %}" href="{{ url_for(items.end_url) }}">{{ items.name }}</a></li>
-          {% else %}
-            <li class="nav-item"><a class="nav-link drop {% if request.endpoint == items.end_url %}active{% endif %}" href="{{ url_for(items.end_url) }}">{{ items.name }}</a></li>
-          {% endif %}
-        {% endfor %}
+        <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">Home</a></li>
+        <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'about_us' %}active{% endif %}" href="{{ url_for('about_us') }}">About Us</a></li>
+        <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'all' %}active{% endif %}" href="{{ url_for('all') }}">Services</a></li>
+        <li class="nav-item"><a class="nav-link drop" href="{{ url_for('home') }}#digital-id-solutions">Digital ID Solutions</a></li>
+        <li class="nav-item"><a class="nav-link drop" href="{{ url_for('home') }}#leadership">Leadership</a></li>
+        <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'contact' %}active{% endif %}" href="{{ url_for('contact') }}">Contact</a></li>
         <li class="nav-item nn dropdown">
           <button class="btn mm btn-link nav-link py-2 px-2 d-flex align-items-center" type="button" aria-expanded="false" data-coreui-toggle="dropdown">
             <svg class="icon icon-lg theme-icon-active">
@@ -81,13 +68,6 @@
               <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
             </ul>
           </li>
-        {% else %}
-          {% if not login %}
-            <li class="nav-item"><a class="btn btn-outline-primary my-btn me-lg-2 ms-lg-2 mb-2" href="{{ url_for('login') }}">Login</a></li>
-          {% endif %}
-          {% if not register %}
-            <li class="nav-item"><a class="btn btn-primary my-btn2" href="{{ url_for('register') }}">Register</a></li>
-          {% endif %}
         {% endif %}
       </ul>
 

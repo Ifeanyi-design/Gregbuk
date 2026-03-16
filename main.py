@@ -79,6 +79,11 @@ def date():
     year = now.year
     return year
 
+@app.context_processor
+def inject_template_globals():
+    # Single source for current year across templates.
+    return {"current_year": datetime.now().year}
+
 # --- Helpers ---
 PHONE_RE = re.compile(r"^\+?\d[\d\-\s()]{5,}$")  # simple permissive pattern
 
