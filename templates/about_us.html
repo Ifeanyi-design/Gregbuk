@@ -1,141 +1,196 @@
 {% extends "base.html" %}
+{% block title %}About Us{% endblock %}
+
 {% block style %}
-    body {
-      font-family: 'Open Sans', sans-serif;
-      color: #333;
-      background: #F7F7F7;
+  :root {
+    --brand-primary: #004aad;
+    --brand-accent: #cc9933;
+    --brand-dark: #0f1c2f;
+    --brand-muted: #6b7280;
+    --brand-light: #f7f9fc;
+  }
+
+  .about-main {
+    margin-top: 84px;
+  }
+
+  .about-hero {
+    background:
+      linear-gradient(120deg, rgba(15, 28, 47, 0.9), rgba(0, 74, 173, 0.82)),
+      url("{{ url_for('static', filename='images/printing-press-about.jpg') }}") center/cover no-repeat;
+    color: #fff;
+    border-radius: 1rem;
+  }
+
+  .section-title {
+    color: var(--brand-primary);
+    font-weight: 700;
+  }
+
+  .facts-card,
+  .coverage-card,
+  .mv-card {
+    border: 1px solid #e8edf5;
+    border-radius: 0.85rem;
+    background: #fff;
+    height: 100%;
+  }
+
+  .facts-chip {
+    border: 1px solid #e8edf5;
+    border-radius: 0.7rem;
+    padding: 1rem;
+    background: var(--brand-light);
+    height: 100%;
+  }
+
+  .leadership-cta {
+    background: linear-gradient(135deg, var(--brand-primary), #0d5fc9);
+    color: #fff;
+    border-radius: 1rem;
+  }
+
+  @media (max-width: 991.98px) {
+    .about-main {
+      margin-top: 76px;
     }
-    h1, h2, h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      color: #004AAD; /* Primary blue */
-    }
-    .highlight {
-      color: #CC9933; /* Gold accent */
-    }
-    .hero {
-      margin-top: 30px;
-      position: relative;
-      height: 350px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-align: center;
-    }
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-    }
-    .hero-content {
-      position: relative;
-      z-index: 1;
-    }
-    .cta {
-      background: #004AAD;
-      color: white;
-      padding: 60px 20px;
-      text-align: center;
-      margin-top: 40px;
-    }
-    .cta a {
-      background: #CC9933;
-      color: white;
-      font-weight: 600;
-      padding: 12px 24px;
-      border-radius: 30px;
-      text-decoration: none;
-    }
-    .cta a:hover {
-      background: white;
-      color: #CC9933;
-    }
-    .cta a::active {
-      background: white;
-      color: #CC9933;
-    }
-    .cta h2{
-      color: white;
-    }
+  }
 {% endblock %}
-{% block content%}
-    <div class="hero bg-dark text-white text-center p-5" style="background: url({{ url_for('static', filename='images/printing-press-about.jpg') }}) center/cover no-repeat;">
-      <div class="hero-content">
-      <h1 class="fw-bold">About Us</h1>
-        <p>Bringing Your Ideas to Life with Creativity and Quality</p>
-      </div>
-    </div>
-    <div class="text-center bg-primary text-white p-5 mb-5 cta">
-    <h4>Welcome to Gregbuk Int'l Ltd, your trusted partner for all things printing and design. <br>
-      We believe every print tells a story, whether it’s a business card that opens doors, <br> an ID card that represents identity, <br>
-      a banner that captures attention, or a custom gift item that makes someone smile. <br>
-      Our goal is simple: to help you bring your ideas to life with creativity, quality, and care.</h4>
-    </div>
-    <div class="container-fluid py-5">
-      <div class="row align-items-center">
-        <div class="col-md-6">
-          <h2 class="text-primary">Our Story</h2>
-          <p class="dark-white">What started as a small passion for design and quality printing has grown into a full-service printing and branding company. Over the years, we’ve worked with individuals, businesses, schools, and organizations helping them create products that stand out and make a lasting impression.
-Our journey is built on a love for creativity, a commitment to excellence, and a desire to see our clients satisfied with every order.</p>
-        </div>
-        <div class="col-md-6 imag">
-          <img src="{{ url_for('static', filename='images/about_us_machinery.jpeg') }}" class="img-fluid rounded shadow">
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid py-5">
-      <div class="row flex-md-row-reverse align-items-center">
-        <div class="col-md-6">
-          <h2 class="text-center mb-4 text-primary">What We Do</h2>
-          <p class="text-center dark-white">From <span class="highlight">stamps, plaques, and seals</span> to <span class="highlight">t-shirts, mugs, caps, and branded merchandise</span>, we provide a wide range of printing and design solutions under one roof. With modern technology and a skilled team, we ensure every product is sharp, vibrant, and built to last.</p>
-        </div>
-        <div class="col-md-6 imag">
-          <img src="{{ url_for('static', filename='images/print_about_us.webp') }}" class="img-fluid rounded shadow">
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid text-center py-5">
-    <h2 class="mb-4">Why Work With Us</h2>
+
+{% block content %}
+<main class="container-xl about-main pb-5">
+  <section class="about-hero p-4 p-md-5 mb-4 mb-md-5">
     <div class="row">
-      <div class="col-md-4 mb-4">
-        <i class="bi bi-award fs-1" style="color:#CC9933;"></i>
-        <h5 class="mt-3 dark-white">Quality You Can Trust</h5>
-        <p class="dark-white">Professional finishing on every project.</p>
-      </div>
-      <div class="col-md-4 mb-4">
-        <i class="bi bi-cash-coin fs-1" style="color:#CC9933;"></i>
-        <h5 class="mt-3 dark-white">Affordable Pricing</h5>
-        <p class="dark-white">Get great value without compromise.</p>
-      </div>
-      <div class="col-md-4 mb-4">
-        <i class="bi bi-lightning-charge fs-1" style="color:#CC9933;"></i>
-        <h5 class="mt-3 dark-white">Fast Turnaround</h5>
-        <p class="dark-white">We respect your deadlines.</p>
-      </div>
-      <div class="col-md-4 mb-4">
-        <i class="bi bi-brush fs-1" style="color:#CC9933;"></i>
-        <h5 class="mt-3 dark-white">Creative Support</h5>
-        <p class="dark-white">Not sure what design fits best? We’ll guide you.</p>
-      </div>
-      <div class="col-md-4 mb-4">
-        <i class="bi bi-shop-window fs-1" style="color:#CC9933;"></i>
-        <h5 class="mt-3 dark-white">One-Stop Shop</h5>
-        <p class="dark-white">All your printing and branding needs in one place.</p>
+      <div class="col-lg-8">
+        <p class="text-uppercase fw-semibold mb-2 opacity-75">Company Profile</p>
+        <h1 class="display-5 fw-bold mb-3">About Gregbuk Intl Company Ltd</h1>
+        <p class="lead mb-0">
+          Gregbuk Intl Company Ltd is a family-owned company established in 2004,
+          incorporated in Lagos, Nigeria, and committed to practical multi-service delivery.
+        </p>
       </div>
     </div>
-  </div>
+  </section>
 
-    <div class="text-center bg-primary text-white p-5 mb-4 rounded cta">
-  <h2>Let’s Create Something Amazing Together</h2>
-  <p>Contact us today and bring your ideas to life.</p>
-  <a href="/contact" class="btn btn-light btn-lg mt-3">Get in Touch</a>
-</div>
+  <section class="mb-5">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-7">
+        <h2 class="section-title mb-3">Company Overview</h2>
+        <p>
+          Gregbuk Intl Company Ltd serves businesses, institutions, and government-related operations through dependable
+          service execution across printing and supplies, digital identity solutions, distribution, consultancy, and
+          corporate support services.
+        </p>
+        <p class="mb-0">
+          Our approach combines business discipline, industry experience, and responsive client support to deliver clear
+          outcomes and lasting partnerships.
+        </p>
+      </div>
+      <div class="col-lg-5">
+        <img src="{{ url_for('static', filename='images/print_about_us.webp') }}" class="img-fluid rounded-4 shadow-sm" alt="Gregbuk operations">
+      </div>
+    </div>
+  </section>
 
+  <section class="mb-5">
+    <div class="row g-3 g-md-4">
+      <div class="col-md-6">
+        <div class="mv-card p-4">
+          <h3 class="h4 section-title mb-2">Our Mission</h3>
+          <p class="mb-0 text-muted">
+            To provide reliable, practical, and high-quality corporate solutions that help organizations operate efficiently and grow sustainably.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mv-card p-4">
+          <h3 class="h4 section-title mb-2">Our Vision</h3>
+          <p class="mb-0 text-muted">
+            To be a trusted Nigerian multi-service company recognized for service excellence, integrity, and long-term value delivery.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="mb-3">
+      <h2 class="section-title mb-2">Background & History</h2>
+    </div>
+    <div class="facts-card p-4">
+      <p class="mb-0">
+        Since 2004, Gregbuk Intl Company Ltd has evolved from specialized print support into a broader corporate service company.
+        Built on family ownership and operational consistency, we continue to expand responsibly while maintaining client trust.
+      </p>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="mb-3">
+      <h2 class="section-title mb-2">Company Facts</h2>
+    </div>
+    <div class="row g-3">
+      <div class="col-6 col-lg-3">
+        <div class="facts-chip">
+          <h6 class="mb-1">Established</h6>
+          <p class="mb-0 text-muted">2004</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="facts-chip">
+          <h6 class="mb-1">Ownership</h6>
+          <p class="mb-0 text-muted">Family-owned company</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="facts-chip">
+          <h6 class="mb-1">Incorporated</h6>
+          <p class="mb-0 text-muted">Lagos, Nigeria</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="facts-chip">
+          <h6 class="mb-1">RC Number</h6>
+          <p class="mb-0 text-muted">1057410</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="mb-3">
+      <h2 class="section-title mb-2">Service Coverage</h2>
+    </div>
+    <div class="coverage-card p-4">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <ul class="mb-0">
+            <li>General contracts and procurement support</li>
+            <li>Printing and supplies for corporate operations</li>
+            <li>Digital ID printing, machine sales, and consumables</li>
+            <li>Sales and distribution services</li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <ul class="mb-0">
+            <li>Pharmaceutical-related distribution</li>
+            <li>Engineering consultancy services</li>
+            <li>Travel agency services</li>
+            <li>CAC, trademark, and commission support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="leadership-cta p-4 p-md-5 text-center">
+    <h2 class="fw-bold mb-3">Meet Our Leadership Team</h2>
+    <p class="mb-4">
+      Learn more about the people guiding Gregbuk Intl Company Ltd with strategic, operational, and technology leadership.
+    </p>
+    <a href="{{ url_for('leadership') }}" class="btn btn-light btn-lg px-4">View Leadership</a>
+  </section>
+</main>
 {% endblock %}
 
-{% block script %}
-
-{% endblock %}
+{% block script %}{% endblock %}

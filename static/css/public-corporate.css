@@ -1,0 +1,73 @@
+/* Shared premium styling for public-facing corporate pages */
+:root {
+  --corp-primary: #004aad;
+  --corp-accent: #cc9933;
+  --corp-ink: #0f1c2f;
+  --corp-muted: #6b7280;
+  --corp-line: #e7edf6;
+  --corp-soft: #f7f9fc;
+}
+
+body.change {
+  background-color: #f4f7fb;
+  color: #1f2a3a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.section-title {
+  letter-spacing: -0.01em;
+}
+
+.service-card,
+.why-card,
+.leader-card,
+.contact-info-card,
+.contact-form-card,
+.facts-card,
+.coverage-card,
+.mv-card,
+.support-pill {
+  box-shadow: 0 10px 28px rgba(15, 28, 47, 0.04);
+}
+
+.service-card:hover,
+.why-card:hover,
+.leader-card:hover,
+.support-pill:hover {
+  box-shadow: 0 14px 34px rgba(15, 28, 47, 0.08);
+}
+
+.hero-corporate,
+.about-hero,
+.leadership-hero,
+.contact-hero,
+.final-cta,
+.leadership-cta {
+  box-shadow: 0 14px 36px rgba(15, 28, 47, 0.14);
+}
+
+.btn-brand,
+.hero-corporate .btn-primary {
+  border-radius: 0.65rem;
+  font-weight: 600;
+}
+
+.contact-form-card .form-control:focus,
+.contact-form-card .form-select:focus {
+  border-color: #8ab4f8;
+  box-shadow: 0 0 0 0.2rem rgba(0, 74, 173, 0.14);
+}
+
+.status-note {
+  min-height: 1.4rem;
+}
+
+@media (max-width: 767.98px) {
+  .hero-corporate,
+  .about-hero,
+  .leadership-hero,
+  .contact-hero {
+    border-radius: 0.85rem;
+  }
+}

@@ -348,6 +348,13 @@ def about_us():
     change = True
     return render_template("about_us.html", change=change, header=header, services=service)
 
+@app.route("/leadership")
+def leadership():
+    header = Header.query.all()
+    service = Services.query.all()
+    change = True
+    return render_template("leadership.html", change=change, header=header, services=service)
+
 @app.route("/princing")
 def pricing():
     header = Header.query.all()
@@ -356,7 +363,6 @@ def pricing():
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
-    print("hello")
     head = request.args.get("head")
     header = Header.query.all()
     service = Services.query.all()
@@ -368,9 +374,9 @@ def contact():
     choices.extend(choices2)
     choices.extend(manual)
     form.head.choices = choices
-    if head != "":
-        if Services.query.filter_by(category_name=head).first():
-            data = Services.query.filter_by(category_name=head).first()
+    if head:
+        data = Services.query.filter_by(category_name=head).first()
+        if data:
             form.head.data = data.category_name
     if request.method == "POST":
         if form.validate_on_submit():
@@ -378,7 +384,7 @@ def contact():
             the_name = form.name.data
             the_email = form.email.data
             the_phone = form.phone.data
-            the_message = form.phone.data
+            the_message = form.message.data
             smtp_server = "smtp.gmail.com"
             port = 587
             sender_mail = "ifeanyiagada9@gmail.com"

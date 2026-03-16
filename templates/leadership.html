@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Leadership{% endblock %}
+
+{% block style %}
+  :root {
+    --brand-primary: #004aad;
+    --brand-dark: #0f1c2f;
+    --brand-muted: #6b7280;
+    --brand-light: #f7f9fc;
+  }
+
+  .leadership-main {
+    margin-top: 84px;
+  }
+
+  .leadership-hero {
+    background:
+      linear-gradient(120deg, rgba(15, 28, 47, 0.9), rgba(0, 74, 173, 0.82)),
+      url("{{ url_for('static', filename='images/about_us_machinery.jpeg') }}") center/cover no-repeat;
+    color: #fff;
+    border-radius: 1rem;
+  }
+
+  .section-title {
+    color: var(--brand-primary);
+    font-weight: 700;
+  }
+
+  .leader-card {
+    border: 1px solid #e8edf5;
+    border-radius: 0.9rem;
+    height: 100%;
+    background: #fff;
+  }
+
+  .leader-card .role {
+    color: var(--brand-muted);
+    margin-bottom: 0;
+  }
+
+  .leader-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--brand-light);
+    color: var(--brand-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.9rem;
+  }
+
+  @media (max-width: 991.98px) {
+    .leadership-main {
+      margin-top: 76px;
+    }
+  }
+{% endblock %}
+
+{% block content %}
+<main class="container-xl leadership-main pb-5">
+  <section class="leadership-hero p-4 p-md-5 mb-4 mb-md-5">
+    <div class="row">
+      <div class="col-lg-8">
+        <p class="text-uppercase fw-semibold mb-2 opacity-75">Corporate Leadership</p>
+        <h1 class="display-5 fw-bold mb-3">Leadership Team</h1>
+        <p class="lead mb-0">
+          Gregbuk Intl Company Ltd is led by an experienced, family-driven team focused on strategic growth,
+          operational excellence, and client-focused delivery.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="mb-4">
+      <h2 class="section-title mb-2">Meet The Team</h2>
+      <p class="text-muted mb-0">
+        Our leadership combines executive management, business development, and technical expertise to support consistent corporate outcomes.
+      </p>
+    </div>
+    <div class="row g-3 g-md-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="leader-card p-4">
+          <span class="leader-icon"><i class="bi bi-person-workspace"></i></span>
+          <h5 class="mb-1">Engr. Agada Sunday G.</h5>
+          <p class="role">MD/CEO</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="leader-card p-4">
+          <span class="leader-icon"><i class="bi bi-briefcase"></i></span>
+          <h5 class="mb-1">Mrs Bukola Agada</h5>
+          <p class="role">GM</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="leader-card p-4">
+          <span class="leader-icon"><i class="bi bi-graph-up-arrow"></i></span>
+          <h5 class="mb-1">Mrs Callista Agada</h5>
+          <p class="role">Business Development Manager / Secretary</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="leader-card p-4">
+          <span class="leader-icon"><i class="bi bi-people"></i></span>
+          <h5 class="mb-1">Oluwatobi V. Onyedika Agada</h5>
+          <p class="role">Manager &amp; Board Member</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="leader-card p-4">
+          <span class="leader-icon"><i class="bi bi-cpu"></i></span>
+          <h5 class="mb-1">Ifeanyi Agada</h5>
+          <p class="role">IT Consultant / Board Member</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
+
+{% block script %}{% endblock %}

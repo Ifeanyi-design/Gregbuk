@@ -142,6 +142,13 @@
     </div>
   </section>
 
+  <section class="mb-4">
+    <p class="section-subtitle mb-0">
+      We support businesses, schools, institutions, and government-related operations with practical service delivery
+      across printing, identity solutions, supplies, consulting, and registration support.
+    </p>
+  </section>
+
   <section class="trust-strip p-3 p-md-4 mb-4 mb-md-5">
     <div class="row text-center g-3">
       <div class="col-6 col-md-3 trust-item">
@@ -191,39 +198,59 @@
     </div>
     <div class="row g-3 g-md-4">
       <div class="col-md-6 col-lg-4">
-        <div class="card service-card p-3 p-md-4">
-          <span class="icon-chip"><i class="bi bi-printer fs-5"></i></span>
-          <h5>Printing & Supplies</h5>
-          <p class="text-muted mb-0">Corporate printing, branded materials, document production, and related supplies.</p>
-        </div>
+        <a href="{{ url_for('all') }}" class="text-decoration-none text-reset d-block h-100">
+          <div class="card service-card p-3 p-md-4">
+            <span class="icon-chip"><i class="bi bi-printer fs-5"></i></span>
+            <h5>Printing & Supplies</h5>
+            <p class="text-muted mb-2">Corporate printing, branded materials, document production, and related supplies.</p>
+            <small class="text-muted d-block">Includes: corporate print jobs, branded office materials</small>
+            <small class="text-muted d-block">Also supports: practical general contract execution</small>
+          </div>
+        </a>
       </div>
       <div class="col-md-6 col-lg-4">
-        <div class="card service-card p-3 p-md-4">
-          <span class="icon-chip"><i class="bi bi-person-vcard fs-5"></i></span>
-          <h5>Digital ID Solutions</h5>
-          <p class="text-muted mb-0">ID card design and printing, machine sales, consumables, and issuance support.</p>
-        </div>
+        <a href="#digital-id-solutions" class="text-decoration-none text-reset d-block h-100">
+          <div class="card service-card p-3 p-md-4">
+            <span class="icon-chip"><i class="bi bi-person-vcard fs-5"></i></span>
+            <h5>Digital ID Solutions</h5>
+            <p class="text-muted mb-2">ID card design and printing, machine sales, consumables, and issuance support.</p>
+            <small class="text-muted d-block">Includes: ID card printer sales and setup</small>
+            <small class="text-muted d-block">Consumables: ribbons, PVC cards, accessories</small>
+          </div>
+        </a>
       </div>
       <div class="col-md-6 col-lg-4">
-        <div class="card service-card p-3 p-md-4">
-          <span class="icon-chip"><i class="bi bi-truck fs-5"></i></span>
-          <h5>Sales & Distribution</h5>
-          <p class="text-muted mb-0">Machine sales, technical product distribution, and pharmaceutical-related channels.</p>
-        </div>
+        <a href="{{ url_for('all') }}" class="text-decoration-none text-reset d-block h-100">
+          <div class="card service-card p-3 p-md-4">
+            <span class="icon-chip"><i class="bi bi-truck fs-5"></i></span>
+            <h5>Sales & Distribution</h5>
+            <p class="text-muted mb-2">Machine sales, technical product distribution, and pharmaceutical-related channels.</p>
+            <small class="text-muted d-block">Includes: equipment and consumable distribution</small>
+            <small class="text-muted d-block">Coverage: pharmaceutical-related supply channels</small>
+          </div>
+        </a>
       </div>
       <div class="col-md-6 col-lg-6">
-        <div class="card service-card p-3 p-md-4">
-          <span class="icon-chip"><i class="bi bi-briefcase fs-5"></i></span>
-          <h5>Consultancy & Agency Services</h5>
-          <p class="text-muted mb-0">Engineering consultancy, travel agency support, and advisory services for growth-focused organizations.</p>
-        </div>
+        <a href="{{ url_for('contact') }}" class="text-decoration-none text-reset d-block h-100">
+          <div class="card service-card p-3 p-md-4">
+            <span class="icon-chip"><i class="bi bi-briefcase fs-5"></i></span>
+            <h5>Consultancy & Agency Services</h5>
+            <p class="text-muted mb-2">Engineering consultancy, travel agency support, and advisory services for growth-focused organizations.</p>
+            <small class="text-muted d-block">Includes: engineering and project advisory</small>
+            <small class="text-muted d-block">Agency support: travel planning and documentation guidance</small>
+          </div>
+        </a>
       </div>
       <div class="col-md-6 col-lg-6">
-        <div class="card service-card p-3 p-md-4">
-          <span class="icon-chip"><i class="bi bi-building-check fs-5"></i></span>
-          <h5>Corporate Support Services</h5>
-          <p class="text-muted mb-0">CAC registration, trademark processing, and commission support for compliant business operations.</p>
-        </div>
+        <a href="{{ url_for('contact') }}" class="text-decoration-none text-reset d-block h-100">
+          <div class="card service-card p-3 p-md-4">
+            <span class="icon-chip"><i class="bi bi-building-check fs-5"></i></span>
+            <h5>Corporate Support Services</h5>
+            <p class="text-muted mb-2">CAC registration, trademark processing, and commission support for compliant business operations.</p>
+            <small class="text-muted d-block">Includes: CAC and trademark filing support</small>
+            <small class="text-muted d-block">Commission services for operational compliance</small>
+          </div>
+        </a>
       </div>
     </div>
   </section>

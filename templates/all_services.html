@@ -1,81 +1,200 @@
 {% extends "base.html" %}
-{% block title %}All Service{% endblock %}
+{% block title %}Services{% endblock %}
+
 {% block style %}
-    html[data-coreui-theme="light"] .active-tab-all{
-        color: white !important;
+  :root {
+    --brand-primary: #004aad;
+    --brand-accent: #cc9933;
+    --brand-dark: #0f1c2f;
+    --brand-muted: #6b7280;
+    --brand-light: #f7f9fc;
+  }
+
+  .services-main {
+    margin-top: 84px;
+  }
+
+  .services-hero {
+    background:
+      linear-gradient(120deg, rgba(15, 28, 47, 0.9), rgba(0, 74, 173, 0.82)),
+      url("{{ url_for('static', filename='images/printing-press-about.jpg') }}") center/cover no-repeat;
+    color: #fff;
+    border-radius: 1rem;
+  }
+
+  .section-title {
+    color: var(--brand-primary);
+    font-weight: 700;
+  }
+
+  .section-subtitle {
+    color: var(--brand-muted);
+    max-width: 820px;
+  }
+
+  .service-group-card {
+    border: 1px solid #e8edf5;
+    border-radius: 0.9rem;
+    background: #fff;
+    height: 100%;
+  }
+
+  .service-group-card ul {
+    margin-bottom: 0;
+  }
+
+  .feature-digital-id {
+    border: 1px solid #e5ebf4;
+    border-radius: 1rem;
+    background: var(--brand-light);
+  }
+
+  .feature-image {
+    min-height: 240px;
+    border-radius: 0.8rem;
+    background:
+      linear-gradient(145deg, rgba(15, 28, 47, 0.2), rgba(0, 74, 173, 0.2)),
+      url("{{ url_for('static', filename='images/business-card.jpg') }}") center/cover no-repeat;
+  }
+
+  .final-cta {
+    background: linear-gradient(135deg, var(--brand-primary), #0d5fc9);
+    color: #fff;
+    border-radius: 1rem;
+  }
+
+  @media (max-width: 991.98px) {
+    .services-main {
+      margin-top: 76px;
     }
-    html[data-coreui-theme="light"] .active-tab-all .all-icon{
-        color: white !important;
-    }
+  }
 {% endblock %}
+
 {% block content %}
-    <main>
-  <!-- Hero Section -->
-  <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary">
-    <div class="col-md-6 p-lg-5 mx-auto my-5">
-      <h1 class="display-3 fw-bold">Designed for engineers</h1>
-      <h3 class="fw-normal text-muted mb-3">Build anything you want with Aperture</h3>
-      <div class="d-flex gap-3 justify-content-center lead fw-normal">
-        <a class="icon-link" href="#">
-          Learn more
-          <svg class="bi" aria-hidden="true">
-            <use xlink:href="#chevron-right"></use>
-          </svg>
-        </a>
-        <a class="icon-link" href="#">
-          Buy
-          <svg class="bi" aria-hidden="true">
-            <use xlink:href="#chevron-right"></use>
-          </svg>
-        </a>
+<main class="container-xl services-main pb-5">
+  <section class="services-hero p-4 p-md-5 mb-4 mb-md-5">
+    <div class="row">
+      <div class="col-lg-8">
+        <p class="text-uppercase fw-semibold mb-2 opacity-75">Service Overview</p>
+        <h1 class="display-5 fw-bold mb-3">Corporate Services by Gregbuk Intl Company Ltd</h1>
+        <p class="lead mb-0">
+          Practical multi-service delivery for businesses, schools, institutions, and government-related operations.
+        </p>
       </div>
     </div>
-    <div class="product-device shadow-sm d-none d-md-block" style="background-image: url('{{ random_service[0].image_url }}');
-            background-size: cover;
-            background-position: center;"></div>
-    <div class="product-device product-device-2 shadow-sm d-none d-md-block" style="background-image: url('{{ random_service[1].image_url }}');
-            background-size: cover;
-            background-position: center;"></div>
-  </div>
+  </section>
 
-  <!-- First Row -->
+  <section class="mb-5">
+    <p class="section-subtitle mb-0">
+      Gregbuk Intl Company Ltd provides coordinated services across printing, identity solutions, distribution, consultancy,
+      and corporate support, helping organizations execute projects and operations with confidence.
+    </p>
+  </section>
 
-  <div class="container-fluid my-md-3">
-      {% for row in rows %}
-          <div class="d-md-flex flex-md-equal justify-content-center mb-3">
-            <div class="row mb-3 all-card-row">
-                <div class="col-md-6 all-service-card">
-                    <a href="{{ url_for('services', name=row[0].category_name) }}"
-                       class="text-decoration-none text-reset d-block card-link all-service-card-link">
-                        <div class="text-bg-dark pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden card-hover">
-                          <div class="my-3 py-3">
-                            <h2 class="display-5" style="font-size: 270%;">{{row[0].name}}</h2>
-                            <button onclick="window.location.href='{{ url_for('services', name=row[0].category_name) }}'"
-                                class="btn btn-primary mt-2 py-2 px-4 rounded-pill">Explore Now</button>
-                          </div>
-                            <img class="bg-body-tertiary shadow-sm mx-auto d-block" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0; object-fit: cover;" src="{{ url_for('static', filename='images/'+row[0].image_url) }}">
-                        </div>
-                    </a>
-                </div>
-            {% if row|length == 2 %}
-                <div class="col-md-6 all-service-card">
-                    <a href="{{ url_for('services', name=row[1].category_name) }}"
-                       class="text-decoration-none text-reset d-block card-link all-service-card-link">
-                        <div class="bg-body-tertiary pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden card-hover">
-                          <div class="my-3 p-3">
-                            <h2 class="display-5" style="font-size: 270%;">{{row[1].name}}</h2>
-                            <button onclick="window.location.href='{{ url_for('services', name=row[1].category_name) }}'"
-                                class="btn btn-primary mt-2 py-2 px-4 rounded-pill">Explore Now</button>
-                          </div>
-                            <img class="bg-dark shadow-sm mx-auto d-block" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0; object-fit: cover;" src="{{ url_for('static', filename='images/'+row[1].image_url) }}">
-                        </div>
-                    </a>
-                </div>
-            {% endif %}
-            </div>
-          </div>
-      {% endfor %}
-  </div>
+  <section class="mb-5">
+    <div class="row g-3 g-md-4">
+      <div class="col-lg-6">
+        <div class="service-group-card p-4">
+          <h2 class="h4 section-title mb-2">Printing & Supplies</h2>
+          <p class="text-muted mb-3">Reliable print and supply support for daily operations, events, and corporate communications.</p>
+          <ul class="mb-4">
+            <li>Corporate document and branded material printing</li>
+            <li>Office and institutional print supply support</li>
+            <li>Event, visibility, and campaign print production</li>
+            <li>Quality finishing and delivery coordination</li>
+          </ul>
+          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Request Service Inquiry</a>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="service-group-card p-4" id="digital-id-solutions">
+          <h2 class="h4 section-title mb-2">Digital ID Solutions</h2>
+          <p class="text-muted mb-3">End-to-end identity card services for organizations requiring secure, structured ID issuance.</p>
+          <ul class="mb-4">
+            <li>ID card design, encoding, and secure printing</li>
+            <li>ID card machine sales and deployment support</li>
+            <li>Ribbons, PVC cards, and consumables supply</li>
+            <li>Issuance workflow support for schools and institutions</li>
+          </ul>
+          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Request ID Solution</a>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="service-group-card p-4">
+          <h2 class="h4 section-title mb-2">Sales & Distribution</h2>
+          <p class="text-muted mb-3">Consistent supply and channel support for technical products and sector-specific distribution needs.</p>
+          <ul class="mb-4">
+            <li>Machine and equipment sales</li>
+            <li>Consumables and technical product distribution</li>
+            <li>Pharmaceutical-related distribution support</li>
+            <li>Supply planning and fulfillment coordination</li>
+          </ul>
+          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Discuss Distribution Needs</a>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="service-group-card p-4">
+          <h2 class="h4 section-title mb-2">Consultancy & Agency Services</h2>
+          <p class="text-muted mb-3">Professional guidance and execution support for technical and business-facing service needs.</p>
+          <ul class="mb-4">
+            <li>Engineering consultancy and project advisory</li>
+            <li>Travel agency services and planning support</li>
+            <li>Business process guidance for structured delivery</li>
+            <li>Institution and enterprise-focused service advisory</li>
+          </ul>
+          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Book A Consultation</a>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="service-group-card p-4">
+          <h2 class="h4 section-title mb-2">Corporate Support Services</h2>
+          <p class="text-muted mb-3">Compliance and documentation support for formal business operations and registrations.</p>
+          <ul class="mb-4">
+            <li>CAC registration and filing assistance</li>
+            <li>Trademark application support</li>
+            <li>Commission and administrative documentation services</li>
+            <li>Structured follow-up for corporate documentation workflows</li>
+          </ul>
+          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Start Corporate Support Request</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature-digital-id p-4 p-md-5 mb-5">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <h2 class="section-title mb-3">Featured: Digital ID Solutions</h2>
+        <p class="mb-3">
+          We remain a trusted partner for institutions and businesses that need dependable ID card production systems,
+          from card design and print quality to machine and consumable continuity.
+        </p>
+        <ul class="mb-4">
+          <li>Secure and professional identity card output</li>
+          <li>Fast replacement cycles for consumables</li>
+          <li>Practical support from setup through ongoing usage</li>
+        </ul>
+        <a href="{{ url_for('contact') }}" class="btn btn-primary me-2">Talk To Our Team</a>
+        <a href="{{ url_for('home') }}#digital-id-solutions" class="btn btn-outline-primary">Back To Homepage Feature</a>
+      </div>
+      <div class="col-lg-5">
+        <div class="feature-image"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta p-4 p-md-5 text-center">
+    <h2 class="fw-bold mb-3">Need A Service Partner You Can Rely On?</h2>
+    <p class="mb-4">
+      Contact Gregbuk Intl Company Ltd for tailored service support across your operational, technical, and corporate needs.
+    </p>
+    <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg px-4">Send Business Inquiry</a>
+  </section>
 </main>
-
 {% endblock %}
+
+{% block script %}{% endblock %}

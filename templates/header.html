@@ -25,7 +25,7 @@
         <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'about_us' %}active{% endif %}" href="{{ url_for('about_us') }}">About Us</a></li>
         <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'all' %}active{% endif %}" href="{{ url_for('all') }}">Services</a></li>
         <li class="nav-item"><a class="nav-link drop" href="{{ url_for('home') }}#digital-id-solutions">Digital ID Solutions</a></li>
-        <li class="nav-item"><a class="nav-link drop" href="{{ url_for('home') }}#leadership">Leadership</a></li>
+        <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'leadership' %}active{% endif %}" href="{{ url_for('leadership') }}">Leadership</a></li>
         <li class="nav-item"><a class="nav-link drop {% if request.endpoint == 'contact' %}active{% endif %}" href="{{ url_for('contact') }}">Contact</a></li>
         <li class="nav-item nn dropdown">
           <button class="btn mm btn-link nav-link py-2 px-2 d-flex align-items-center" type="button" aria-expanded="false" data-coreui-toggle="dropdown">
