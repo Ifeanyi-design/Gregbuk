@@ -3,7 +3,7 @@
     <div class="row text-md-left g-4">
 
       <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-        <h5 class="footer-heading text-uppercase mb-3 fw-bold">{{ company_name|default('Gregbuk Intl Company Ltd', true) }}</h5>
+        <h5 class="footer-heading text-uppercase mb-3 fw-bold">{{ company_name }}</h5>
         <p class="footer-copy mb-0">
           Family-owned corporate services company established in 2004, delivering reliable support across printing, digital ID, machine sales, distribution, consultancy, travel, and compliance services.
         </p>
@@ -48,7 +48,7 @@
 
     <hr class="mt-4">
     <div class="text-center">
-      <p class="mb-0 footer-copy">&copy; {{ current_year }} {{ company_name|default('Gregbuk Intl Company Ltd', true) }}. All rights reserved.</p>
+      <p class="mb-0 footer-copy">&copy; {{ current_year }} {{ company_name }}. All rights reserved.</p>
     </div>
   </div>
 </footer>

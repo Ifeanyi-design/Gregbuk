@@ -19,7 +19,7 @@
     {% if ns.support is none and ('cac' in key or 'trademark' in key or 'commission' in key) %}{% set ns.support = svc %}{% endif %}
   {% endfor %}
 
-  <section class="hero-corporate p-4 p-md-5 mb-4 mb-md-5">
+  <section class="hero-corporate page-hero p-4 p-md-5 mb-4 mb-md-5">
     <div class="row align-items-center g-4">
       <div class="col-lg-7">
         <p class="text-uppercase fw-semibold mb-2 opacity-75">Gregbuk Intl Company Ltd</p>
@@ -29,7 +29,7 @@
         </p>
         <div class="d-flex flex-wrap gap-2">
           <a href="{{ url_for('service_inquiry', service_key='digital-id-solutions') }}" class="btn btn-primary btn-lg px-4">Request Consultation</a>
-          <a href="{{ url_for('all') }}" class="btn btn-outline-light btn-lg px-4">Explore Services</a>
+          <a href="{{ url_for('all') }}" class="btn btn-outline-primary btn-lg px-4">Explore Services</a>
         </div>
       </div>
       <div class="col-lg-5">
@@ -43,7 +43,7 @@
     </div>
   </section>
 
-  <section class="trust-strip p-3 p-md-4 mb-4 mb-md-5">
+  <section class="trust-strip page-first p-3 p-md-4 mb-4 mb-md-5">
     <div class="row text-center g-3">
       <div class="col-6 col-md trust-item"><h6>Established 2004</h6><small class="text-muted">Family-led growth since inception</small></div>
       <div class="col-6 col-md trust-item"><h6>Incorporated in Lagos</h6><small class="text-muted">Nigeria operations base</small></div>
@@ -84,7 +84,7 @@
         </a>
       </div>
       <div class="col-6 col-lg-4">
-        <a href="{{ url_for('contact', head=ns.engineering.category_name if ns.engineering else 'price') }}" class="visual-card d-block text-decoration-none">
+        <a href="{{ url_for('contact', head=ns.engineering.category_name) if ns.engineering else url_for('contact') }}" class="visual-card d-block text-decoration-none">
           <img src="{{ url_for('static', filename='images/printing-press-about.jpg') }}" alt="Engineering consultancy and advisory sessions">
           <span class="visual-label">Engineering Consultancy</span>
         </a>

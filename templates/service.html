@@ -1,50 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ the_data.name }}{% endblock %}
 
-{% block style %}
-  :root {
-    --brand-primary: #004aad;
-    --brand-muted: #6b7280;
-    --brand-light: #f7f9fc;
-  }
-
-  .service-main {
-    margin-top: 84px;
-  }
-
-  .service-hero {
-    background: linear-gradient(120deg, rgba(15, 28, 47, 0.92), rgba(0, 74, 173, 0.84));
-    color: #fff;
-    border-radius: 1rem;
-  }
-
-  .section-title {
-    color: var(--brand-primary);
-    font-weight: 700;
-  }
-
-  .child-card,
-  .related-card,
-  .capability-card {
-    border: 1px solid #e7edf6;
-    border-radius: 0.9rem;
-    background: #fff;
-    height: 100%;
-  }
-
-  .child-card img,
-  .related-card img {
-    height: 210px;
-    object-fit: cover;
-  }
-
-  @media (max-width: 991.98px) {
-    .service-main {
-      margin-top: 76px;
-    }
-  }
-{% endblock %}
-
 {% block content %}
 <main class="container-xl service-main pb-5">
   {% set mode = service_mode if service_mode is defined else "catalog" %}
@@ -70,7 +26,7 @@
     </nav>
   </section>
 
-  <section class="service-hero p-4 p-md-5 mb-4">
+  <section class="service-hero page-hero p-4 p-md-5 mb-4">
     <div class="row g-4 align-items-center">
       <div class="col-lg-8">
         <p class="text-uppercase fw-semibold mb-2 opacity-75">
@@ -95,7 +51,7 @@
     </div>
   </section>
 
-  <section class="mb-4">
+  <section class="page-first mb-4">
     <div class="d-flex flex-wrap gap-2 nav-chip-row">
       {% for item in nav_items %}
         {% if has_subservices %}
@@ -134,10 +90,10 @@
     <div class="row g-3 g-md-4">
       {% if has_subservices %}
         {% for sub in the_data.sub_service %}
-          {% set sub_image = sub.image_url if sub.image_url else 'placeholder-company.svg' %}
+          {% set sub_image = sub.image_url if sub.image_url else 'placeholders/operations.svg' %}
           <div class="col-md-6 col-xl-4">
             <div class="child-card overflow-hidden">
-              <img src="{{ url_for('static', filename='images/' + sub_image) }}" class="w-100" alt="{{ sub.name }}">
+              <img src="{% if '://' in sub_image %}{{ sub_image }}{% else %}{{ url_for('static', filename='images/' + sub_image) }}{% endif %}" class="w-100" alt="{{ sub.name }}">
               <div class="p-3">
                 <h5>{{ sub.name }}</h5>
                 <p class="text-muted mb-3">{{ sub.description or "Service grouping within this category." }}</p>
@@ -148,10 +104,10 @@
         {% endfor %}
       {% else %}
         {% for pro in the_data.products %}
-          {% set product_image = pro.image_url if pro.image_url else 'placeholder-company.svg' %}
+          {% set product_image = pro.image_url if pro.image_url else 'placeholders/operations.svg' %}
           <div class="col-md-6 col-xl-4">
             <div class="child-card overflow-hidden">
-              <img src="{{ url_for('static', filename='images/' + product_image) }}" class="w-100" alt="{{ pro.name }}">
+              <img src="{% if '://' in product_image %}{{ product_image }}{% else %}{{ url_for('static', filename='images/' + product_image) }}{% endif %}" class="w-100" alt="{{ pro.name }}">
               <div class="p-3">
                 <h5>{{ pro.name }}</h5>
                 <p class="text-muted mb-3">{{ pro.description or ("Professional service area within this category." if mode == "inquiry" else "Service offering within this category.") }}</p>
@@ -199,10 +155,10 @@
     </div>
     <div class="row g-3">
       {% for svc in services if svc.category_name != the_data.category_name %}
-        {% set svc_image = svc.image_url if svc.image_url else 'placeholder-company.svg' %}
+        {% set svc_image = svc.image_url if svc.image_url else 'placeholders/operations.svg' %}
         <div class="col-md-6 col-lg-4">
           <div class="related-card overflow-hidden">
-            <img src="{{ url_for('static', filename='images/' + svc_image) }}" class="w-100" alt="{{ svc.name }}">
+            <img src="{% if '://' in svc_image %}{{ svc_image }}{% else %}{{ url_for('static', filename='images/' + svc_image) }}{% endif %}" class="w-100" alt="{{ svc.name }}">
             <div class="p-3">
               <h6 class="mb-2">{{ svc.name }}</h6>
               <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('services', name=svc.category_name) }}">Explore</a>

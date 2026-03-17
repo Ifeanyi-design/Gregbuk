@@ -2,8 +2,11 @@
 :root {
   --corp-primary: #004aad;
   --corp-primary-rgb: 0, 74, 173;
+  --corp-primary-deep: #022a63;
   --corp-accent: #cc9933;
   --corp-body-bg: #f4f7fb;
+  --corp-body-grad-1: rgba(0, 74, 173, 0.09);
+  --corp-body-grad-2: rgba(204, 153, 51, 0.07);
   --corp-surface: #ffffff;
   --corp-surface-soft: #f7f9fc;
   --corp-ink: #0f1c2f;
@@ -15,6 +18,8 @@
 
 html[data-coreui-theme="dark"] {
   --corp-body-bg: #0f141d;
+  --corp-body-grad-1: rgba(34, 118, 242, 0.16);
+  --corp-body-grad-2: rgba(204, 153, 51, 0.08);
   --corp-surface: #1a2230;
   --corp-surface-soft: #222b3a;
   --corp-ink: #e8edf7;
@@ -26,6 +31,9 @@ html[data-coreui-theme="dark"] {
 
 body.change {
   background-color: var(--corp-body-bg) !important;
+  background-image: radial-gradient(circle at 12% 10%, var(--corp-body-grad-1), transparent 38%),
+    radial-gradient(circle at 88% 5%, var(--corp-body-grad-2), transparent 36%);
+  background-attachment: fixed;
   color: var(--corp-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -34,6 +42,7 @@ body.change {
 
 body.change .wrapper.hell {
   background-color: var(--corp-body-bg) !important;
+  background-image: none !important;
 }
 
 body.change .text-muted {
@@ -62,6 +71,15 @@ body.change .text-muted {
   margin-top: 88px;
 }
 
+.page-hero {
+  margin-bottom: clamp(1.5rem, 1.1rem + 1.4vw, 2.75rem) !important;
+}
+
+.page-first {
+  margin-top: 0;
+  margin-bottom: clamp(1.9rem, 1.5rem + 1.6vw, 3rem) !important;
+}
+
 .service-card,
 .why-card,
 .leader-card,
@@ -81,6 +99,49 @@ body.change .text-muted {
   border: 1px solid var(--corp-line);
   box-shadow: var(--corp-shadow-soft);
   background: var(--corp-surface);
+}
+
+.main-image,
+.thumb-image {
+  border-radius: 0.95rem;
+  border: 1px solid var(--corp-line);
+  box-shadow: var(--corp-shadow-soft);
+  background: var(--corp-surface);
+  overflow: hidden;
+}
+
+.child-card,
+.product-card,
+.related-card,
+.capability-card,
+.info-card,
+.main-image {
+  height: 100%;
+}
+
+.child-card img,
+.product-card img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+}
+
+.related-card img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+}
+
+.main-image img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+}
+
+.thumb-image img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
 }
 
 .visual-card {
@@ -146,6 +207,45 @@ body.change .text-muted {
 .leadership-cta {
   border-radius: 1rem;
   box-shadow: var(--corp-shadow);
+  background: linear-gradient(132deg, #021b45 0%, #003a85 52%, #0b57b7 100%);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hero-corporate .lead,
+.about-hero .lead,
+.leadership-hero .lead,
+.contact-hero .lead,
+.services-hero .lead,
+.service-hero .lead,
+.subservice-hero .lead,
+.product-hero .lead {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-corporate .btn-outline-primary,
+.about-hero .btn-outline-primary,
+.leadership-hero .btn-outline-primary,
+.contact-hero .btn-outline-primary,
+.services-hero .btn-outline-primary,
+.service-hero .btn-outline-primary,
+.subservice-hero .btn-outline-primary,
+.product-hero .btn-outline-primary {
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.78) !important;
+}
+
+.hero-corporate .btn-outline-primary:hover,
+.about-hero .btn-outline-primary:hover,
+.leadership-hero .btn-outline-primary:hover,
+.contact-hero .btn-outline-primary:hover,
+.services-hero .btn-outline-primary:hover,
+.service-hero .btn-outline-primary:hover,
+.subservice-hero .btn-outline-primary:hover,
+.product-hero .btn-outline-primary:hover {
+  color: #06285f !important;
+  background: #fff;
+  border-color: #fff !important;
 }
 
 .btn-brand,
@@ -211,9 +311,9 @@ body.change .text-muted {
 }
 
 .navbar.hole {
-  background: var(--corp-surface) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
   border-bottom: 1px solid var(--corp-line);
-  backdrop-filter: saturate(160%) blur(8px);
+  backdrop-filter: saturate(165%) blur(12px);
   min-height: 72px;
 }
 
@@ -308,6 +408,82 @@ body.change .text-muted {
   border-radius: 0.7rem;
   border: 1px solid var(--corp-line);
   box-shadow: var(--corp-shadow-soft);
+}
+
+.mobile-nav-panel {
+  border-left: 1px solid var(--corp-line);
+  background: var(--corp-surface);
+}
+
+.mobile-nav-panel .offcanvas-header {
+  background: var(--corp-surface);
+}
+
+.mobile-nav-links .nav-link {
+  border: 1px solid var(--corp-line);
+  border-radius: 0.7rem;
+  padding: 0.7rem 0.85rem;
+}
+
+.mobile-nav-links .nav-link.active {
+  background: rgba(var(--corp-primary-rgb), 0.12);
+  border-color: rgba(var(--corp-primary-rgb), 0.35);
+}
+
+.hero-corporate .row {
+  min-height: clamp(360px, 48vw, 520px);
+}
+
+.hero-media {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--corp-line);
+  background: var(--corp-surface-soft);
+  min-height: 280px;
+  aspect-ratio: 4 / 3;
+}
+
+.hero-fallback,
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-video {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.hero-video.is-ready {
+  opacity: 1;
+}
+
+.trust-strip {
+  border-radius: 0.9rem;
+  border: 1px solid var(--corp-line);
+  background: linear-gradient(145deg, rgba(var(--corp-primary-rgb), 0.04), var(--corp-surface) 65%);
+  box-shadow: var(--corp-shadow-soft);
+}
+
+.service-card,
+.why-card,
+.leader-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card .p-3 {
+  flex: 1;
 }
 
 .navbar.hole .navbar-toggler-icon {
@@ -584,6 +760,24 @@ html[data-coreui-theme="dark"] .navbar.hole .navbar-toggler-icon {
   filter: invert(1) grayscale(1) brightness(2);
 }
 
+html[data-coreui-theme="dark"] .navbar.hole {
+  background: rgba(13, 21, 34, 0.86) !important;
+}
+
+html[data-coreui-theme="dark"] .hero-corporate,
+html[data-coreui-theme="dark"] .about-hero,
+html[data-coreui-theme="dark"] .leadership-hero,
+html[data-coreui-theme="dark"] .contact-hero,
+html[data-coreui-theme="dark"] .services-hero,
+html[data-coreui-theme="dark"] .service-hero,
+html[data-coreui-theme="dark"] .subservice-hero,
+html[data-coreui-theme="dark"] .product-hero,
+html[data-coreui-theme="dark"] .final-cta,
+html[data-coreui-theme="dark"] .leadership-cta {
+  background: linear-gradient(132deg, #061733 0%, #0b326c 55%, #194b93 100%);
+  border-color: rgba(121, 179, 255, 0.22);
+}
+
 html[data-coreui-theme="dark"] .visual-card {
   border-color: var(--corp-line);
 }
@@ -650,29 +844,6 @@ html[data-coreui-theme="dark"] .partner-logo {
     min-height: 66px;
   }
 
-  .navbar.hole .navbar-collapse {
-    margin-top: 0.75rem;
-    padding: 0.6rem;
-    border: 1px solid var(--corp-line);
-    border-radius: 0.85rem;
-    background: var(--corp-surface);
-    box-shadow: var(--corp-shadow-soft);
-  }
-
-  .nav-main-list {
-    gap: 0.35rem;
-    width: 100%;
-    align-items: stretch !important;
-  }
-
-  .nav-main-list .nav-link {
-    padding: 0.7rem 0.8rem;
-  }
-
-  .nav-main-list .dropdown-menu {
-    width: 100%;
-  }
-
   .brand-mark {
     width: 1.95rem;
     height: 1.95rem;
@@ -730,6 +901,15 @@ html[data-coreui-theme="dark"] .partner-logo {
     justify-content: center;
     padding-top: 0.7rem;
     padding-bottom: 0.7rem;
+  }
+
+  .hero-corporate .row {
+    min-height: auto;
+  }
+
+  .hero-media {
+    min-height: 230px;
+    aspect-ratio: 16 / 11;
   }
 
   .main-image img {
@@ -836,5 +1016,13 @@ html[data-coreui-theme="dark"] .partner-logo {
 
   .brand-tagline {
     display: none;
+  }
+
+  .page-hero {
+    margin-bottom: 1.25rem !important;
+  }
+
+  .page-first {
+    margin-bottom: 1.7rem !important;
   }
 }

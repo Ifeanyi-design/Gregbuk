@@ -1,47 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ the_data.name }}{% endblock %}
 
-{% block style %}
-  :root {
-    --brand-primary: #004aad;
-    --brand-muted: #6b7280;
-  }
-
-  .subservice-main {
-    margin-top: 84px;
-  }
-
-  .subservice-hero {
-    background: linear-gradient(120deg, rgba(15, 28, 47, 0.92), rgba(0, 74, 173, 0.84));
-    color: #fff;
-    border-radius: 1rem;
-  }
-
-  .section-title {
-    color: var(--brand-primary);
-    font-weight: 700;
-  }
-
-  .product-card,
-  .capability-card {
-    border: 1px solid #e7edf6;
-    border-radius: 0.9rem;
-    background: #fff;
-    height: 100%;
-  }
-
-  .product-card img {
-    height: 210px;
-    object-fit: cover;
-  }
-
-  @media (max-width: 991.98px) {
-    .subservice-main {
-      margin-top: 76px;
-    }
-  }
-{% endblock %}
-
 {% block content %}
 <main class="container-xl subservice-main pb-5">
   {% set mode = service_mode if service_mode is defined else "catalog" %}
@@ -69,7 +28,7 @@
     </nav>
   </section>
 
-  <section class="subservice-hero p-4 p-md-5 mb-4">
+  <section class="subservice-hero page-hero p-4 p-md-5 mb-4">
     <div class="row g-4 align-items-center">
       <div class="col-lg-8">
         <p class="text-uppercase fw-semibold mb-2 opacity-75">{{ the_data.services.name }}</p>
@@ -92,7 +51,7 @@
     </div>
   </section>
 
-  <section class="mb-4">
+  <section class="page-first mb-4">
     <div class="d-flex flex-wrap gap-2 nav-chip-row">
       {% for sub in siblings %}
         <a class="btn nav-chip {% if sub.category_name == the_data.category_name %}active{% endif %}"
@@ -131,10 +90,10 @@
     </div>
     <div class="row g-3 g-md-4">
       {% for pro in products %}
-        {% set product_image = pro.image_url if pro.image_url else 'placeholder-company.svg' %}
+        {% set product_image = pro.image_url if pro.image_url else 'placeholders/operations.svg' %}
         <div class="col-md-6 col-xl-4 {% if loop.index > visible_limit %}collapse extra-product{% endif %}">
           <div class="product-card overflow-hidden">
-            <img src="{{ url_for('static', filename='images/' + product_image) }}" class="w-100" alt="{{ pro.name }}">
+            <img src="{% if '://' in product_image %}{{ product_image }}{% else %}{{ url_for('static', filename='images/' + product_image) }}{% endif %}" class="w-100" alt="{{ pro.name }}">
             <div class="p-3">
               <h5>{{ pro.name }}</h5>
               <p class="text-muted mb-3">{{ pro.description or ("Professional service brief." if mode == "inquiry" else "Service detail offering.") }}</p>

@@ -18,7 +18,7 @@
     {% if ns.support is none and ('cac' in key or 'trademark' in key or 'commission' in key) %}{% set ns.support = svc %}{% endif %}
   {% endfor %}
 
-  <section class="services-hero p-4 p-md-5 mb-4 mb-md-5">
+  <section class="services-hero page-hero p-4 p-md-5 mb-4 mb-md-5">
     <div class="row">
       <div class="col-lg-9">
         <p class="text-uppercase fw-semibold mb-2 opacity-75">Service Divisions</p>
@@ -28,7 +28,7 @@
     </div>
   </section>
 
-  <section class="mb-5">
+  <section class="page-first mb-5">
     <p class="section-subtitle mb-0">Our delivery covers operational services, technical support, compliance-focused business services, and inquiry-led professional engagements.</p>
   </section>
 
@@ -120,7 +120,7 @@
             <li>Technical review and recommendation support</li>
             <li>Execution-focused consultancy engagement</li>
           </ul>
-          <a href="{{ url_for('contact', head=ns.engineering.category_name if ns.engineering else 'price') }}" class="btn btn-outline-primary">Book Engineering Consultation</a>
+          <a href="{{ url_for('contact', head=ns.engineering.category_name) if ns.engineering else url_for('contact') }}" class="btn btn-outline-primary">Book Engineering Consultation</a>
         </div>
       </div>
 

@@ -73,12 +73,6 @@ def choose_from_list(list):
         # elif count == 10:
         #     return new_choice
         # count+=1
-@app.template_global()
-def date():
-    now = datetime.now()
-    year = now.year
-    return year
-
 @app.context_processor
 def inject_template_globals():
     # Single source for current year across templates.
@@ -585,11 +579,11 @@ def leadership():
     change = True
     return render_template("leadership.html", change=change, header=header, services=service)
 
+@app.route("/pricing")
 @app.route("/princing")
 def pricing():
-    header = Header.query.all()
-    service = Services.query.all()
-    return render_template("main.html", header=header, services=service)
+    # Legacy compatibility route: keep old typo path, redirect to corporate services overview.
+    return redirect(url_for("all"), code=301)
 
 
 def send_inquiry_email(subject, body):
@@ -670,9 +664,7 @@ def contact():
     form=ContactForm()
     choices = [("select", "Select from the dropdown")]
     choices2 = [(serve.category_name, serve.name) for serve in service]
-    manual = [("price", "Price")]
     choices.extend(choices2)
-    choices.extend(manual)
     form.head.choices = choices
     if head:
         data = Services.query.filter_by(category_name=head).first()
