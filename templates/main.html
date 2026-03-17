@@ -1,197 +1,22 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
-{% block meta_description %}Gregbuk Intl Company Ltd delivers corporate printing, digital ID solutions, distribution, consultancy, and business support services across Lagos, Nigeria and beyond.{% endblock %}
-{% block og_title %}Gregbuk Intl Company Ltd | Corporate Multi-Service Solutions{% endblock %}
-{% block og_description %}Trusted since 2004 for digital ID, printing, supplies, consultancy, and corporate support services.{% endblock %}
+{% block title %}Gregbuk Intl Company Ltd | Corporate Services in Lagos{% endblock %}
+{% block meta_description %}Gregbuk Intl Company Ltd delivers trusted corporate services in Lagos, Nigeria: general contracts, printing and supplies, digital ID printing, ID card machine sales, pharmaceutical distribution, engineering consultancy, travel support, and CAC/trademark services.{% endblock %}
+{% block og_title %}Gregbuk Intl Company Ltd - Corporate Multi-Service Solutions{% endblock %}
+{% block og_description %}Family-owned since 2004. Trusted corporate services in Lagos across digital ID, machine sales, printing, distribution, consultancy, and business support.{% endblock %}
 {% block og_image %}{{ url_for('static', filename='images/printing-press-about.jpg', _external=True) }}{% endblock %}
-
-{% block style %}
-  :root {
-    --brand-primary: #004aad;
-    --brand-accent: #cc9933;
-    --brand-dark: #0f1c2f;
-    --brand-muted: #6b7280;
-    --brand-light: #f7f9fc;
-  }
-
-  .home-main {
-    margin-top: 84px;
-  }
-
-  .hero-corporate {
-    background:
-      linear-gradient(120deg, rgba(15, 28, 47, 0.9), rgba(0, 74, 173, 0.82)),
-      url("{{ url_for('static', filename='images/printing-press-about.jpg') }}") center/cover no-repeat;
-    color: #fff;
-    border-radius: 1rem;
-    overflow: hidden;
-  }
-
-  .hero-corporate .btn-primary {
-    background-color: var(--brand-accent);
-    border-color: var(--brand-accent);
-    color: #fff;
-  }
-
-  .hero-corporate .btn-primary:hover {
-    filter: brightness(1.05);
-  }
-
-  .hero-corporate .btn-outline-light:hover {
-    color: var(--brand-dark);
-  }
-
-  .hero-media {
-    position: relative;
-    border-radius: 0.9rem;
-    overflow: hidden;
-    min-height: 270px;
-    border: 1px solid rgba(255, 255, 255, 0.24);
-    box-shadow: 0 16px 34px rgba(15, 28, 47, 0.26);
-    background: rgba(15, 28, 47, 0.25);
-  }
-
-  .hero-fallback,
-  .hero-video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .hero-video {
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-
-  .hero-video.is-ready {
-    opacity: 1;
-  }
-
-  .trust-strip {
-    background: #fff;
-    border: 1px solid #e8edf5;
-    border-radius: 0.75rem;
-  }
-
-  .trust-item h6 {
-    color: var(--brand-primary);
-    margin-bottom: 0.2rem;
-    font-weight: 700;
-  }
-
-  .section-title {
-    color: var(--brand-primary);
-    font-weight: 700;
-  }
-
-  .section-subtitle {
-    color: var(--brand-muted);
-    max-width: 760px;
-  }
-
-  .service-card {
-    border: 1px solid #e9eef6;
-    border-radius: 0.85rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    height: 100%;
-  }
-
-  .service-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0.6rem 1.6rem rgba(15, 28, 47, 0.08);
-  }
-
-  .icon-chip {
-    width: 2.6rem;
-    height: 2.6rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: rgba(0, 74, 173, 0.1);
-    color: var(--brand-primary);
-    margin-bottom: 0.85rem;
-  }
-
-  .digital-id-feature {
-    background: var(--brand-light);
-    border: 1px solid #e5ebf4;
-    border-radius: 1rem;
-  }
-
-  .digital-id-image {
-    min-height: 240px;
-    border-radius: 0.8rem;
-    background:
-      linear-gradient(145deg, rgba(15, 28, 47, 0.2), rgba(0, 74, 173, 0.2)),
-      url("{{ url_for('static', filename='images/business-card.jpg') }}") center/cover no-repeat;
-  }
-
-  .why-card {
-    background: #fff;
-    border: 1px solid #e8edf5;
-    border-radius: 0.8rem;
-    height: 100%;
-  }
-
-  .why-icon {
-    width: 2.35rem;
-    height: 2.35rem;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 74, 173, 0.12);
-    color: var(--brand-primary);
-    margin-bottom: 0.65rem;
-  }
-
-  .leader-card {
-    border: 1px solid #e8edf5;
-    border-radius: 0.85rem;
-    height: 100%;
-  }
-
-  .final-cta {
-    background: linear-gradient(135deg, var(--brand-primary), #0d5fc9);
-    color: #fff;
-    border-radius: 1rem;
-  }
-
-  .service-glance-row .glance-badge {
-    background: #eef4ff;
-    color: #154088;
-    border: 1px solid #d7e3f7;
-    border-radius: 999px;
-    padding: 0.42rem 0.72rem;
-    font-weight: 600;
-  }
-
-  @media (max-width: 991.98px) {
-    .home-main {
-      margin-top: 76px;
-    }
-  }
-{% endblock %}
 
 {% block content %}
 <main class="container-xl home-main pb-5">
-  {% set cards_service = services|selectattr('name', 'equalto', 'Cards')|list|first %}
-  {% set marketing_service = services|selectattr('name', 'equalto', 'Marketing Essentials')|list|first %}
-  {% set ns = namespace(machine_service=None, pharma_service=None, distribution_service=None) %}
+  {% set ns = namespace(cards=None, printing=None, machine=None, pharma=None, engineering=None, travel=None, support=None) %}
   {% for svc in services %}
-    {% set svc_key = (svc.name ~ ' ' ~ svc.category_name)|lower %}
-    {% if ns.machine_service is none and ('machine' in svc_key or 'equipment' in svc_key or 'consumable' in svc_key) %}
-      {% set ns.machine_service = svc %}
-    {% endif %}
-    {% if ns.distribution_service is none and 'distribution' in svc_key %}
-      {% set ns.distribution_service = svc %}
-    {% endif %}
-    {% if ns.pharma_service is none and ('pharma' in svc_key or 'pharmaceutical' in svc_key) %}
-      {% set ns.pharma_service = svc %}
-    {% endif %}
+    {% set key = (svc.name ~ ' ' ~ svc.category_name)|lower %}
+    {% if ns.cards is none and ('cards' in key or 'digital id' in key or 'id-card' in key) %}{% set ns.cards = svc %}{% endif %}
+    {% if ns.printing is none and ('marketing' in key or 'print' in key or 'sticker' in key or 'sign' in key) %}{% set ns.printing = svc %}{% endif %}
+    {% if ns.machine is none and ('machine' in key or 'equipment' in key or 'consumable' in key) %}{% set ns.machine = svc %}{% endif %}
+    {% if ns.pharma is none and ('pharma' in key or 'pharmaceutical' in key) %}{% set ns.pharma = svc %}{% endif %}
+    {% if ns.engineering is none and ('engineering' in key or 'consult' in key) %}{% set ns.engineering = svc %}{% endif %}
+    {% if ns.travel is none and 'travel' in key %}{% set ns.travel = svc %}{% endif %}
+    {% if ns.support is none and ('cac' in key or 'trademark' in key or 'commission' in key) %}{% set ns.support = svc %}{% endif %}
   {% endfor %}
 
   <section class="hero-corporate p-4 p-md-5 mb-4 mb-md-5">
@@ -200,17 +25,16 @@
         <p class="text-uppercase fw-semibold mb-2 opacity-75">Gregbuk Intl Company Ltd</p>
         <h1 class="display-5 fw-bold mb-3">Corporate Multi-Service Solutions Built on Trust Since 2004</h1>
         <p class="lead mb-4">
-          We deliver dependable services across general contracts, digital ID printing, machine sales and distribution,
-          engineering consultancy, travel agency support, and corporate registration services.
+          We support businesses, schools, institutions, healthcare teams, SMEs, corporate offices, and public-sector operations with dependable, practical service delivery.
         </p>
         <div class="d-flex flex-wrap gap-2">
-          <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg px-4">Request Consultation</a>
+          <a href="{{ url_for('service_inquiry', service_key='digital-id-solutions') }}" class="btn btn-primary btn-lg px-4">Request Consultation</a>
           <a href="{{ url_for('all') }}" class="btn btn-outline-light btn-lg px-4">Explore Services</a>
         </div>
       </div>
       <div class="col-lg-5">
         <div class="hero-media">
-          <img src="{{ url_for('static', filename='images/printing-press-about.jpg') }}" alt="Gregbuk operations" class="hero-fallback">
+          <img src="{{ url_for('static', filename='images/printing-press-about.jpg') }}" alt="Gregbuk operational delivery and production environment" class="hero-fallback">
           <video class="hero-video" muted loop autoplay playsinline preload="none" poster="{{ url_for('static', filename='images/printing-press-about.jpg') }}" id="heroLoopVideo">
             <source src="{{ url_for('static', filename='videos/hero-loop.mp4') }}" type="video/mp4">
           </video>
@@ -219,85 +43,58 @@
     </div>
   </section>
 
-  <section class="mb-4">
-    <p class="section-subtitle mb-0">
-      We support businesses, schools, institutions, and government-related operations with practical service delivery
-      across printing, identity solutions, supplies, consulting, and registration support.
-    </p>
-  </section>
-
   <section class="trust-strip p-3 p-md-4 mb-4 mb-md-5">
     <div class="row text-center g-3">
-      <div class="col-6 col-md-3 trust-item">
-        <h6>Established 2004</h6>
-        <small class="text-muted">Over two decades of service</small>
-      </div>
-      <div class="col-6 col-md-3 trust-item">
-        <h6>Lagos, Nigeria</h6>
-        <small class="text-muted">Proudly Nigerian, business-focused</small>
-      </div>
-      <div class="col-6 col-md-3 trust-item">
-        <h6>Active Company</h6>
-        <small class="text-muted">Consistent delivery across sectors</small>
-      </div>
-      <div class="col-6 col-md-3 trust-item">
-        <h6>Family-Owned</h6>
-        <small class="text-muted">Value-driven long-term partnerships</small>
-      </div>
+      <div class="col-6 col-md trust-item"><h6>Established 2004</h6><small class="text-muted">Family-led growth since inception</small></div>
+      <div class="col-6 col-md trust-item"><h6>Incorporated in Lagos</h6><small class="text-muted">Nigeria operations base</small></div>
+      <div class="col-6 col-md trust-item"><h6>RC Number 1057410</h6><small class="text-muted">Registered 10 Aug 2012</small></div>
+      <div class="col-6 col-md trust-item"><h6>Active Company</h6><small class="text-muted">Operational and delivery-focused</small></div>
+      <div class="col-12 col-md trust-item"><h6>Family-Owned</h6><small class="text-muted">Long-term value and accountability</small></div>
     </div>
   </section>
 
   <section class="home-visuals mb-5">
     <div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-3">
-      <h2 class="section-title mb-0">Operational Highlights</h2>
-      <small class="text-muted">A quick look at our work environment and delivery focus</small>
+      <h2 class="section-title mb-0">What We Do</h2>
+      <small class="text-muted">Image-led service divisions</small>
     </div>
     <div class="row g-3">
       <div class="col-6 col-lg-4">
-        <a href="{{ url_for('all') }}" class="visual-card d-block text-decoration-none">
-          <img src="{{ url_for('static', filename='images/printing-press-about.jpg') }}" alt="Printing operations">
-          <span class="visual-label">Printing & Production</span>
+        <a href="{% if ns.printing %}{{ url_for('services', name=ns.printing.category_name) }}{% else %}{{ url_for('service_inquiry', service_key='printing-supplies') }}{% endif %}" class="visual-card d-block text-decoration-none">
+          <img src="{{ url_for('static', filename='images/marketing-essentials.jpeg') }}" alt="Printing and supplies operations">
+          <span class="visual-label">Printing & Supplies</span>
         </a>
       </div>
       <div class="col-6 col-lg-4">
-        <a href="{{ url_for('home') }}#digital-id-solutions" class="visual-card d-block text-decoration-none">
-          <img src="{{ url_for('static', filename='images/business-card.jpg') }}" alt="Digital ID solutions">
+        <a href="{{ url_for('service_inquiry', service_key='digital-id-solutions') }}" class="visual-card d-block text-decoration-none">
+          <img src="{{ url_for('static', filename='images/id_cards.jpeg') }}" alt="Digital ID printing workflow and card issuance">
           <span class="visual-label">Digital ID Solutions</span>
         </a>
       </div>
       <div class="col-6 col-lg-4">
-        <a href="{{ url_for('about_us') }}" class="visual-card d-block text-decoration-none">
-          <img src="{{ url_for('static', filename='images/about_us_machinery.jpeg') }}" alt="Equipment and support operations">
-          <span class="visual-label">Equipment & Support</span>
+        <a href="{% if ns.machine %}{{ url_for('services', name=ns.machine.category_name) }}{% else %}{{ url_for('service_inquiry', service_key='machine-sales-consumables') }}{% endif %}" class="visual-card d-block text-decoration-none">
+          <img src="{{ url_for('static', filename='images/about_us_machinery.jpeg') }}" alt="Machine sales and consumables support">
+          <span class="visual-label">Machine Sales & Consumables</span>
         </a>
       </div>
       <div class="col-6 col-lg-4">
-        <a href="{{ url_for('all') }}" class="visual-card d-block text-decoration-none">
-          <img src="{{ url_for('static', filename='images/marketing-essentials.jpeg') }}" alt="Corporate branding and supplies">
-          <span class="visual-label">Branding & Supplies</span>
+        <a href="{{ url_for('service_inquiry', service_key='pharmaceutical-distribution') }}" class="visual-card d-block text-decoration-none">
+          <img src="{{ url_for('static', filename='images/contact-bg.jpg') }}" alt="Pharmaceutical distribution support logistics">
+          <span class="visual-label">Pharmaceutical Distribution</span>
         </a>
       </div>
       <div class="col-6 col-lg-4">
-        <a href="{{ url_for('contact') }}" class="visual-card d-block text-decoration-none">
-          <img src="{{ url_for('static', filename='images/signs&banners.jpeg') }}" alt="Consultation and business support">
-          <span class="visual-label">Business Support</span>
+        <a href="{{ url_for('contact', head=ns.engineering.category_name if ns.engineering else 'price') }}" class="visual-card d-block text-decoration-none">
+          <img src="{{ url_for('static', filename='images/printing-press-about.jpg') }}" alt="Engineering consultancy and advisory sessions">
+          <span class="visual-label">Engineering Consultancy</span>
         </a>
       </div>
-    </div>
-  </section>
-
-  <section class="mb-5">
-    <div class="mb-3">
-      <h2 class="section-title mb-2">Trusted Across Sectors</h2>
-      <p class="section-subtitle mb-0">We support institutions, private businesses, and project teams with dependable service delivery.</p>
-    </div>
-    <div class="row g-2 g-md-3">
-      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Schools</div></div>
-      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Healthcare</div></div>
-      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">SMEs</div></div>
-      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Corporate Offices</div></div>
-      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Public Sector</div></div>
-      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Event Teams</div></div>
+      <div class="col-6 col-lg-4">
+        <a href="{{ url_for('service_inquiry', service_key='travel-agency') }}" class="visual-card d-block text-decoration-none">
+          <img src="{{ url_for('static', filename='images/placeholders/travel-agency.svg') }}" alt="Travel agency and documentation support services">
+          <span class="visual-label">Travel Agency & Documentation</span>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -306,107 +103,48 @@
       <div class="col-lg-7">
         <h2 class="section-title mb-3">About Gregbuk Intl Company Ltd</h2>
         <p class="mb-3">
-          Gregbuk Intl Company Ltd is a family-owned company established in 2004, serving private and public organizations
-          with reliable, quality-focused business solutions.
+          Gregbuk Intl Company Ltd is a family-owned company established in 2004, incorporated in Lagos, Nigeria, and currently active with Registration Number 1057410.
         </p>
         <p class="mb-4">
-          Our operations span printing and supplies, digital ID solutions, machine sales and consumables, engineering consultancy,
-          pharmaceutical-related distribution, travel agency services, and corporate support functions like CAC, trademark,
-          and commission services.
+          We provide multi-service corporate support across contracts, printing, digital identity systems, machine sales, distribution, consultancy, travel support, and business compliance services.
         </p>
-        <a href="{{ url_for('about_us') }}" class="btn btn-outline-primary">Read Company Profile</a>
+        <a href="{{ url_for('about_us') }}" class="btn btn-outline-primary">Read Full Company Profile</a>
       </div>
       <div class="col-lg-5">
-        <img src="{{ url_for('static', filename='images/print_about_us.webp') }}" class="img-fluid rounded-4 shadow-sm" alt="Gregbuk corporate operations">
+        <img src="{{ url_for('static', filename='images/print_about_us.webp') }}" class="img-fluid rounded-4 shadow-sm" alt="Gregbuk company operations and service delivery">
       </div>
     </div>
   </section>
 
   <section class="mb-5">
     <div class="mb-4">
-      <h2 class="section-title mb-2">Core Services</h2>
-      <p class="section-subtitle mb-0">Structured solutions designed to support institutions, SMEs, and large organizations.</p>
-      <div class="d-flex flex-wrap gap-2 mt-3 service-glance-row">
-        <span class="glance-badge">Printing & Supplies</span>
-        <span class="glance-badge">Digital ID Solutions</span>
-        <span class="glance-badge">Sales & Distribution</span>
-        <span class="glance-badge">Consultancy & Agency</span>
-        <span class="glance-badge">Corporate Support</span>
-      </div>
+      <h2 class="section-title mb-2">Core Services / Divisions</h2>
+      <p class="section-subtitle mb-0">Structured support built for operational reliability and measurable outcomes.</p>
     </div>
     <div class="row g-3 g-md-4">
-      <div class="col-md-6 col-lg-4">
-        <a href="{% if marketing_service %}{{ url_for('services', name=marketing_service.category_name) }}{% else %}{{ url_for('all') }}{% endif %}" class="text-decoration-none text-reset d-block h-100">
-          <div class="card service-card p-3 p-md-4">
-            <span class="icon-chip"><i class="bi bi-printer fs-5"></i></span>
-            <h5>Printing & Supplies</h5>
-            <p class="text-muted mb-2">Corporate printing, branded materials, document production, and related supplies.</p>
-            <small class="text-muted d-block">Includes: corporate print jobs, branded office materials</small>
-            <small class="text-muted d-block">Also supports: practical general contract execution</small>
-          </div>
-        </a>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <a href="{% if cards_service %}{{ url_for('services', name=cards_service.category_name) }}{% else %}{{ url_for('home') }}#digital-id-solutions{% endif %}" class="text-decoration-none text-reset d-block h-100">
-          <div class="card service-card p-3 p-md-4">
-            <span class="icon-chip"><i class="bi bi-person-vcard fs-5"></i></span>
-            <h5>Digital ID Solutions</h5>
-            <p class="text-muted mb-2">ID card design and printing, machine sales, consumables, and issuance support.</p>
-            <small class="text-muted d-block">Includes: ID card printer sales and setup</small>
-            <small class="text-muted d-block">Consumables: ribbons, PVC cards, accessories</small>
-          </div>
-        </a>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <a href="{% if ns.machine_service %}{{ url_for('services', name=ns.machine_service.category_name) }}{% elif ns.distribution_service %}{{ url_for('services', name=ns.distribution_service.category_name) }}{% elif ns.pharma_service %}{{ url_for('services', name=ns.pharma_service.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="text-decoration-none text-reset d-block h-100">
-          <div class="card service-card p-3 p-md-4">
-            <span class="icon-chip"><i class="bi bi-truck fs-5"></i></span>
-            <h5>Sales & Distribution</h5>
-            <p class="text-muted mb-2">Machine sales, technical product distribution, and pharmaceutical-related channels.</p>
-            <small class="text-muted d-block">Includes: equipment and consumable distribution</small>
-            <small class="text-muted d-block">Pharmaceutical channels are inquiry-led where catalog entries are not yet published.</small>
-          </div>
-        </a>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <a href="{{ url_for('contact') }}" class="text-decoration-none text-reset d-block h-100">
-          <div class="card service-card p-3 p-md-4">
-            <span class="icon-chip"><i class="bi bi-briefcase fs-5"></i></span>
-            <h5>Consultancy & Agency Services</h5>
-            <p class="text-muted mb-2">Engineering consultancy, travel agency support, and advisory services for growth-focused organizations.</p>
-            <small class="text-muted d-block">Includes: engineering and project advisory</small>
-            <small class="text-muted d-block">Agency support: travel planning and documentation guidance</small>
-          </div>
-        </a>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <a href="{{ url_for('contact') }}" class="text-decoration-none text-reset d-block h-100">
-          <div class="card service-card p-3 p-md-4">
-            <span class="icon-chip"><i class="bi bi-building-check fs-5"></i></span>
-            <h5>Corporate Support Services</h5>
-            <p class="text-muted mb-2">CAC registration, trademark processing, and commission support for compliant business operations.</p>
-            <small class="text-muted d-block">Includes: CAC and trademark filing support</small>
-            <small class="text-muted d-block">Commission services for operational compliance</small>
-          </div>
-        </a>
-      </div>
+      <div class="col-md-6 col-lg-4"><div class="card service-card p-3"><h5>General Contracts</h5><p class="text-muted mb-0">Project execution support for institutions and businesses.</p></div></div>
+      <div class="col-md-6 col-lg-4"><div class="card service-card p-3"><h5>Printing & Supplies</h5><p class="text-muted mb-0">Document production, branded materials, and supply continuity.</p></div></div>
+      <div class="col-md-6 col-lg-4"><div class="card service-card p-3"><h5>Digital ID Solutions</h5><p class="text-muted mb-0">ID card design, printing, issuance, and lifecycle support.</p></div></div>
+      <div class="col-md-6 col-lg-4"><div class="card service-card p-3"><h5>Machine Sales & Consumables</h5><p class="text-muted mb-0">Machine sourcing, setup guidance, and consumables restock.</p></div></div>
+      <div class="col-md-6 col-lg-4"><div class="card service-card p-3"><h5>Pharmaceutical Distribution</h5><p class="text-muted mb-0">Inquiry-led distribution support for facility operations.</p></div></div>
+      <div class="col-md-6 col-lg-4"><div class="card service-card p-3"><h5>Engineering Consultancy</h5><p class="text-muted mb-0">Technical advisory and project execution guidance.</p></div></div>
+      <div class="col-md-6 col-lg-4"><div class="card service-card p-3"><h5>Travel Agency</h5><p class="text-muted mb-0">Travel planning and documentation support for organizations.</p></div></div>
+      <div class="col-md-6 col-lg-4"><div class="card service-card p-3"><h5>CAC / Trademark / Commission</h5><p class="text-muted mb-0">Business compliance and registration support services.</p></div></div>
     </div>
   </section>
 
   <section id="digital-id-solutions" class="digital-id-feature p-4 p-md-5 mb-5">
     <div class="row align-items-center g-4">
       <div class="col-lg-7">
-        <h2 class="section-title mb-3">Featured: Digital ID Solutions</h2>
-        <p class="mb-3">
-          We specialize in end-to-end digital identification systems for schools, corporations, government agencies, and institutions.
-        </p>
+        <h2 class="section-title mb-3">Featured Digital ID Solutions</h2>
+        <p class="mb-3">We deliver secure digital ID printing in Nigeria for schools, healthcare teams, corporate offices, and public institutions.</p>
         <ul class="mb-4">
-          <li>Professional ID card design and secure printing</li>
-          <li>Sales of ID card printers, ribbons, PVC cards, and accessories</li>
-          <li>Support for setup, issuance workflow, and replenishment</li>
+          <li>ID card design and secure print output</li>
+          <li>ID card machine sales and deployment support</li>
+          <li>PVC cards, ribbons, and consumables replenishment</li>
         </ul>
-        <a href="{{ url_for('contact') }}" class="btn btn-primary me-2">Request ID Solution</a>
-        <a href="{{ url_for('all') }}" class="btn btn-outline-primary">View Service Categories</a>
+        <a href="{{ url_for('service_inquiry', service_key='digital-id-solutions') }}" class="btn btn-primary me-2">Request ID Solution</a>
+        <a href="{% if ns.cards %}{{ url_for('services', name=ns.cards.category_name) }}{% else %}{{ url_for('all') }}{% endif %}" class="btn btn-outline-primary">Browse Related Categories</a>
       </div>
       <div class="col-lg-5">
         <div class="digital-id-image"></div>
@@ -415,36 +153,41 @@
   </section>
 
   <section class="mb-5">
+    <div class="mb-3">
+      <h2 class="section-title mb-2">Industries Served</h2>
+    </div>
+    <div class="row g-2 g-md-3">
+      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Schools</div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Healthcare</div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">SMEs</div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Corporate Offices</div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Public Sector</div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="partner-logo">Event / Project Teams</div></div>
+    </div>
+  </section>
+
+  <section class="mb-5">
     <div class="mb-4">
-      <h2 class="section-title mb-2">Project Highlights</h2>
-      <p class="section-subtitle mb-0">Sample delivery outcomes that reflect our practical execution model.</p>
+      <h2 class="section-title mb-2">Project / Delivery Highlights</h2>
+      <p class="section-subtitle mb-0">A practical snapshot of how we deliver value across service divisions.</p>
     </div>
     <div class="row g-3 g-md-4">
       <div class="col-md-6 col-lg-4">
         <div class="project-card">
-          <img src="{{ url_for('static', filename='images/id_cards.jpeg') }}" alt="Institutional ID card rollout">
-          <div class="p-3">
-            <h6 class="mb-2">Institutional ID Rollout</h6>
-            <p class="text-muted mb-0">Delivered secure card design, print setup, and consumable continuity for structured identity issuance.</p>
-          </div>
+          <img src="{{ url_for('static', filename='images/id_cards.jpeg') }}" alt="Digital ID rollout for institutions">
+          <div class="p-3"><h6 class="mb-2">Institutional ID Rollout</h6><p class="text-muted mb-0">Delivered secure card issuance setup with consumables continuity.</p></div>
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
         <div class="project-card">
-          <img src="{{ url_for('static', filename='images/marketing-essentials.jpeg') }}" alt="Corporate brand support">
-          <div class="p-3">
-            <h6 class="mb-2">Corporate Branding Support</h6>
-            <p class="text-muted mb-0">Executed coordinated print and branding materials for business visibility and internal operations.</p>
-          </div>
+          <img src="{{ url_for('static', filename='images/about_us_machinery.jpeg') }}" alt="Machine deployment and support">
+          <div class="p-3"><h6 class="mb-2">Machine Deployment Support</h6><p class="text-muted mb-0">Coordinated machine sourcing and setup guidance for operational use.</p></div>
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
         <div class="project-card">
-          <img src="{{ url_for('static', filename='images/signs&banners.jpeg') }}" alt="Campaign signage and displays">
-          <div class="p-3">
-            <h6 class="mb-2">Signage & Display Delivery</h6>
-            <p class="text-muted mb-0">Produced campaign and event display materials with rapid turnaround and quality finishing.</p>
-          </div>
+          <img src="{{ url_for('static', filename='images/marketing-essentials.jpeg') }}" alt="Print and branding fulfillment">
+          <div class="p-3"><h6 class="mb-2">Corporate Print Fulfillment</h6><p class="text-muted mb-0">Delivered coordinated print production for business visibility and operations.</p></div>
         </div>
       </div>
     </div>
@@ -453,88 +196,39 @@
   <section class="mb-5">
     <div class="mb-4">
       <h2 class="section-title mb-2">Why Choose Us</h2>
-      <p class="section-subtitle mb-0">A practical partner for organizations that value consistency, speed, and quality.</p>
     </div>
     <div class="row g-3 g-md-4">
-      <div class="col-6 col-lg-3">
-        <div class="why-card p-3 p-md-4">
-          <span class="why-icon"><i class="bi bi-award"></i></span>
-          <h6 class="fw-bold">Industry Experience</h6>
-          <p class="text-muted mb-0">Operating since 2004 with proven business continuity and delivery discipline.</p>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3">
-        <div class="why-card p-3 p-md-4">
-          <span class="why-icon"><i class="bi bi-diagram-3"></i></span>
-          <h6 class="fw-bold">Multi-Sector Capability</h6>
-          <p class="text-muted mb-0">Integrated services across contracts, printing, distribution, and corporate support.</p>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3">
-        <div class="why-card p-3 p-md-4">
-          <span class="why-icon"><i class="bi bi-shield-check"></i></span>
-          <h6 class="fw-bold">Professional Standards</h6>
-          <p class="text-muted mb-0">Clear communication, process-driven delivery, and strong attention to detail.</p>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3">
-        <div class="why-card p-3 p-md-4">
-          <span class="why-icon"><i class="bi bi-people-fill"></i></span>
-          <h6 class="fw-bold">Client-Centered</h6>
-          <p class="text-muted mb-0">Flexible support for long-term partnerships with institutions and businesses.</p>
-        </div>
-      </div>
+      <div class="col-6 col-lg-4"><div class="why-card p-3"><span class="why-icon"><i class="bi bi-award"></i></span><h6 class="fw-bold">Experience</h6><p class="text-muted mb-0">Family-owned delivery track record since 2004.</p></div></div>
+      <div class="col-6 col-lg-4"><div class="why-card p-3"><span class="why-icon"><i class="bi bi-shield-check"></i></span><h6 class="fw-bold">Reliability</h6><p class="text-muted mb-0">Process-driven execution and responsive support.</p></div></div>
+      <div class="col-6 col-lg-4"><div class="why-card p-3"><span class="why-icon"><i class="bi bi-diagram-3"></i></span><h6 class="fw-bold">Multi-Sector Capability</h6><p class="text-muted mb-0">Integrated services for corporate and institutional operations.</p></div></div>
+      <div class="col-6 col-lg-6"><div class="why-card p-3"><span class="why-icon"><i class="bi bi-check2-square"></i></span><h6 class="fw-bold">Professional Standards</h6><p class="text-muted mb-0">Structured communication, clear expectations, and accountable delivery.</p></div></div>
+      <div class="col-6 col-lg-6"><div class="why-card p-3"><span class="why-icon"><i class="bi bi-people-fill"></i></span><h6 class="fw-bold">Client-Centered Service</h6><p class="text-muted mb-0">We tailor support to project realities, timelines, and operational goals.</p></div></div>
     </div>
   </section>
 
   <section id="leadership" class="mb-5">
     <div class="mb-4 text-center">
-      <h2 class="section-title mb-2">Leadership</h2>
-      <p class="section-subtitle mx-auto mb-0">A family-led team with strong technical, operational, and business leadership.</p>
+      <h2 class="section-title mb-2">Leadership Preview</h2>
+      <p class="section-subtitle mx-auto mb-0">Family-led governance with strategic, operational, and technical oversight.</p>
     </div>
     <div class="row g-3 g-md-4">
-      <div class="col-md-6 col-lg-4">
-        <div class="card leader-card p-3">
-          <h5 class="mb-1">Engr. Agada Sunday G.</h5>
-          <p class="text-muted mb-0">MD/CEO</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="card leader-card p-3">
-          <h5 class="mb-1">Mrs Bukola Agada</h5>
-          <p class="text-muted mb-0">GM</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="card leader-card p-3">
-          <h5 class="mb-1">Mrs Callista Agada</h5>
-          <p class="text-muted mb-0">Business Development Manager / Secretary</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <div class="card leader-card p-3">
-          <h5 class="mb-1">Oluwatobi V. Onyedika Agada</h5>
-          <p class="text-muted mb-0">Manager &amp; Board Member</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <div class="card leader-card p-3">
-          <h5 class="mb-1">Ifeanyi Agada</h5>
-          <p class="text-muted mb-0">IT Consultant / Board Member</p>
-        </div>
-      </div>
+      <div class="col-md-6 col-lg-4"><div class="card leader-card p-3 h-100"><img class="img-fluid rounded mb-2" src="{{ url_for('static', filename='images/placeholders/leadership-portrait.svg') }}" alt="Portrait placeholder for Engr. Agada Sunday G."><h5 class="mb-1">Engr. Agada Sunday G.</h5><p class="text-muted mb-0">MD/CEO</p></div></div>
+      <div class="col-md-6 col-lg-4"><div class="card leader-card p-3 h-100"><img class="img-fluid rounded mb-2" src="{{ url_for('static', filename='images/placeholders/leadership-portrait.svg') }}" alt="Portrait placeholder for Mrs Bukola Agada"><h5 class="mb-1">Mrs Bukola Agada</h5><p class="text-muted mb-0">GM</p></div></div>
+      <div class="col-md-6 col-lg-4"><div class="card leader-card p-3 h-100"><img class="img-fluid rounded mb-2" src="{{ url_for('static', filename='images/placeholders/leadership-portrait.svg') }}" alt="Portrait placeholder for Mrs Callista Agada"><h5 class="mb-1">Mrs Callista Agada</h5><p class="text-muted mb-0">Business Development Manager / Secretary</p></div></div>
+      <div class="col-md-6 col-lg-6"><div class="card leader-card p-3 h-100"><img class="img-fluid rounded mb-2" src="{{ url_for('static', filename='images/placeholders/leadership-portrait.svg') }}" alt="Portrait placeholder for Oluwatobi V. Onyedika Agada"><h5 class="mb-1">Oluwatobi V. Onyedika Agada</h5><p class="text-muted mb-0">Manager &amp; Board Member</p></div></div>
+      <div class="col-md-6 col-lg-6"><div class="card leader-card p-3 h-100"><img class="img-fluid rounded mb-2" src="{{ url_for('static', filename='images/placeholders/leadership-portrait.svg') }}" alt="Portrait placeholder for Ifeanyi Agada"><h5 class="mb-1">Ifeanyi Agada</h5><p class="text-muted mb-0">IT Consultant / Board Member</p></div></div>
+    </div>
+    <div class="text-center mt-3">
+      <a href="{{ url_for('leadership') }}" class="btn btn-outline-primary">View Full Leadership Page</a>
     </div>
   </section>
 
   <section class="final-cta p-4 p-md-5 text-center">
-    <h2 class="fw-bold mb-3">Partner with Gregbuk for Reliable Corporate Service Delivery</h2>
-    <p class="mb-4">
-      Need support with digital IDs, contracts, supplies, distribution, or corporate filings?
-      Our team is ready to help.
-    </p>
+    <h2 class="fw-bold mb-3">Need a Trusted Corporate Service Partner?</h2>
+    <p class="mb-4">Start with a service-specific request to get a faster, more accurate response from our team.</p>
     <div class="d-flex flex-wrap gap-2 justify-content-center">
-      <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg px-4">Contact Us</a>
-      <a href="{{ url_for('about_us') }}" class="btn btn-outline-light btn-lg px-4">About The Company</a>
+      <a href="{{ url_for('all') }}" class="btn btn-light btn-lg px-4">Explore All Divisions</a>
+      <a href="{{ url_for('contact') }}" class="btn btn-outline-light btn-lg px-4">General Contact</a>
     </div>
   </section>
 </main>
@@ -545,12 +239,8 @@
   (function () {
     const heroVideo = document.getElementById("heroLoopVideo");
     if (!heroVideo) return;
-    heroVideo.addEventListener("loadeddata", () => {
-      heroVideo.classList.add("is-ready");
-    });
-    heroVideo.addEventListener("error", () => {
-      heroVideo.classList.remove("is-ready");
-    });
+    heroVideo.addEventListener("loadeddata", () => heroVideo.classList.add("is-ready"));
+    heroVideo.addEventListener("error", () => heroVideo.classList.remove("is-ready"));
   })();
 </script>
 {% endblock %}

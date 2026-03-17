@@ -77,7 +77,7 @@
         <p class="lead mb-4">
           {{ the_data.description or ("Review this service area and submit a consultation request for tailored engagement." if mode == "inquiry" else "Explore offerings in this subcategory and request support based on your specific needs.") }}
         </p>
-        <a href="{{ url_for('contact', head=the_data.services.category_name) }}" class="btn btn-light btn-lg px-4">{{ cta.primary }}</a>
+        <a href="{{ inquiry_url_for_service(the_data.services) }}" class="btn btn-light btn-lg px-4">{{ cta.primary }}</a>
       </div>
       <div class="col-lg-4">
         <div class="capability-card p-3 p-md-4 text-dark">
@@ -148,7 +148,7 @@
           <div class="product-card p-4">
             <h5 class="mb-2">Service details are being prepared</h5>
             <p class="text-muted mb-3">This branch is currently inquiry-first. Contact us to discuss your specific requirements.</p>
-            <a href="{{ url_for('contact', head=the_data.services.category_name) }}" class="btn btn-primary btn-sm">{{ cta.primary }}</a>
+            <a href="{{ inquiry_url_for_service(the_data.services) }}" class="btn btn-primary btn-sm">{{ cta.primary }}</a>
           </div>
         </div>
       {% endif %}
@@ -182,7 +182,7 @@
   {% endif %}
 
   <section class="text-center">
-    <a href="{{ url_for('contact', head=the_data.services.category_name) }}" class="btn btn-primary btn-lg px-4">{{ cta.secondary }}</a>
+    <a href="{{ inquiry_url_for_service(the_data.services) }}" class="btn btn-primary btn-lg px-4">{{ cta.secondary }}</a>
   </section>
 </main>
 {% endblock %}

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}{{ inquiry_config.headline }}{% endblock %}
+{% block meta_description %}{{ inquiry_config.description }} Request support from Gregbuk Intl Company Ltd in Lagos, Nigeria.{% endblock %}
+{% block og_title %}{{ inquiry_config.headline }} | Gregbuk Intl Company Ltd{% endblock %}
+{% block og_description %}{{ inquiry_config.description }}{% endblock %}
+
+{% block content %}
+<main class="container-xl contact-main pb-5">
+  <section class="contact-hero p-4 p-md-5 mb-4 mb-md-5">
+    <div class="row">
+      <div class="col-lg-9">
+        <p class="text-uppercase fw-semibold mb-2 opacity-75">Service-Specific Inquiry</p>
+        <h1 class="display-5 fw-bold mb-3">{{ inquiry_config.headline }}</h1>
+        <p class="lead mb-0">{{ inquiry_config.description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-4">
+    <div class="row g-3 g-md-4">
+      <div class="col-lg-4">
+        <div class="contact-info-card p-4 h-100">
+          <h2 class="h4 section-title mb-3">Inquiry Summary</h2>
+          <p class="text-muted mb-2"><strong>Service:</strong> {{ inquiry_config.service_label }}</p>
+          <p class="text-muted mb-3">Use this form for a tailored response from our team. For broader questions, use our general contact page.</p>
+          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">General Contact</a>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="contact-form-card p-4">
+          <form method="POST" id="serviceInquiryForm" novalidate>
+            <div class="row g-3">
+              {% for field in inquiry_config.fields %}
+                <div class="{% if field.type == 'textarea' %}col-12{% else %}col-md-6{% endif %}">
+                  <label class="form-label" for="{{ field.name }}">{{ field.label }}{% if field.required %} *{% endif %}</label>
+                  {% if field.type == 'textarea' %}
+                    <textarea class="form-control" id="{{ field.name }}" name="{{ field.name }}" rows="5" placeholder="{{ field.placeholder|default('') }}"></textarea>
+                  {% elif field.type == 'select' %}
+                    <select class="form-select" id="{{ field.name }}" name="{{ field.name }}">
+                      <option value="">Select an option</option>
+                      {% for opt in field.options %}
+                        <option value="{{ opt }}">{{ opt }}</option>
+                      {% endfor %}
+                    </select>
+                  {% else %}
+                    <input class="form-control" id="{{ field.name }}" name="{{ field.name }}" type="{{ field.type }}" placeholder="{{ field.placeholder|default('') }}">
+                  {% endif %}
+                  <div class="invalid-feedback" id="{{ field.name }}-error"></div>
+                </div>
+              {% endfor %}
+              <div class="col-12">
+                <div class="d-flex flex-wrap gap-2 align-items-center">
+                  <button id="inquirySubmitBtn" type="submit" class="btn btn-brand px-4">{{ inquiry_config.submit_label }}</button>
+                  <span id="inquirySuccess" class="text-success fw-semibold status-note" aria-live="polite"></span>
+                  <span id="inquiryError" class="text-danger fw-semibold status-note" aria-live="polite"></span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
+
+{% block script %}
+<script>
+  (function () {
+    const form = document.getElementById("serviceInquiryForm");
+    if (!form) return;
+    const submitBtn = document.getElementById("inquirySubmitBtn");
+    const successEl = document.getElementById("inquirySuccess");
+    const errorEl = document.getElementById("inquiryError");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      document.querySelectorAll(".invalid-feedback").forEach((el) => el.textContent = "");
+      form.querySelectorAll(".form-control, .form-select").forEach((el) => el.classList.remove("is-invalid"));
+      successEl.style.display = "none";
+      errorEl.style.display = "none";
+      successEl.textContent = "";
+      errorEl.textContent = "";
+
+      submitBtn.disabled = true;
+      const original = submitBtn.textContent;
+      submitBtn.textContent = "Submitting...";
+
+      try {
+        const response = await fetch("", { method: "POST", body: new FormData(form) });
+        const data = await response.json();
+        if (data.success) {
+          successEl.style.display = "inline";
+          successEl.textContent = "Request submitted successfully.";
+          form.reset();
+          setTimeout(() => {
+            window.location.href = "{{ url_for('thank_you') }}";
+          }, 700);
+          return;
+        }
+        Object.entries(data.errors || {}).forEach(([field, messages]) => {
+          const input = document.getElementById(field);
+          const error = document.getElementById(`${field}-error`);
+          if (error) error.textContent = (messages || []).join(", ");
+          if (input) input.classList.add("is-invalid");
+        });
+      } catch (err) {
+        errorEl.style.display = "inline";
+        errorEl.textContent = "Unable to submit now. Please try again.";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = original;
+      }
+    });
+  })();
+</script>
+{% endblock %}

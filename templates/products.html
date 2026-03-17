@@ -102,7 +102,7 @@
         <p class="lead mb-4">
           {{ the_data.description or ("Professional service brief with consultation-led engagement and delivery guidance." if mode == "inquiry" else "Detailed offering page with practical delivery support and inquiry-based engagement.") }}
         </p>
-        <a href="{{ url_for('contact', head=parent_service.category_name) }}" class="btn btn-light btn-lg px-4">{{ cta.secondary }}</a>
+        <a href="{{ inquiry_url_for_service(parent_service) }}" class="btn btn-light btn-lg px-4">{{ cta.secondary }}</a>
       </div>
     </div>
   </section>
@@ -166,7 +166,7 @@
             <li>{{ "Delivery roadmap tailored to your organization" if mode == "inquiry" else "Consultative inquiry process for tailored requirements" }}</li>
             <li>{{ "Follow-up support and implementation guidance" if mode == "inquiry" else "Post-delivery support and follow-up as needed" }}</li>
           </ul>
-          <a href="{{ url_for('contact', head=parent_service.category_name) }}" class="btn btn-primary">{{ cta.primary }}</a>
+          <a href="{{ inquiry_url_for_service(parent_service) }}" class="btn btn-primary">{{ cta.primary }}</a>
         </div>
       </div>
     </div>
@@ -217,7 +217,7 @@
           <div class="related-card p-4">
             <h6 class="mb-2">Need a tailored recommendation?</h6>
             <p class="text-muted mb-3">This branch currently has limited published related entries. Our team can guide you based on your exact requirements.</p>
-            <a href="{{ url_for('contact', head=parent_service.category_name) }}" class="btn btn-primary btn-sm">{{ cta.primary }}</a>
+            <a href="{{ inquiry_url_for_service(parent_service) }}" class="btn btn-primary btn-sm">{{ cta.primary }}</a>
           </div>
         </div>
       {% endif %}

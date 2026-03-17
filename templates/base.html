@@ -5,10 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Gregbuk{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}Gregbuk Intl Company Ltd provides corporate printing, digital ID solutions, distribution, consultancy, and business support services in Lagos, Nigeria.{% endblock %}">
+  <link rel="canonical" href="{% block canonical_href %}{{ request.base_url }}{% endblock %}">
   <meta property="og:title" content="{% block og_title %}Gregbuk Intl Company Ltd{% endblock %}">
   <meta property="og:description" content="{% block og_description %}Trusted multi-service corporate solutions since 2004.{% endblock %}">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.url }}">
   <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='images/printing-press-about.jpg', _external=True) }}{% endblock %}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{% block twitter_title %}{% block tw_title_fallback %}Gregbuk Intl Company Ltd{% endblock %}{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}{% block tw_desc_fallback %}Corporate multi-service solutions in Lagos, Nigeria.{% endblock %}{% endblock %}">
+  <meta name="twitter:image" content="{% block twitter_image %}{% block tw_img_fallback %}{{ url_for('static', filename='images/printing-press-about.jpg', _external=True) }}{% endblock %}{% endblock %}">
 
   <!-- Theme Script (runs instantly, before CSS loads) -->
   <script>
@@ -42,6 +48,26 @@
   <style>
   {% block style %}{%endblock%}
   </style>
+  {% block schema %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{{ company_name }}",
+    "url": "{{ request.url_root.rstrip('/') }}",
+    "email": "{{ company_email }}",
+    "telephone": "{{ company_phone_primary }}",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "{{ company_address }}",
+      "addressLocality": "{{ company_city }}",
+      "addressCountry": "{{ company_country }}"
+    },
+    "foundingDate": "{{ company_established_year }}",
+    "description": "Family-owned corporate services company in Lagos, Nigeria offering printing and supplies, digital ID printing, machine sales, pharmaceutical distribution, engineering consultancy, travel agency, and CAC/trademark support."
+  }
+  </script>
+  {% endblock %}
 </head>
 
 

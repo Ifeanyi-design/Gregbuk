@@ -1,116 +1,17 @@
 {% extends "base.html" %}
-{% block title %}Contact{% endblock %}
-{% block meta_description %}Contact Gregbuk Intl Company Ltd for corporate printing, digital ID solutions, distribution, consultancy, and registration support inquiries.{% endblock %}
+{% block title %}Contact | Gregbuk Intl Company Ltd{% endblock %}
+{% block meta_description %}Contact Gregbuk Intl Company Ltd for corporate services in Lagos, Nigeria. Reach us by phone, email, WhatsApp, or submit a general business inquiry.{% endblock %}
 {% block og_title %}Contact Gregbuk Intl Company Ltd{% endblock %}
-{% block og_description %}Send a business inquiry and our team will respond with practical next steps.{% endblock %}
-{% block og_image %}{{ url_for('static', filename='images/contact_us_now.jpg', _external=True) }}{% endblock %}
-
-{% block style %}
-  :root {
-    --brand-primary: #004aad;
-    --brand-accent: #cc9933;
-    --brand-dark: #0f1c2f;
-    --brand-muted: #6b7280;
-    --brand-light: #f7f9fc;
-  }
-
-  .contact-main {
-    margin-top: 84px;
-  }
-
-  .contact-hero {
-    background:
-      linear-gradient(120deg, rgba(15, 28, 47, 0.9), rgba(0, 74, 173, 0.82)),
-      url("{{ url_for('static', filename='images/contact_us_now.jpg') }}") center/cover no-repeat;
-    color: #fff;
-    border-radius: 1rem;
-  }
-
-  .section-title {
-    color: var(--brand-primary);
-    font-weight: 700;
-  }
-
-  .contact-info-card,
-  .contact-form-card,
-  .support-card {
-    border: 1px solid #e8edf5;
-    border-radius: 0.9rem;
-    background: #fff;
-    height: 100%;
-  }
-
-  .info-line {
-    display: flex;
-    gap: 0.75rem;
-    align-items: flex-start;
-  }
-
-  .info-line i {
-    color: var(--brand-primary);
-    margin-top: 0.2rem;
-  }
-
-  .support-pill {
-    border: 1px solid #e5ebf4;
-    border-radius: 0.75rem;
-    padding: 0.9rem;
-    background: var(--brand-light);
-    height: 100%;
-  }
-
-  .btn-brand {
-    background: var(--brand-primary);
-    border-color: var(--brand-primary);
-    color: #fff;
-  }
-
-  .btn-brand:hover {
-    filter: brightness(1.05);
-    color: #fff;
-  }
-
-  .contact-form-card .form-control,
-  .contact-form-card .form-select {
-    min-height: 46px;
-    border-radius: 0.6rem;
-  }
-
-  .contact-form-card textarea.form-control {
-    min-height: 130px;
-  }
-
-  .submit-btn {
-    width: 100%;
-  }
-
-  .status-note {
-    display: none;
-  }
-
-  @media (max-width: 991.98px) {
-    .contact-main {
-      margin-top: 76px;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .submit-btn {
-      width: auto;
-    }
-  }
-{% endblock %}
+{% block og_description %}General business inquiries, corporate support, and service consultations.{% endblock %}
 
 {% block content %}
 <main class="container-xl contact-main pb-5">
   <section class="contact-hero p-4 p-md-5 mb-4 mb-md-5">
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-lg-9">
         <p class="text-uppercase fw-semibold mb-2 opacity-75">Business Inquiry</p>
         <h1 class="display-5 fw-bold mb-3">Contact Gregbuk Intl Company Ltd</h1>
-        <p class="lead mb-0">
-          Tell us what your organization needs and our team will respond with practical support.
-        </p>
+        <p class="lead mb-0">Use this page for general inquiries. For faster response, use a service-specific request form where available.</p>
       </div>
     </div>
   </section>
@@ -118,88 +19,73 @@
   <section class="mb-4">
     <div class="row g-3 g-md-4">
       <div class="col-lg-5">
-        <div class="contact-info-card p-4">
-          <h2 class="h4 section-title mb-3">Contact Information</h2>
-
+        <div class="contact-info-card p-4 h-100">
+          <h2 class="h4 section-title mb-3">Contact Details</h2>
           <div class="info-line mb-3">
             <i class="bi bi-geo-alt-fill"></i>
             <div>
               <h6 class="mb-1">Office Address</h6>
-              <p class="text-muted mb-0">{{ company_address|default('[COMPANY_ADDRESS_HERE]', true) }}</p>
+              <p class="text-muted mb-0">{{ company_address }}</p>
             </div>
           </div>
-
           <div class="info-line mb-3">
             <i class="bi bi-envelope-fill"></i>
             <div>
               <h6 class="mb-1">Email</h6>
-              <p class="mb-0">
-                <a href="mailto:{{ company_email|default('info@example.com', true) }}" class="text-decoration-none">
-                  {{ company_email|default('[COMPANY_EMAIL_HERE]', true) }}
-                </a>
-              </p>
+              <a href="mailto:{{ company_email }}" class="text-decoration-none">{{ company_email }}</a>
             </div>
           </div>
-
           <div class="info-line mb-3">
             <i class="bi bi-telephone-fill"></i>
             <div>
-              <h6 class="mb-1">Phone</h6>
-              <p class="mb-0">
-                <a href="tel:{{ company_phone_primary|default('+00000000000', true) }}" class="text-decoration-none">
-                  {{ company_phone_primary|default('[COMPANY_PHONE_PRIMARY]', true) }}
-                </a>
-              </p>
-              <p class="mb-0">
-                <a href="tel:{{ company_phone_secondary|default('+00000000000', true) }}" class="text-decoration-none">
-                  {{ company_phone_secondary|default('[COMPANY_PHONE_SECONDARY]', true) }}
-                </a>
-              </p>
+              <h6 class="mb-1">Phone Numbers</h6>
+              <p class="mb-0"><a href="tel:{{ company_phone_primary }}" class="text-decoration-none">{{ company_phone_primary }}</a></p>
+              <p class="mb-0"><a href="tel:{{ company_phone_secondary }}" class="text-decoration-none">{{ company_phone_secondary }}</a></p>
             </div>
           </div>
-
+          <div class="info-line mb-3">
+            <i class="bi bi-whatsapp"></i>
+            <div>
+              <h6 class="mb-1">WhatsApp</h6>
+              <p class="text-muted mb-0">{{ company_whatsapp }}</p>
+            </div>
+          </div>
           <hr>
-          <p class="text-muted mb-0">Business hours: Monday - Friday, 9:00 AM - 5:00 PM</p>
+          <p class="text-muted mb-0">Business Hours: Monday - Friday, 9:00 AM - 5:00 PM<br>Saturday by appointment.</p>
         </div>
       </div>
-
       <div class="col-lg-7">
         <div class="contact-form-card p-4">
-          <h2 class="h4 section-title mb-3">Send an Inquiry</h2>
+          <h2 class="h4 section-title mb-3">General Contact Form</h2>
           <form method="POST" id="contactForm" novalidate>
             {{ form.hidden_tag() }}
-
             <div class="mb-3">
               {{ form.head.label(class="form-label") }}
               {{ form.head(class="form-select" + (" is-invalid" if form.head.errors else "")) }}
               <div class="invalid-feedback" id="head-error"></div>
             </div>
-
             <div class="row g-3">
               <div class="col-md-6">
                 {{ form.name.label(class="form-label") }}
-                {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else ""), placeholder="Enter your full name") }}
+                {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else ""), placeholder="Full name") }}
                 <div class="invalid-feedback" id="name-error"></div>
               </div>
               <div class="col-md-6">
                 {{ form.email.label(class="form-label") }}
-                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else ""), placeholder="Enter your business email") }}
+                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else ""), placeholder="Business email") }}
                 <div class="invalid-feedback" id="email-error"></div>
               </div>
             </div>
-
-            <div class="mb-3">
+            <div class="mb-3 mt-3">
               {{ form.phone.label(class="form-label") }}
-              {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else ""), placeholder="Enter your phone number") }}
+              {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else ""), placeholder="Phone number") }}
               <div class="invalid-feedback" id="phone-error"></div>
             </div>
-
             <div class="mb-3">
               {{ form.message.label(class="form-label") }}
-              {{ form.message(class="form-control" + (" is-invalid" if form.message.errors else ""), placeholder="Share your request or project details", rows="5") }}
+              {{ form.message(class="form-control" + (" is-invalid" if form.message.errors else ""), placeholder="Tell us your request details", rows="5") }}
               <div class="invalid-feedback" id="message-error"></div>
             </div>
-
             <div class="d-flex flex-wrap gap-2 align-items-center">
               {{ form.submit(class="btn btn-brand px-4 submit-btn", id="contactSubmitBtn") }}
               <span id="successMessage" class="text-success fw-semibold status-note" aria-live="polite"></span>
@@ -212,64 +98,17 @@
   </section>
 
   <section>
-    <div class="row g-3">
-      <div class="col-md-4">
-        <div class="support-pill">
-          <h6 class="mb-1"><i class="bi bi-whatsapp me-1"></i> WhatsApp Support</h6>
-          <p class="text-muted mb-0">Fast assistance for urgent requests and inquiry follow-up.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="support-pill">
-          <h6 class="mb-1"><i class="bi bi-telephone-outbound me-1"></i> Call Support</h6>
-          <p class="text-muted mb-0">Speak with our team for project scope and immediate guidance.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="support-pill">
-          <h6 class="mb-1"><i class="bi bi-envelope-paper me-1"></i> Email Support</h6>
-          <p class="text-muted mb-0">Send documents and detailed inquiries for formal review.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="mt-4">
     <div class="mb-3">
-      <h2 class="h4 section-title mb-2">FAQ</h2>
-      <p class="text-muted mb-0">Common questions before sending your request.</p>
+      <h2 class="h4 section-title mb-2">Service-Specific Request Shortcuts</h2>
+      <p class="text-muted mb-0">Use these direct forms for a more tailored response.</p>
     </div>
-    <div class="accordion" id="contactFaqAccordion">
-      <div class="accordion-item">
-        <h2 class="accordion-header">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#contactFaq1" aria-expanded="true" aria-controls="contactFaq1">
-            How quickly will we get a response?
-          </button>
-        </h2>
-        <div id="contactFaq1" class="accordion-collapse collapse show" data-bs-parent="#contactFaqAccordion">
-          <div class="accordion-body">Most inquiries are acknowledged within one business day.</div>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <h2 class="accordion-header">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contactFaq2" aria-expanded="false" aria-controls="contactFaq2">
-            What should we include in our inquiry?
-          </button>
-        </h2>
-        <div id="contactFaq2" class="accordion-collapse collapse" data-bs-parent="#contactFaqAccordion">
-          <div class="accordion-body">Please include service type, quantity/scope, timeline, and delivery location for faster support.</div>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <h2 class="accordion-header">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contactFaq3" aria-expanded="false" aria-controls="contactFaq3">
-            Can we request multiple services at once?
-          </button>
-        </h2>
-        <div id="contactFaq3" class="accordion-collapse collapse" data-bs-parent="#contactFaqAccordion">
-          <div class="accordion-body">Yes, and we can provide a combined service response where needed.</div>
-        </div>
-      </div>
+    <div class="row g-3">
+      <div class="col-md-6 col-lg-4"><a class="support-pill d-block text-decoration-none text-reset" href="{{ url_for('service_inquiry', service_key='digital-id-solutions') }}"><h6 class="mb-1">Digital ID Solutions</h6><p class="text-muted mb-0">Request ID solution</p></a></div>
+      <div class="col-md-6 col-lg-4"><a class="support-pill d-block text-decoration-none text-reset" href="{{ url_for('service_inquiry', service_key='machine-sales-consumables') }}"><h6 class="mb-1">Machine Sales & Consumables</h6><p class="text-muted mb-0">Request equipment quote</p></a></div>
+      <div class="col-md-6 col-lg-4"><a class="support-pill d-block text-decoration-none text-reset" href="{{ url_for('service_inquiry', service_key='printing-supplies') }}"><h6 class="mb-1">Printing & Supplies</h6><p class="text-muted mb-0">Request print service</p></a></div>
+      <div class="col-md-6 col-lg-4"><a class="support-pill d-block text-decoration-none text-reset" href="{{ url_for('service_inquiry', service_key='travel-agency') }}"><h6 class="mb-1">Travel Agency</h6><p class="text-muted mb-0">Request travel assistance</p></a></div>
+      <div class="col-md-6 col-lg-4"><a class="support-pill d-block text-decoration-none text-reset" href="{{ url_for('service_inquiry', service_key='cac-trademark-commission') }}"><h6 class="mb-1">CAC / Trademark / Commission</h6><p class="text-muted mb-0">Start business support request</p></a></div>
+      <div class="col-md-6 col-lg-4"><a class="support-pill d-block text-decoration-none text-reset" href="{{ url_for('service_inquiry', service_key='pharmaceutical-distribution') }}"><h6 class="mb-1">Pharmaceutical Distribution</h6><p class="text-muted mb-0">Submit pharma inquiry</p></a></div>
     </div>
   </section>
 </main>
@@ -284,62 +123,39 @@
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    document.querySelectorAll(".invalid-feedback").forEach((el) => {
-      el.innerText = "";
-    });
-    document.querySelectorAll(".form-control, .form-select").forEach((el) => {
-      el.classList.remove("is-invalid");
-    });
-
+    document.querySelectorAll(".invalid-feedback").forEach((el) => { el.innerText = ""; });
+    document.querySelectorAll(".form-control, .form-select").forEach((el) => { el.classList.remove("is-invalid"); });
     successEl.style.display = "none";
     successEl.innerText = "";
     errorEl.style.display = "none";
     errorEl.innerText = "";
-
     submitBtn.disabled = true;
     const originalBtnText = submitBtn.value || submitBtn.innerText;
-    if (submitBtn.value !== undefined) {
-      submitBtn.value = "Sending...";
-    } else {
-      submitBtn.innerText = "Sending...";
-    }
+    if (submitBtn.value !== undefined) { submitBtn.value = "Sending..."; } else { submitBtn.innerText = "Sending..."; }
 
     try {
       const formData = new FormData(form);
       const response = await fetch("", { method: "POST", body: formData });
       const data = await response.json();
-
       if (data.success) {
         successEl.style.display = "inline";
         successEl.innerText = "Inquiry sent successfully.";
         form.reset();
-        setTimeout(() => {
-          window.location.href = "{{ url_for('thank_you') }}";
-        }, 700);
+        setTimeout(() => { window.location.href = "{{ url_for('thank_you') }}"; }, 700);
         return;
       }
-
       for (const [field, messages] of Object.entries(data.errors || {})) {
         const input = document.querySelector(`[name=${field}]`);
         const errorDiv = document.getElementById(`${field}-error`);
-        if (errorDiv) {
-          errorDiv.innerText = messages.join(", ");
-        }
-        if (input) {
-          input.classList.add("is-invalid");
-        }
+        if (errorDiv) { errorDiv.innerText = messages.join(", "); }
+        if (input) { input.classList.add("is-invalid"); }
       }
     } catch (err) {
       errorEl.style.display = "inline";
       errorEl.innerText = "Could not send inquiry right now. Please try again.";
     } finally {
       submitBtn.disabled = false;
-      if (submitBtn.value !== undefined) {
-        submitBtn.value = originalBtnText;
-      } else {
-        submitBtn.innerText = originalBtnText;
-      }
+      if (submitBtn.value !== undefined) { submitBtn.value = originalBtnText; } else { submitBtn.innerText = originalBtnText; }
     }
   });
 </script>

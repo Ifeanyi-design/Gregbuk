@@ -82,14 +82,28 @@ def date():
 @app.context_processor
 def inject_template_globals():
     # Single source for current year across templates.
+    leadership_team = [
+        {"name": "Engr. Agada Sunday G.", "role": "MD/CEO"},
+        {"name": "Mrs Bukola Agada", "role": "GM"},
+        {"name": "Mrs Callista Agada", "role": "Business Development Manager / Secretary"},
+        {"name": "Oluwatobi V. Onyedika Agada", "role": "Manager & Board Member"},
+        {"name": "Ifeanyi Agada", "role": "IT Consultant / Board Member"},
+    ]
     return {
         "current_year": datetime.now().year,
         "company_name": os.getenv("COMPANY_NAME", "Gregbuk Intl Company Ltd"),
-        "company_email": os.getenv("COMPANY_EMAIL", "[COMPANY_EMAIL_HERE]"),
-        "company_phone_primary": os.getenv("COMPANY_PHONE_PRIMARY", "[COMPANY_PHONE_PRIMARY]"),
-        "company_phone_secondary": os.getenv("COMPANY_PHONE_SECONDARY", "[COMPANY_PHONE_SECONDARY]"),
-        "company_address": os.getenv("COMPANY_ADDRESS", "[COMPANY_ADDRESS_HERE]"),
-        "company_whatsapp": os.getenv("COMPANY_WHATSAPP", "[COMPANY_WHATSAPP_HERE]"),
+        "company_email": os.getenv("COMPANY_EMAIL", "[TODO:COMPANY_EMAIL_HERE]"),
+        "company_phone_primary": os.getenv("COMPANY_PHONE_PRIMARY", "[TODO:COMPANY_PHONE_PRIMARY]"),
+        "company_phone_secondary": os.getenv("COMPANY_PHONE_SECONDARY", "[TODO:COMPANY_PHONE_SECONDARY]"),
+        "company_address": os.getenv("COMPANY_ADDRESS", "[TODO:COMPANY_ADDRESS_HERE]"),
+        "company_whatsapp": os.getenv("COMPANY_WHATSAPP", "[TODO:COMPANY_WHATSAPP_HERE]"),
+        "company_city": os.getenv("COMPANY_CITY", "Lagos"),
+        "company_country": os.getenv("COMPANY_COUNTRY", "Nigeria"),
+        "company_established_year": 2004,
+        "company_registration_number": "1057410",
+        "company_registered_on": "10 Aug 2012",
+        "company_status": "Active",
+        "leadership_team": leadership_team,
         "ga4_measurement_id": os.getenv("GA4_MEASUREMENT_ID", ""),
         "service_mode": "catalog",
         "cta_copy": dynamic_cta_copy("catalog")
@@ -170,6 +184,142 @@ def dynamic_cta_copy(service_mode):
         "quick_label": "Related Offerings",
         "section_hint": "Browse available items and select one to view details."
     }
+
+
+INQUIRY_FORMS = {
+    "digital-id-solutions": {
+        "service_label": "Digital ID Solutions",
+        "headline": "Request ID Solution",
+        "description": "Share your identity card requirements and we will propose the right card, printer, and consumables setup.",
+        "submit_label": "Submit ID Request",
+        "fields": [
+            {"name": "full_name", "label": "Full Name", "type": "text", "required": True, "placeholder": "Enter your full name"},
+            {"name": "organization", "label": "Organization / Company", "type": "text", "required": True},
+            {"name": "phone", "label": "Phone", "type": "text", "required": True},
+            {"name": "email", "label": "Email", "type": "email", "required": True},
+            {"name": "cards_needed", "label": "Number of Cards Needed", "type": "text", "required": True},
+            {"name": "card_type", "label": "Card Type / Use Case", "type": "text", "required": True},
+            {"name": "need_printer", "label": "Need Printer?", "type": "select", "required": True, "options": ["Yes", "No"]},
+            {"name": "need_consumables", "label": "Need Consumables?", "type": "select", "required": True, "options": ["Yes", "No"]},
+            {"name": "deadline", "label": "Deadline", "type": "text", "required": False},
+            {"name": "notes", "label": "Notes", "type": "textarea", "required": False},
+        ],
+    },
+    "machine-sales-consumables": {
+        "service_label": "Machine Sales & Consumables",
+        "headline": "Request Equipment Quote",
+        "description": "Tell us the machine category, quantity, and consumables requirements for a tailored quote.",
+        "submit_label": "Request Equipment Quote",
+        "fields": [
+            {"name": "full_name", "label": "Full Name", "type": "text", "required": True},
+            {"name": "company", "label": "Company", "type": "text", "required": True},
+            {"name": "phone", "label": "Phone", "type": "text", "required": True},
+            {"name": "email", "label": "Email", "type": "email", "required": True},
+            {"name": "machine_type", "label": "Machine Type", "type": "text", "required": True},
+            {"name": "preferred_model", "label": "Preferred Brand / Model", "type": "text", "required": False},
+            {"name": "quantity", "label": "Quantity", "type": "text", "required": True},
+            {"name": "consumables_needed", "label": "Consumables Needed", "type": "text", "required": False},
+            {"name": "location", "label": "Location", "type": "text", "required": True},
+            {"name": "budget_range", "label": "Budget Range", "type": "text", "required": False},
+            {"name": "notes", "label": "Notes", "type": "textarea", "required": False},
+        ],
+    },
+    "printing-supplies": {
+        "service_label": "Printing & Supplies",
+        "headline": "Request Print Service",
+        "description": "Submit your print job scope, quantity, and timeline for a business-ready response.",
+        "submit_label": "Submit Print Request",
+        "fields": [
+            {"name": "full_name", "label": "Full Name", "type": "text", "required": True},
+            {"name": "company", "label": "Company", "type": "text", "required": True},
+            {"name": "phone", "label": "Phone", "type": "text", "required": True},
+            {"name": "email", "label": "Email", "type": "email", "required": True},
+            {"name": "service_type", "label": "Item / Service Type", "type": "text", "required": True},
+            {"name": "quantity", "label": "Quantity", "type": "text", "required": True},
+            {"name": "specification", "label": "Specification", "type": "text", "required": True},
+            {"name": "finishing", "label": "Finishing / Extras", "type": "text", "required": False},
+            {"name": "deadline", "label": "Deadline", "type": "text", "required": False},
+            {"name": "design_support", "label": "Need Design Support?", "type": "select", "required": True, "options": ["Yes", "No"]},
+            {"name": "notes", "label": "Notes", "type": "textarea", "required": False},
+        ],
+    },
+    "travel-agency": {
+        "service_label": "Travel Agency Support",
+        "headline": "Request Travel Assistance",
+        "description": "Share your travel plans and documentation needs for coordinated support.",
+        "submit_label": "Submit Travel Request",
+        "fields": [
+            {"name": "full_name", "label": "Full Name", "type": "text", "required": True},
+            {"name": "phone", "label": "Phone", "type": "text", "required": True},
+            {"name": "email", "label": "Email", "type": "email", "required": True},
+            {"name": "destination", "label": "Destination", "type": "text", "required": True},
+            {"name": "travel_date", "label": "Travel Date", "type": "text", "required": True},
+            {"name": "travelers", "label": "Number of Travelers", "type": "text", "required": True},
+            {"name": "assistance_type", "label": "Assistance Type", "type": "text", "required": True},
+            {"name": "visa_help", "label": "Visa / Documentation Help Needed?", "type": "select", "required": True, "options": ["Yes", "No"]},
+            {"name": "notes", "label": "Notes", "type": "textarea", "required": False},
+        ],
+    },
+    "cac-trademark-commission": {
+        "service_label": "CAC / Trademark / Commission Services",
+        "headline": "Start Business Support Request",
+        "description": "Submit your registration/compliance request and our team will guide next steps.",
+        "submit_label": "Start Support Request",
+        "fields": [
+            {"name": "full_name", "label": "Full Name", "type": "text", "required": True},
+            {"name": "phone", "label": "Phone", "type": "text", "required": True},
+            {"name": "email", "label": "Email", "type": "email", "required": True},
+            {"name": "business_type", "label": "Business / Service Type", "type": "text", "required": True},
+            {"name": "request_category", "label": "Request Category", "type": "text", "required": True},
+            {"name": "urgency", "label": "Urgency", "type": "select", "required": True, "options": ["Normal", "Urgent", "Immediate"]},
+            {"name": "notes", "label": "Notes", "type": "textarea", "required": False},
+        ],
+    },
+    "pharmaceutical-distribution": {
+        "service_label": "Pharmaceutical Distribution",
+        "headline": "Request Pharmaceutical Distribution Support",
+        "description": "Share your product scope and delivery requirements for coordinated distribution support.",
+        "submit_label": "Submit Pharma Inquiry",
+        "fields": [
+            {"name": "full_name", "label": "Full Name", "type": "text", "required": True},
+            {"name": "organization", "label": "Organization / Facility", "type": "text", "required": True},
+            {"name": "phone", "label": "Phone", "type": "text", "required": True},
+            {"name": "email", "label": "Email", "type": "email", "required": True},
+            {"name": "product_scope", "label": "Product Scope", "type": "text", "required": True},
+            {"name": "quantity_plan", "label": "Quantity / Restock Plan", "type": "text", "required": True},
+            {"name": "delivery_location", "label": "Delivery Location", "type": "text", "required": True},
+            {"name": "notes", "label": "Notes", "type": "textarea", "required": False},
+        ],
+    },
+}
+
+
+def infer_inquiry_service_key(source_value):
+    source = (source_value or "").lower()
+    if "pharma" in source:
+        return "pharmaceutical-distribution"
+    if "machine" in source or "consumable" in source or "equipment" in source:
+        return "machine-sales-consumables"
+    if "travel" in source:
+        return "travel-agency"
+    if "cac" in source or "trademark" in source or "commission" in source:
+        return "cac-trademark-commission"
+    if "cards" in source or "digital id" in source or "id card" in source:
+        return "digital-id-solutions"
+    if "print" in source or "marketing" in source or "sticker" in source or "sign" in source:
+        return "printing-supplies"
+    return None
+
+
+@app.template_global()
+def inquiry_url_for_service(service_obj):
+    if not service_obj:
+        return url_for("contact")
+    source = f"{getattr(service_obj, 'name', '')} {getattr(service_obj, 'category_name', '')}"
+    key = infer_inquiry_service_key(source)
+    if not key:
+        return url_for("contact", head=getattr(service_obj, "category_name", ""))
+    return url_for("service_inquiry", service_key=key)
 
 def contact_to_dict(c):
     return {
@@ -441,6 +591,76 @@ def pricing():
     service = Services.query.all()
     return render_template("main.html", header=header, services=service)
 
+
+def send_inquiry_email(subject, body):
+    smtp_server = "smtp.gmail.com"
+    port = 587
+    sender_mail = "ifeanyiagada9@gmail.com"
+    receiver = "ifeanyiagada123@gmail.com"
+    password = os.environ.get("PASSWORD_TEXT")
+    message = EmailMessage()
+    message["From"] = sender_mail
+    message["To"] = receiver
+    message["Subject"] = subject
+    message.set_content(body)
+    with smtplib.SMTP(smtp_server, port) as server:
+        server.starttls()
+        server.login(sender_mail, password)
+        server.send_message(message)
+
+
+@app.route("/inquiry/<service_key>", methods=["GET", "POST"])
+def service_inquiry(service_key):
+    config = INQUIRY_FORMS.get(service_key)
+    if not config:
+        return page_not_found(NotFound("Inquiry type not found"))
+
+    header = Header.query.all()
+    service = Services.query.all()
+    change = True
+
+    if request.method == "POST":
+        payload = {}
+        errors = {}
+        for field in config["fields"]:
+            field_name = field["name"]
+            value = (request.form.get(field_name) or "").strip()
+            payload[field_name] = value
+            if field.get("required") and not value:
+                errors[field_name] = [f"{field['label']} is required."]
+
+        email_value = payload.get("email", "")
+        if email_value and "@" not in email_value:
+            errors["email"] = ["Enter a valid email address."]
+
+        if errors:
+            return jsonify({"success": False, "errors": errors})
+
+        body_lines = [
+            f"Service Inquiry: {config['service_label']}",
+            "",
+        ]
+        for field in config["fields"]:
+            label = field["label"]
+            key = field["name"]
+            body_lines.append(f"{label}: {payload.get(key, '')}")
+
+        send_inquiry_email(
+            subject=f"New {config['service_label']} Inquiry - Gregbuk Website",
+            body="\n".join(body_lines)
+        )
+        return jsonify({"success": True})
+
+    return render_template(
+        "inquiry_form.html",
+        inquiry_config=config,
+        service_key=service_key,
+        change=change,
+        header=header,
+        services=service,
+    )
+
+
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     head = request.args.get("head")
@@ -465,26 +685,14 @@ def contact():
             the_email = form.email.data
             the_phone = form.phone.data
             the_message = form.message.data
-            smtp_server = "smtp.gmail.com"
-            port = 587
-            sender_mail = "ifeanyiagada9@gmail.com"
-            receiver = "ifeanyiagada123@gmail.com"
-            password = os.environ.get("PASSWORD_TEXT")
-            message = EmailMessage()
-            message["From"] = sender_mail
-            message["To"] = receiver
-            message["Subject"] = "Contact Message from Blog Website"
-            message.set_content(
+            email_body = (
                 f"Header: {the_head}\n\n"
                 f"Name: {the_name}\n\n"
                 f"Email: {the_email}\n\n"
                 f"Phone Number: {the_phone}\n\n"
                 f"Message: {the_message}"
             )
-            with smtplib.SMTP(smtp_server, port) as server:
-                server.starttls()
-                server.login(sender_mail, password)
-                server.send_message(message)
+            send_inquiry_email("Contact Message from Gregbuk Website", email_body)
 
             return jsonify({"success": True})
         else:

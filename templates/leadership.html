@@ -1,215 +1,88 @@
 {% extends "base.html" %}
-{% block title %}Leadership{% endblock %}
-{% block meta_description %}Meet the leadership team of Gregbuk Intl Company Ltd guiding corporate growth, operations, and technical delivery.{% endblock %}
-
-{% block style %}
-  :root {
-    --brand-primary: #004aad;
-    --brand-dark: #0f1c2f;
-    --brand-muted: #6b7280;
-    --brand-light: #f7f9fc;
-  }
-
-  .leadership-main {
-    margin-top: 84px;
-  }
-
-  .leadership-hero {
-    background:
-      linear-gradient(120deg, rgba(15, 28, 47, 0.9), rgba(0, 74, 173, 0.82)),
-      url("{{ url_for('static', filename='images/about_us_machinery.jpeg') }}") center/cover no-repeat;
-    color: #fff;
-    border-radius: 1rem;
-  }
-
-  .section-title {
-    color: var(--brand-primary);
-    font-weight: 700;
-  }
-
-  .leader-card {
-    border: 1px solid #e8edf5;
-    border-radius: 0.9rem;
-    height: 100%;
-    background: #fff;
-  }
-
-  .leader-card .role {
-    color: var(--brand-muted);
-    margin-bottom: 0;
-  }
-
-  .leader-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--brand-light);
-    color: var(--brand-primary);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.9rem;
-  }
-
-  .focus-card {
-    border: 1px solid #e8edf5;
-    border-radius: 0.85rem;
-    background: #fff;
-    padding: 1rem;
-    height: 100%;
-  }
-
-  .focus-chip {
-    width: 2.15rem;
-    height: 2.15rem;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--brand-primary);
-    background: var(--brand-light);
-    margin-bottom: 0.55rem;
-  }
-
-  .leadership-extra {
-    border: 1px solid #e8edf5;
-    border-radius: 0.95rem;
-    background: #fff;
-    overflow: hidden;
-  }
-
-  .leadership-extra img {
-    width: 100%;
-    height: 240px;
-    object-fit: cover;
-    display: block;
-  }
-
-  @media (max-width: 991.98px) {
-    .leadership-main {
-      margin-top: 76px;
-    }
-  }
-{% endblock %}
+{% block title %}Leadership | Gregbuk Intl Company Ltd{% endblock %}
+{% block meta_description %}Meet the leadership team of Gregbuk Intl Company Ltd, a family-led corporate services company in Lagos, Nigeria.{% endblock %}
+{% block og_title %}Leadership Team | Gregbuk Intl Company Ltd{% endblock %}
+{% block og_description %}Family-led governance across executive management, business development, operations, and technology oversight.{% endblock %}
 
 {% block content %}
 <main class="container-xl leadership-main pb-5">
   <section class="leadership-hero p-4 p-md-5 mb-4 mb-md-5">
     <div class="row">
-      <div class="col-lg-8">
-        <p class="text-uppercase fw-semibold mb-2 opacity-75">Corporate Leadership</p>
+      <div class="col-lg-9">
+        <p class="text-uppercase fw-semibold mb-2 opacity-75">Leadership & Governance</p>
         <h1 class="display-5 fw-bold mb-3">Leadership Team</h1>
-        <p class="lead mb-0">
-          Gregbuk Intl Company Ltd is led by an experienced, family-driven team focused on strategic growth,
-          operational excellence, and client-focused delivery.
-        </p>
+        <p class="lead mb-0">Gregbuk Intl Company Ltd is guided by a family-led leadership structure combining executive oversight, operational control, and technology support.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="mb-4">
+      <h2 class="section-title mb-2">Executive Leadership</h2>
+      <p class="text-muted mb-0">Professional governance with long-term ownership accountability.</p>
+    </div>
+    <div class="row g-3 g-md-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="leader-card p-4 h-100">
+          <img src="{{ url_for('static', filename='images/placeholders/leadership-portrait.svg') }}" class="img-fluid rounded mb-3" alt="Portrait placeholder for Engr. Agada Sunday G.">
+          <h5 class="mb-1">Engr. Agada Sunday G.</h5>
+          <p class="role">MD/CEO</p>
+          <p class="text-muted small mb-0">Provides strategic direction, business governance, and cross-division oversight.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="leader-card p-4 h-100">
+          <img src="{{ url_for('static', filename='images/placeholders/leadership-portrait.svg') }}" class="img-fluid rounded mb-3" alt="Portrait placeholder for Mrs Bukola Agada">
+          <h5 class="mb-1">Mrs Bukola Agada</h5>
+          <p class="role">GM</p>
+          <p class="text-muted small mb-0">Leads operational management, service execution standards, and delivery coordination.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="leader-card p-4 h-100">
+          <img src="{{ url_for('static', filename='images/placeholders/leadership-portrait.svg') }}" class="img-fluid rounded mb-3" alt="Portrait placeholder for Mrs Callista Agada">
+          <h5 class="mb-1">Mrs Callista Agada</h5>
+          <p class="role">Business Development Manager / Secretary</p>
+          <p class="text-muted small mb-0">Drives growth opportunities, partnership development, and corporate coordination support.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="leader-card p-4 h-100">
+          <img src="{{ url_for('static', filename='images/placeholders/leadership-portrait.svg') }}" class="img-fluid rounded mb-3" alt="Portrait placeholder for Oluwatobi V. Onyedika Agada">
+          <h5 class="mb-1">Oluwatobi V. Onyedika Agada</h5>
+          <p class="role">Manager &amp; Board Member</p>
+          <p class="text-muted small mb-0">Supports management execution and board-level oversight for continuity and service alignment.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="leader-card p-4 h-100">
+          <img src="{{ url_for('static', filename='images/placeholders/leadership-portrait.svg') }}" class="img-fluid rounded mb-3" alt="Portrait placeholder for Ifeanyi Agada">
+          <h5 class="mb-1">Ifeanyi Agada</h5>
+          <p class="role">IT Consultant / Board Member</p>
+          <p class="text-muted small mb-0">Leads technology advisory and supports system reliability for corporate and service operations.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <section>
-    <div class="mb-4">
-      <h2 class="section-title mb-2">Meet The Team</h2>
-      <p class="text-muted mb-0">
-        Our leadership combines executive management, business development, and technical expertise to support consistent corporate outcomes.
-      </p>
-    </div>
-    <div class="row g-3 g-md-4">
-      <div class="col-md-6 col-lg-4">
-        <div class="leader-card p-4">
-          <span class="leader-icon"><i class="bi bi-person-workspace"></i></span>
-          <h5 class="mb-1">Engr. Agada Sunday G.</h5>
-          <p class="role">MD/CEO</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="leader-card p-4">
-          <span class="leader-icon"><i class="bi bi-briefcase"></i></span>
-          <h5 class="mb-1">Mrs Bukola Agada</h5>
-          <p class="role">GM</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="leader-card p-4">
-          <span class="leader-icon"><i class="bi bi-graph-up-arrow"></i></span>
-          <h5 class="mb-1">Mrs Callista Agada</h5>
-          <p class="role">Business Development Manager / Secretary</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <div class="leader-card p-4">
-          <span class="leader-icon"><i class="bi bi-people"></i></span>
-          <h5 class="mb-1">Oluwatobi V. Onyedika Agada</h5>
-          <p class="role">Manager &amp; Board Member</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <div class="leader-card p-4">
-          <span class="leader-icon"><i class="bi bi-cpu"></i></span>
-          <h5 class="mb-1">Ifeanyi Agada</h5>
-          <p class="role">IT Consultant / Board Member</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="mt-5">
-    <div class="mb-3">
-      <h2 class="section-title mb-2">Leadership Focus Areas</h2>
-      <p class="text-muted mb-0">Guided by practical management priorities that support quality and continuity.</p>
-    </div>
-    <div class="row g-3">
-      <div class="col-md-6 col-lg-3">
-        <div class="focus-card">
-          <span class="focus-chip"><i class="bi bi-bullseye"></i></span>
-          <h6 class="mb-1">Strategic Direction</h6>
-          <p class="text-muted small mb-0">Clear business priorities and long-term growth planning.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="focus-card">
-          <span class="focus-chip"><i class="bi bi-gear-wide-connected"></i></span>
-          <h6 class="mb-1">Operational Control</h6>
-          <p class="text-muted small mb-0">Process discipline for timely, consistent service execution.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="focus-card">
-          <span class="focus-chip"><i class="bi bi-people"></i></span>
-          <h6 class="mb-1">Client Partnership</h6>
-          <p class="text-muted small mb-0">Collaborative engagement with institutions and businesses.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="focus-card">
-          <span class="focus-chip"><i class="bi bi-lightning-charge"></i></span>
-          <h6 class="mb-1">Innovation Support</h6>
-          <p class="text-muted small mb-0">Adaptive service improvements for changing project needs.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="mt-5">
     <div class="leadership-extra">
       <div class="row g-0">
         <div class="col-lg-5">
-          <img src="{{ url_for('static', filename='images/placeholder-company.svg') }}" alt="Leadership placeholder image">
+          <img src="{{ url_for('static', filename='images/about_us_machinery.jpeg') }}" alt="Gregbuk leadership and operations">
         </div>
         <div class="col-lg-7 p-4 p-md-5">
-          <h3 class="section-title h4 mb-2">Governance & Values</h3>
-          <p class="mb-3">Our leadership combines family ownership values with professional standards in planning, execution, and accountability.</p>
+          <h2 class="section-title h4 mb-2">Family-Led Governance with Corporate Discipline</h2>
+          <p class="mb-3">Our governance model combines ownership continuity with professional service standards, helping clients trust both strategic direction and day-to-day execution.</p>
           <ul class="mb-4">
-            <li>Integrity and transparent communication</li>
-            <li>Quality-focused delivery culture</li>
-            <li>Sustainable client relationships</li>
+            <li>Clear leadership accountability</li>
+            <li>Operational consistency across service divisions</li>
+            <li>Client-centered, long-term partnership orientation</li>
           </ul>
-          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Engage Leadership Team</a>
+          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Contact Leadership Office</a>
         </div>
       </div>
     </div>
   </section>
 </main>
 {% endblock %}
-
-{% block script %}{% endblock %}

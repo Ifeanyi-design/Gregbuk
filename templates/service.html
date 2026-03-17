@@ -80,7 +80,7 @@
         <p class="lead mb-4">
           {{ the_data.description or ("Engagement-led service category tailored for organizations that need professional advisory and implementation support." if mode == "inquiry" else "Explore this service category and discover practical capabilities tailored for your organization.") }}
         </p>
-        <a href="{{ url_for('contact', head=the_data.category_name) }}" class="btn btn-light btn-lg px-4">{{ cta.primary }}</a>
+        <a href="{{ inquiry_url_for_service(the_data) }}" class="btn btn-light btn-lg px-4">{{ cta.primary }}</a>
       </div>
       <div class="col-lg-4">
         <div class="capability-card p-3 p-md-4 text-dark">
@@ -166,7 +166,7 @@
           <div class="child-card p-4">
             <h5 class="mb-2">More details coming soon</h5>
             <p class="text-muted mb-3">This service branch has limited published details right now. You can still contact us for a tailored response.</p>
-            <a href="{{ url_for('contact', head=the_data.category_name) }}" class="btn btn-primary btn-sm">{{ cta.primary }}</a>
+            <a href="{{ inquiry_url_for_service(the_data) }}" class="btn btn-primary btn-sm">{{ cta.primary }}</a>
           </div>
         </div>
       {% endif %}
