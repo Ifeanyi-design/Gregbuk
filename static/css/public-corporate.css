@@ -195,6 +195,48 @@ body.change .text-muted {
   box-shadow: var(--corp-shadow);
 }
 
+.support-pill {
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 120px;
+  justify-content: center;
+  border-left: 4px solid rgba(var(--corp-primary-rgb), 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.support-pill h6 {
+  font-weight: 700;
+}
+
+.support-pill p {
+  font-size: 0.9rem;
+}
+
+.support-pill:hover {
+  transform: translateY(-2px);
+}
+
+.leadership-extra {
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid var(--corp-line);
+  box-shadow: var(--corp-shadow-soft);
+}
+
+.leadership-extra img {
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.leadership-extra .col-lg-5 {
+  min-height: 280px;
+}
+
 .hero-corporate,
 .about-hero,
 .leadership-hero,
@@ -469,6 +511,134 @@ body.change .text-muted {
   box-shadow: var(--corp-shadow-soft);
 }
 
+.digital-id-image {
+  min-height: 320px;
+  border-radius: 1rem;
+  border: 1px solid var(--corp-line);
+  background: linear-gradient(155deg, rgba(2, 27, 69, 0.25), rgba(0, 58, 133, 0.15)),
+    url("../images/id_cards.jpeg") center/cover no-repeat;
+  box-shadow: var(--corp-shadow-soft);
+}
+
+.inquiry-flow .hero-chip-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+
+.inquiry-hero-visual {
+  position: relative;
+  border-radius: 0.9rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  min-height: 170px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.inquiry-hero-visual img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  display: block;
+}
+
+.inquiry-hero-icon {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.inquiry-flow .hero-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.7rem;
+}
+
+.inquiry-summary-card {
+  border-top: 4px solid var(--corp-primary);
+}
+
+.inquiry-group {
+  border: 1px solid var(--corp-line);
+  background: var(--corp-surface-soft);
+  border-radius: 0.9rem;
+  padding: 0.95rem;
+}
+
+.inquiry-group-title {
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--corp-primary);
+}
+
+.inquiry-group-hint {
+  font-size: 0.9rem;
+}
+
+.inquiry-radio-group .form-check,
+.inquiry-check-group .form-check {
+  padding: 0.45rem 0.65rem;
+  border-radius: 0.7rem;
+  border: 1px solid var(--corp-line);
+  background: var(--corp-surface);
+  min-width: 170px;
+}
+
+.inquiry-success-card .success-icon {
+  width: 3.1rem;
+  height: 3.1rem;
+  margin-inline: auto;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0d7f43;
+  background: rgba(13, 127, 67, 0.12);
+  font-size: 1.6rem;
+}
+
+.inquiry-theme-digital .inquiry-summary-card {
+  border-top-color: #2f76df;
+}
+
+.inquiry-theme-equipment .inquiry-summary-card {
+  border-top-color: #0b6bd3;
+}
+
+.inquiry-theme-print .inquiry-summary-card {
+  border-top-color: #7b4ca8;
+}
+
+.inquiry-theme-travel .inquiry-summary-card {
+  border-top-color: #008f9f;
+}
+
+.inquiry-theme-support .inquiry-summary-card {
+  border-top-color: #8d6a22;
+}
+
+.inquiry-theme-pharma .inquiry-summary-card {
+  border-top-color: #2f9e44;
+}
+
 .service-card,
 .why-card,
 .leader-card {
@@ -667,6 +837,28 @@ html[data-coreui-theme="dark"] .leadership-extra {
 html[data-coreui-theme="dark"] .work-pill,
 html[data-coreui-theme="dark"] .focus-card {
   background: var(--corp-surface-soft) !important;
+}
+
+html[data-coreui-theme="dark"] .digital-id-image {
+  border-color: var(--corp-line);
+  background: linear-gradient(155deg, rgba(5, 14, 28, 0.62), rgba(12, 38, 82, 0.56)),
+    url("../images/id_cards.jpeg") center/cover no-repeat;
+}
+
+html[data-coreui-theme="dark"] .inquiry-group {
+  background: #162132;
+  border-color: var(--corp-line);
+}
+
+html[data-coreui-theme="dark"] .inquiry-hero-visual {
+  border-color: rgba(121, 179, 255, 0.3);
+  background: rgba(121, 179, 255, 0.08);
+}
+
+html[data-coreui-theme="dark"] .inquiry-radio-group .form-check,
+html[data-coreui-theme="dark"] .inquiry-check-group .form-check {
+  background: var(--corp-surface);
+  border-color: var(--corp-line);
 }
 
 html[data-coreui-theme="dark"] .nav-chip {
@@ -912,6 +1104,12 @@ html[data-coreui-theme="dark"] .partner-logo {
     aspect-ratio: 16 / 11;
   }
 
+  .inquiry-hero-visual,
+  .inquiry-hero-visual img {
+    min-height: 145px;
+    height: 145px;
+  }
+
   .main-image img {
     height: 250px !important;
   }
@@ -950,6 +1148,14 @@ html[data-coreui-theme="dark"] .partner-logo {
   .contact-main .support-pill,
   .leadership-main .leader-card {
     margin-inline: 0;
+  }
+
+  .support-pill {
+    min-height: 110px;
+  }
+
+  .leadership-extra img {
+    min-height: 220px;
   }
 
   .home-visuals .visual-card {

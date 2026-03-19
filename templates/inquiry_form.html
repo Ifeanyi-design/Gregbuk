@@ -5,13 +5,25 @@
 {% block og_description %}{{ inquiry_config.description }}{% endblock %}
 
 {% block content %}
-<main class="container-xl contact-main pb-5">
+<main class="container-xl contact-main pb-5 inquiry-flow inquiry-theme-{{ inquiry_config.theme|default('default') }}">
   <section class="contact-hero page-hero p-4 p-md-5 mb-4 mb-md-5">
-    <div class="row">
-      <div class="col-lg-9">
-        <p class="text-uppercase fw-semibold mb-2 opacity-75">Service-Specific Inquiry</p>
+    <div class="row g-3 align-items-center">
+      <div class="col-lg-8">
+        <p class="text-uppercase fw-semibold mb-2 opacity-75">Service Request</p>
         <h1 class="display-5 fw-bold mb-3">{{ inquiry_config.headline }}</h1>
         <p class="lead mb-0">{{ inquiry_config.description }}</p>
+      </div>
+      <div class="col-lg-4">
+        <div class="inquiry-hero-visual">
+          <div class="inquiry-hero-icon"><i class="bi {{ inquiry_config.icon|default('bi-clipboard-check') }}"></i></div>
+          <img src="{{ url_for('static', filename=inquiry_config.hero_image|default('images/placeholders/operations.svg')) }}"
+               alt="{{ inquiry_config.service_label }} visual">
+        </div>
+        <div class="hero-chip-wrap mt-2">
+          {% for item in inquiry_config.highlights|default([]) %}
+          <span class="hero-chip">{{ item }}</span>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </section>
@@ -19,44 +31,93 @@
   <section class="page-first mb-4">
     <div class="row g-3 g-md-4">
       <div class="col-lg-4">
-        <div class="contact-info-card p-4 h-100">
-          <h2 class="h4 section-title mb-3">Inquiry Summary</h2>
+        <div class="contact-info-card inquiry-summary-card p-4 h-100">
+          <h2 class="h4 section-title mb-3">Request Summary</h2>
           <p class="text-muted mb-2"><strong>Service:</strong> {{ inquiry_config.service_label }}</p>
-          <p class="text-muted mb-3">Use this form for a tailored response from our team. For broader questions, use our general contact page.</p>
-          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">General Contact</a>
+          <ul class="text-muted mb-4">
+            {% for point in inquiry_config.summary_points|default([]) %}
+              <li>{{ point }}</li>
+            {% endfor %}
+          </ul>
+          <div class="small text-muted mb-3">
+            Need something not listed? Use the notes field and we will tailor the response.
+          </div>
+          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary w-100">General Contact</a>
         </div>
       </div>
+
       <div class="col-lg-8">
-        <div class="contact-form-card p-4">
+        <div class="contact-form-card inquiry-form-shell p-4 p-md-4" id="inquiryFormCard">
           <form method="POST" id="serviceInquiryForm" novalidate>
-            <div class="row g-3">
-              {% for field in inquiry_config.fields %}
-                <div class="{% if field.type == 'textarea' %}col-12{% else %}col-md-6{% endif %}">
-                  <label class="form-label" for="{{ field.name }}">{{ field.label }}{% if field.required %} *{% endif %}</label>
-                  {% if field.type == 'textarea' %}
-                    <textarea class="form-control" id="{{ field.name }}" name="{{ field.name }}" rows="5" placeholder="{{ field.placeholder|default('') }}"></textarea>
-                  {% elif field.type == 'select' %}
-                    <select class="form-select" id="{{ field.name }}" name="{{ field.name }}">
-                      <option value="">Select an option</option>
-                      {% for opt in field.options %}
-                        <option value="{{ opt }}">{{ opt }}</option>
-                      {% endfor %}
-                    </select>
-                  {% else %}
-                    <input class="form-control" id="{{ field.name }}" name="{{ field.name }}" type="{{ field.type }}" placeholder="{{ field.placeholder|default('') }}">
-                  {% endif %}
-                  <div class="invalid-feedback" id="{{ field.name }}-error"></div>
+            {% for group in inquiry_config.groups|default([{"title": "Request Details", "hint": "", "fields": field_map.keys()|list}]) %}
+              <fieldset class="inquiry-group mb-4">
+                <legend class="inquiry-group-title">{{ group.title }}</legend>
+                {% if group.hint %}
+                  <p class="inquiry-group-hint text-muted mb-3">{{ group.hint }}</p>
+                {% endif %}
+                <div class="row g-3">
+                  {% for field_name in group.fields %}
+                    {% set field = field_map.get(field_name) %}
+                    {% if field %}
+                      <div class="{% if field.type == 'textarea' or field.type == 'checkbox' or field.type == 'radio' %}col-12{% else %}col-md-6{% endif %}">
+                        <label class="form-label" for="{{ field.name }}">{{ field.label }}{% if field.required %} *{% endif %}</label>
+
+                        {% if field.type == 'textarea' %}
+                          <textarea class="form-control" id="{{ field.name }}" name="{{ field.name }}" rows="4" placeholder="{{ field.placeholder|default('') }}"></textarea>
+
+                        {% elif field.type == 'select' %}
+                          <select class="form-select" id="{{ field.name }}" name="{{ field.name }}">
+                            <option value="">Select an option</option>
+                            {% for opt in field.options %}
+                              <option value="{{ opt }}">{{ opt }}</option>
+                            {% endfor %}
+                          </select>
+
+                        {% elif field.type == 'radio' %}
+                          <div class="d-flex flex-wrap gap-3 inquiry-radio-group">
+                            {% for opt in field.options %}
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" id="{{ field.name }}_{{ loop.index }}" name="{{ field.name }}" value="{{ opt }}">
+                                <label class="form-check-label" for="{{ field.name }}_{{ loop.index }}">{{ opt }}</label>
+                              </div>
+                            {% endfor %}
+                          </div>
+
+                        {% elif field.type == 'checkbox' %}
+                          <div class="d-flex flex-wrap gap-3 inquiry-check-group">
+                            {% for opt in field.options %}
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="{{ field.name }}_{{ loop.index }}" name="{{ field.name }}" value="{{ opt }}">
+                                <label class="form-check-label" for="{{ field.name }}_{{ loop.index }}">{{ opt }}</label>
+                              </div>
+                            {% endfor %}
+                          </div>
+
+                        {% else %}
+                          <input class="form-control" id="{{ field.name }}" name="{{ field.name }}" type="{{ field.type }}" placeholder="{{ field.placeholder|default('') }}">
+                        {% endif %}
+
+                        <div class="invalid-feedback d-block" id="{{ field.name }}-error"></div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
                 </div>
-              {% endfor %}
-              <div class="col-12">
-                <div class="d-flex flex-wrap gap-2 align-items-center">
-                  <button id="inquirySubmitBtn" type="submit" class="btn btn-brand px-4">{{ inquiry_config.submit_label }}</button>
-                  <span id="inquirySuccess" class="text-success fw-semibold status-note" aria-live="polite"></span>
-                  <span id="inquiryError" class="text-danger fw-semibold status-note" aria-live="polite"></span>
-                </div>
-              </div>
+              </fieldset>
+            {% endfor %}
+
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+              <button id="inquirySubmitBtn" type="submit" class="btn btn-brand px-4">{{ inquiry_config.submit_label }}</button>
+              <span id="inquiryError" class="text-danger fw-semibold status-note" aria-live="polite"></span>
             </div>
           </form>
+        </div>
+
+        <div class="contact-form-card inquiry-success-card p-4 p-md-5 d-none" id="inquirySuccessCard">
+          <div class="text-center">
+            <div class="success-icon mb-3"><i class="bi bi-check2-circle"></i></div>
+            <h2 class="h3 section-title mb-2">Request Submitted</h2>
+            <p class="text-muted mb-0">Thank you. Your request has been received and our team will follow up shortly.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -70,16 +131,14 @@
     const form = document.getElementById("serviceInquiryForm");
     if (!form) return;
     const submitBtn = document.getElementById("inquirySubmitBtn");
-    const successEl = document.getElementById("inquirySuccess");
     const errorEl = document.getElementById("inquiryError");
+    const formCard = document.getElementById("inquiryFormCard");
+    const successCard = document.getElementById("inquirySuccessCard");
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       document.querySelectorAll(".invalid-feedback").forEach((el) => el.textContent = "");
-      form.querySelectorAll(".form-control, .form-select").forEach((el) => el.classList.remove("is-invalid"));
-      successEl.style.display = "none";
-      errorEl.style.display = "none";
-      successEl.textContent = "";
+      form.querySelectorAll(".form-control, .form-select, .form-check-input").forEach((el) => el.classList.remove("is-invalid"));
       errorEl.textContent = "";
 
       submitBtn.disabled = true;
@@ -90,22 +149,23 @@
         const response = await fetch("", { method: "POST", body: new FormData(form) });
         const data = await response.json();
         if (data.success) {
-          successEl.style.display = "inline";
-          successEl.textContent = "Request submitted successfully.";
-          form.reset();
+          formCard.classList.add("d-none");
+          successCard.classList.remove("d-none");
           setTimeout(() => {
             window.location.href = "{{ url_for('thank_you') }}";
-          }, 700);
+          }, 1400);
           return;
         }
+
         Object.entries(data.errors || {}).forEach(([field, messages]) => {
-          const input = document.getElementById(field);
+          const input = form.querySelector(`[name="${field}"]`);
+          const inputs = form.querySelectorAll(`[name="${field}"]`);
           const error = document.getElementById(`${field}-error`);
           if (error) error.textContent = (messages || []).join(", ");
           if (input) input.classList.add("is-invalid");
+          inputs.forEach((el) => el.classList.add("is-invalid"));
         });
       } catch (err) {
-        errorEl.style.display = "inline";
         errorEl.textContent = "Unable to submit now. Please try again.";
       } finally {
         submitBtn.disabled = false;

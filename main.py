@@ -186,17 +186,31 @@ INQUIRY_FORMS = {
         "headline": "Request ID Solution",
         "description": "Share your identity card requirements and we will propose the right card, printer, and consumables setup.",
         "submit_label": "Submit ID Request",
+        "theme": "digital",
+        "icon": "bi-person-vcard",
+        "hero_image": "images/placeholders/digital-id.svg",
+        "highlights": ["ID Printing", "Machine Guidance", "Consumables Plan"],
+        "summary_points": [
+            "Tell us your card volume and use case.",
+            "Select if you need printer setup and consumables.",
+            "Get a tailored recommendation from our team."
+        ],
         "fields": [
             {"name": "full_name", "label": "Full Name", "type": "text", "required": True, "placeholder": "Enter your full name"},
-            {"name": "organization", "label": "Organization / Company", "type": "text", "required": True},
-            {"name": "phone", "label": "Phone", "type": "text", "required": True},
+            {"name": "organization", "label": "Organization / Company", "type": "text", "required": True, "placeholder": "School, hospital, office, etc."},
+            {"name": "phone", "label": "Phone", "type": "tel", "required": True, "placeholder": "Phone number"},
             {"name": "email", "label": "Email", "type": "email", "required": True},
-            {"name": "cards_needed", "label": "Number of Cards Needed", "type": "text", "required": True},
-            {"name": "card_type", "label": "Card Type / Use Case", "type": "text", "required": True},
-            {"name": "need_printer", "label": "Need Printer?", "type": "select", "required": True, "options": ["Yes", "No"]},
-            {"name": "need_consumables", "label": "Need Consumables?", "type": "select", "required": True, "options": ["Yes", "No"]},
-            {"name": "deadline", "label": "Deadline", "type": "text", "required": False},
-            {"name": "notes", "label": "Notes", "type": "textarea", "required": False},
+            {"name": "cards_needed", "label": "Number of Cards Needed", "type": "number", "required": True, "placeholder": "e.g. 500"},
+            {"name": "card_type", "label": "Card Type / Use Case", "type": "select", "required": True, "options": ["Staff ID", "Student ID", "Visitor Card", "Membership Card", "Event Access Card", "Other (Specify in Notes)"]},
+            {"name": "need_printer", "label": "Need Printer?", "type": "radio", "required": True, "options": ["Yes", "No", "Not sure"]},
+            {"name": "need_consumables", "label": "Consumables Needed", "type": "checkbox", "required": False, "options": ["PVC Cards", "Ribbons", "Lanyards", "Card Holders", "Cleaning Kits", "Other (Specify in Notes)"]},
+            {"name": "deadline", "label": "Preferred Deadline", "type": "date", "required": False},
+            {"name": "notes", "label": "Notes / Other Requirements", "type": "textarea", "required": False, "placeholder": "Tell us anything not listed above"},
+        ],
+        "groups": [
+            {"title": "Contact Details", "hint": "Who should we follow up with?", "fields": ["full_name", "organization", "phone", "email"]},
+            {"title": "ID Requirement Scope", "hint": "Help us estimate the right setup.", "fields": ["cards_needed", "card_type", "need_printer", "need_consumables", "deadline"]},
+            {"title": "Additional Notes", "hint": "Add any custom request or context.", "fields": ["notes"]},
         ],
     },
     "machine-sales-consumables": {
@@ -204,18 +218,32 @@ INQUIRY_FORMS = {
         "headline": "Request Equipment Quote",
         "description": "Tell us the machine category, quantity, and consumables requirements for a tailored quote.",
         "submit_label": "Request Equipment Quote",
+        "theme": "equipment",
+        "icon": "bi-cpu",
+        "hero_image": "images/placeholders/id-machine.svg",
+        "highlights": ["Machine Sourcing", "Consumables", "Quote Support"],
+        "summary_points": [
+            "Select machine type and quantity.",
+            "Add location and budget range for better quote accuracy.",
+            "Include consumables and preferred model details."
+        ],
         "fields": [
             {"name": "full_name", "label": "Full Name", "type": "text", "required": True},
             {"name": "company", "label": "Company", "type": "text", "required": True},
-            {"name": "phone", "label": "Phone", "type": "text", "required": True},
+            {"name": "phone", "label": "Phone", "type": "tel", "required": True},
             {"name": "email", "label": "Email", "type": "email", "required": True},
-            {"name": "machine_type", "label": "Machine Type", "type": "text", "required": True},
+            {"name": "machine_type", "label": "Machine Type", "type": "select", "required": True, "options": ["ID Card Printer", "Laminator", "Embosser", "Industrial Machine", "Other (Specify in Notes)"]},
             {"name": "preferred_model", "label": "Preferred Brand / Model", "type": "text", "required": False},
-            {"name": "quantity", "label": "Quantity", "type": "text", "required": True},
-            {"name": "consumables_needed", "label": "Consumables Needed", "type": "text", "required": False},
-            {"name": "location", "label": "Location", "type": "text", "required": True},
-            {"name": "budget_range", "label": "Budget Range", "type": "text", "required": False},
-            {"name": "notes", "label": "Notes", "type": "textarea", "required": False},
+            {"name": "quantity", "label": "Quantity", "type": "number", "required": True},
+            {"name": "consumables_needed", "label": "Consumables Needed", "type": "checkbox", "required": False, "options": ["PVC Cards", "Ribbons", "Cleaning Kits", "Printer Rollers", "Other (Specify in Notes)"]},
+            {"name": "location", "label": "Delivery Location", "type": "text", "required": True},
+            {"name": "budget_range", "label": "Budget Range", "type": "select", "required": False, "options": ["Below NGN 500,000", "NGN 500,000 - 1,500,000", "NGN 1,500,000 - 5,000,000", "Above NGN 5,000,000", "Prefer to discuss"]},
+            {"name": "notes", "label": "Notes / Other Requirements", "type": "textarea", "required": False},
+        ],
+        "groups": [
+            {"title": "Requester Details", "hint": "Where should the quote be sent?", "fields": ["full_name", "company", "phone", "email"]},
+            {"title": "Equipment Requirements", "hint": "Select the equipment and consumables scope.", "fields": ["machine_type", "preferred_model", "quantity", "consumables_needed"]},
+            {"title": "Commercial Details", "hint": "These details help us send a practical quote faster.", "fields": ["location", "budget_range", "notes"]},
         ],
     },
     "printing-supplies": {
@@ -223,18 +251,32 @@ INQUIRY_FORMS = {
         "headline": "Request Print Service",
         "description": "Submit your print job scope, quantity, and timeline for a business-ready response.",
         "submit_label": "Submit Print Request",
+        "theme": "print",
+        "icon": "bi-printer",
+        "hero_image": "images/placeholders/printing-supplies.svg",
+        "highlights": ["Print Production", "Branding", "Fulfillment"],
+        "summary_points": [
+            "Choose print item/service type.",
+            "Add quantity, specs, and finishing details.",
+            "Tell us deadline and design support needs."
+        ],
         "fields": [
             {"name": "full_name", "label": "Full Name", "type": "text", "required": True},
             {"name": "company", "label": "Company", "type": "text", "required": True},
-            {"name": "phone", "label": "Phone", "type": "text", "required": True},
+            {"name": "phone", "label": "Phone", "type": "tel", "required": True},
             {"name": "email", "label": "Email", "type": "email", "required": True},
-            {"name": "service_type", "label": "Item / Service Type", "type": "text", "required": True},
-            {"name": "quantity", "label": "Quantity", "type": "text", "required": True},
-            {"name": "specification", "label": "Specification", "type": "text", "required": True},
-            {"name": "finishing", "label": "Finishing / Extras", "type": "text", "required": False},
-            {"name": "deadline", "label": "Deadline", "type": "text", "required": False},
-            {"name": "design_support", "label": "Need Design Support?", "type": "select", "required": True, "options": ["Yes", "No"]},
-            {"name": "notes", "label": "Notes", "type": "textarea", "required": False},
+            {"name": "service_type", "label": "Item / Service Type", "type": "select", "required": True, "options": ["Business Cards", "Flyers", "Brochures", "Banners", "Letterheads", "Stickers / Labels", "Other (Specify in Notes)"]},
+            {"name": "quantity", "label": "Quantity", "type": "number", "required": True},
+            {"name": "specification", "label": "Specification", "type": "textarea", "required": True, "placeholder": "Size, color mode, paper type, dimensions, etc."},
+            {"name": "finishing", "label": "Finishing / Extras", "type": "checkbox", "required": False, "options": ["Lamination", "Embossing", "Perforation", "Binding", "Cut-to-size", "Other (Specify in Notes)"]},
+            {"name": "deadline", "label": "Deadline", "type": "date", "required": False},
+            {"name": "design_support", "label": "Need Design Support?", "type": "radio", "required": True, "options": ["Yes", "No", "Not sure"]},
+            {"name": "notes", "label": "Notes / Other Requirements", "type": "textarea", "required": False},
+        ],
+        "groups": [
+            {"title": "Contact Details", "hint": "Who is coordinating the print request?", "fields": ["full_name", "company", "phone", "email"]},
+            {"title": "Print Job Details", "hint": "Give us enough detail to estimate accurately.", "fields": ["service_type", "quantity", "specification", "finishing"]},
+            {"title": "Timeline & Support", "hint": "Set urgency and any extra support needs.", "fields": ["deadline", "design_support", "notes"]},
         ],
     },
     "travel-agency": {
@@ -242,16 +284,30 @@ INQUIRY_FORMS = {
         "headline": "Request Travel Assistance",
         "description": "Share your travel plans and documentation needs for coordinated support.",
         "submit_label": "Submit Travel Request",
+        "theme": "travel",
+        "icon": "bi-airplane",
+        "hero_image": "images/placeholders/travel-agency.svg",
+        "highlights": ["Trip Planning", "Documentation", "Corporate Travel"],
+        "summary_points": [
+            "Share destination and travel timing.",
+            "Select assistance type and visa/document support.",
+            "Add any special traveler considerations."
+        ],
         "fields": [
             {"name": "full_name", "label": "Full Name", "type": "text", "required": True},
-            {"name": "phone", "label": "Phone", "type": "text", "required": True},
+            {"name": "phone", "label": "Phone", "type": "tel", "required": True},
             {"name": "email", "label": "Email", "type": "email", "required": True},
             {"name": "destination", "label": "Destination", "type": "text", "required": True},
-            {"name": "travel_date", "label": "Travel Date", "type": "text", "required": True},
-            {"name": "travelers", "label": "Number of Travelers", "type": "text", "required": True},
-            {"name": "assistance_type", "label": "Assistance Type", "type": "text", "required": True},
-            {"name": "visa_help", "label": "Visa / Documentation Help Needed?", "type": "select", "required": True, "options": ["Yes", "No"]},
-            {"name": "notes", "label": "Notes", "type": "textarea", "required": False},
+            {"name": "travel_date", "label": "Travel Date", "type": "date", "required": True},
+            {"name": "travelers", "label": "Number of Travelers", "type": "number", "required": True},
+            {"name": "assistance_type", "label": "Assistance Type", "type": "select", "required": True, "options": ["Flight Booking", "Hotel Booking", "Tour Package", "Visa Advisory", "Documentation Support", "Other (Specify in Notes)"]},
+            {"name": "visa_help", "label": "Visa / Documentation Help Needed?", "type": "radio", "required": True, "options": ["Yes", "No", "Not sure"]},
+            {"name": "notes", "label": "Notes / Other Requirements", "type": "textarea", "required": False},
+        ],
+        "groups": [
+            {"title": "Traveler Details", "hint": "Primary contact for this request.", "fields": ["full_name", "phone", "email"]},
+            {"title": "Trip Information", "hint": "Core travel details for planning.", "fields": ["destination", "travel_date", "travelers", "assistance_type"]},
+            {"title": "Documentation & Notes", "hint": "Tell us about visa or document expectations.", "fields": ["visa_help", "notes"]},
         ],
     },
     "cac-trademark-commission": {
@@ -259,14 +315,28 @@ INQUIRY_FORMS = {
         "headline": "Start Business Support Request",
         "description": "Submit your registration/compliance request and our team will guide next steps.",
         "submit_label": "Start Support Request",
+        "theme": "support",
+        "icon": "bi-briefcase",
+        "hero_image": "images/placeholders/operations.svg",
+        "highlights": ["Registration", "Compliance", "Documentation"],
+        "summary_points": [
+            "Choose your request category.",
+            "Set urgency and add context.",
+            "We follow up with clear next-step guidance."
+        ],
         "fields": [
             {"name": "full_name", "label": "Full Name", "type": "text", "required": True},
-            {"name": "phone", "label": "Phone", "type": "text", "required": True},
+            {"name": "phone", "label": "Phone", "type": "tel", "required": True},
             {"name": "email", "label": "Email", "type": "email", "required": True},
             {"name": "business_type", "label": "Business / Service Type", "type": "text", "required": True},
-            {"name": "request_category", "label": "Request Category", "type": "text", "required": True},
-            {"name": "urgency", "label": "Urgency", "type": "select", "required": True, "options": ["Normal", "Urgent", "Immediate"]},
-            {"name": "notes", "label": "Notes", "type": "textarea", "required": False},
+            {"name": "request_category", "label": "Request Category", "type": "select", "required": True, "options": ["CAC Registration", "Trademark Filing", "Commission Documentation", "Regulatory Guidance", "Other (Specify in Notes)"]},
+            {"name": "urgency", "label": "Urgency", "type": "radio", "required": True, "options": ["Normal", "Urgent", "Immediate"]},
+            {"name": "notes", "label": "Notes / Other Requirements", "type": "textarea", "required": False},
+        ],
+        "groups": [
+            {"title": "Requester Details", "hint": "Business owner or authorized contact.", "fields": ["full_name", "phone", "email"]},
+            {"title": "Support Request", "hint": "Select the area where you need support.", "fields": ["business_type", "request_category", "urgency"]},
+            {"title": "Additional Notes", "hint": "Add any custom need not listed above.", "fields": ["notes"]},
         ],
     },
     "pharmaceutical-distribution": {
@@ -274,15 +344,29 @@ INQUIRY_FORMS = {
         "headline": "Request Pharmaceutical Distribution Support",
         "description": "Share your product scope and delivery requirements for coordinated distribution support.",
         "submit_label": "Submit Pharma Inquiry",
+        "theme": "pharma",
+        "icon": "bi-capsule-pill",
+        "hero_image": "images/placeholders/pharmaceutical-distribution.svg",
+        "highlights": ["Distribution", "Restock Planning", "Facility Support"],
+        "summary_points": [
+            "Tell us organization and product scope.",
+            "Add location and quantity/restock plan.",
+            "We respond with distribution support options."
+        ],
         "fields": [
             {"name": "full_name", "label": "Full Name", "type": "text", "required": True},
             {"name": "organization", "label": "Organization / Facility", "type": "text", "required": True},
-            {"name": "phone", "label": "Phone", "type": "text", "required": True},
+            {"name": "phone", "label": "Phone", "type": "tel", "required": True},
             {"name": "email", "label": "Email", "type": "email", "required": True},
             {"name": "product_scope", "label": "Product Scope", "type": "text", "required": True},
             {"name": "quantity_plan", "label": "Quantity / Restock Plan", "type": "text", "required": True},
             {"name": "delivery_location", "label": "Delivery Location", "type": "text", "required": True},
-            {"name": "notes", "label": "Notes", "type": "textarea", "required": False},
+            {"name": "notes", "label": "Notes / Other Requirements", "type": "textarea", "required": False},
+        ],
+        "groups": [
+            {"title": "Organization Details", "hint": "Who is requesting this support?", "fields": ["full_name", "organization", "phone", "email"]},
+            {"title": "Distribution Scope", "hint": "Share scope and logistics context.", "fields": ["product_scope", "quantity_plan", "delivery_location"]},
+            {"title": "Additional Notes", "hint": "Add any requirements not captured above.", "fields": ["notes"]},
         ],
     },
 }
@@ -618,10 +702,17 @@ def service_inquiry(service_key):
         errors = {}
         for field in config["fields"]:
             field_name = field["name"]
-            value = (request.form.get(field_name) or "").strip()
-            payload[field_name] = value
-            if field.get("required") and not value:
-                errors[field_name] = [f"{field['label']} is required."]
+            field_type = field.get("type")
+            if field_type == "checkbox":
+                values = [val.strip() for val in request.form.getlist(field_name) if val.strip()]
+                payload[field_name] = ", ".join(values)
+                if field.get("required") and not values:
+                    errors[field_name] = [f"{field['label']} is required."]
+            else:
+                value = (request.form.get(field_name) or "").strip()
+                payload[field_name] = value
+                if field.get("required") and not value:
+                    errors[field_name] = [f"{field['label']} is required."]
 
         email_value = payload.get("email", "")
         if email_value and "@" not in email_value:
@@ -637,7 +728,7 @@ def service_inquiry(service_key):
         for field in config["fields"]:
             label = field["label"]
             key = field["name"]
-            body_lines.append(f"{label}: {payload.get(key, '')}")
+            body_lines.append(f"{label}: {payload.get(key, '') or '-'}")
 
         send_inquiry_email(
             subject=f"New {config['service_label']} Inquiry - Gregbuk Website",
@@ -648,6 +739,7 @@ def service_inquiry(service_key):
     return render_template(
         "inquiry_form.html",
         inquiry_config=config,
+        field_map={field["name"]: field for field in config["fields"]},
         service_key=service_key,
         change=change,
         header=header,
