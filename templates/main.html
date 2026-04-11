@@ -9,11 +9,12 @@
 
 {% block content %}
 <main class="container-xl home-main pb-5">
-  {% set ns = namespace(cards=None, printing=None, machine=None, pharma=None, engineering=None, travel=None, support=None) %}
+  {% set ns = namespace(cards=None, printing=None, machine=None, pharma=None, engineering=None, travel=None, support=None, contracts=None) %}
   {% for svc in services %}
     {% set key = (svc.name ~ ' ' ~ svc.category_name)|lower %}
     {% if ns.cards is none and ('cards' in key or 'digital id' in key or 'id-card' in key) %}{% set ns.cards = svc %}{% endif %}
     {% if ns.printing is none and ('marketing' in key or 'print' in key or 'sticker' in key or 'sign' in key) %}{% set ns.printing = svc %}{% endif %}
+    {% if ns.contracts is none and ('contract' in key or 'general-contracts' in key) %}{% set ns.contracts = svc %}{% endif %}
     {% if ns.machine is none and ('machine' in key or 'equipment' in key or 'consumable' in key) %}{% set ns.machine = svc %}{% endif %}
     {% if ns.pharma is none and ('pharma' in key or 'pharmaceutical' in key) %}{% set ns.pharma = svc %}{% endif %}
     {% if ns.engineering is none and ('engineering' in key or 'consult' in key) %}{% set ns.engineering = svc %}{% endif %}
@@ -81,6 +82,13 @@
     </div>
     <div class="row g-3">
       <div class="col-6 col-lg-4">
+        <a href="{% if ns.contracts %}{{ url_for('services', name=ns.contracts.category_name) }}{% else %}{{ url_for('services', name='general-contracts') }}{% endif %}" class="visual-card d-block text-decoration-none">
+          <img src="{{ url_for('static', filename='images/placeholders/operations.svg') }}" alt="General contracts, delivery coordination, and operational support" loading="lazy">
+          <span class="visual-label">General Contracts</span>
+          <span class="visual-meta">Project support, coordination, and fulfillment planning</span>
+        </a>
+      </div>
+      <div class="col-6 col-lg-4">
         <a href="{% if ns.printing %}{{ url_for('services', name=ns.printing.category_name) }}{% else %}{{ url_for('service_inquiry', service_key='printing-supplies') }}{% endif %}" class="visual-card d-block text-decoration-none">
           <img src="{{ url_for('static', filename='images/marketing-essentials.jpeg') }}" alt="Printing and supplies operations and branded materials" loading="lazy">
           <span class="visual-label">Printing & Supplies</span>
@@ -102,21 +110,21 @@
         </a>
       </div>
       <div class="col-6 col-lg-4">
-        <a href="{{ url_for('service_inquiry', service_key='pharmaceutical-distribution') }}" class="visual-card d-block text-decoration-none">
+        <a href="{% if ns.pharma %}{{ url_for('services', name=ns.pharma.category_name) }}{% else %}{{ url_for('services', name='pharmaceutical-distribution') }}{% endif %}" class="visual-card d-block text-decoration-none">
           <img src="{{ url_for('static', filename='images/placeholders/pharmaceutical-distribution.svg') }}" alt="Pharmaceutical distribution and facility supply support" loading="lazy">
           <span class="visual-label">Pharmaceutical Distribution</span>
           <span class="visual-meta">Institution support, logistics, restock planning</span>
         </a>
       </div>
       <div class="col-6 col-lg-4">
-        <a href="{{ url_for('contact', head=ns.engineering.category_name) if ns.engineering else url_for('contact') }}" class="visual-card d-block text-decoration-none">
+        <a href="{% if ns.engineering %}{{ url_for('services', name=ns.engineering.category_name) }}{% else %}{{ url_for('services', name='engineering-consultancy') }}{% endif %}" class="visual-card d-block text-decoration-none">
           <img src="{{ url_for('static', filename='images/placeholders/engineering-consultancy.svg') }}" alt="Engineering consultancy, technical advisory, and project planning" loading="lazy">
           <span class="visual-label">Engineering Consultancy</span>
           <span class="visual-meta">Advisory, planning, execution guidance</span>
         </a>
       </div>
       <div class="col-6 col-lg-4">
-        <a href="{{ url_for('service_inquiry', service_key='travel-agency') }}" class="visual-card d-block text-decoration-none">
+        <a href="{% if ns.travel %}{{ url_for('services', name=ns.travel.category_name) }}{% else %}{{ url_for('services', name='travel-agency') }}{% endif %}" class="visual-card d-block text-decoration-none">
           <img src="{{ url_for('static', filename='images/placeholders/travel-agency.svg') }}" alt="Travel support, flight planning, and documentation assistance" loading="lazy">
           <span class="visual-label">Travel Agency & Documentation</span>
           <span class="visual-meta">Travel planning, documentation, mobility support</span>
@@ -196,7 +204,7 @@
       <p class="section-subtitle mb-0">Structured support built for operational reliability and measurable outcomes.</p>
     </div>
     <div class="row g-3 g-md-4">
-      <div class="col-md-6 col-lg-4"><div class="card service-card p-3 position-relative"><h3 class="h5"><a class="text-decoration-none stretched-link" href="{{ url_for('all') }}">General Contracts</a></h3><p class="text-muted mb-0">Project execution support for institutions and businesses.</p></div></div>
+      <div class="col-md-6 col-lg-4"><div class="card service-card p-3 position-relative"><h3 class="h5"><a class="text-decoration-none stretched-link" href="{% if ns.contracts %}{{ url_for('services', name=ns.contracts.category_name) }}{% else %}{{ url_for('services', name='general-contracts') }}{% endif %}">General Contracts</a></h3><p class="text-muted mb-0">Project execution support for institutions and businesses.</p></div></div>
       <div class="col-md-6 col-lg-4"><div class="card service-card p-3 position-relative"><h3 class="h5"><a class="text-decoration-none stretched-link" href="{% if ns.printing %}{{ url_for('services', name=ns.printing.category_name) }}{% else %}{{ url_for('service_inquiry', service_key='printing-supplies') }}{% endif %}">Printing & Supplies</a></h3><p class="text-muted mb-0">Document production, branded materials, and supply continuity.</p></div></div>
       <div class="col-md-6 col-lg-4"><div class="card service-card p-3 position-relative"><h3 class="h5"><a class="text-decoration-none stretched-link" href="{% if ns.cards %}{{ url_for('services', name=ns.cards.category_name) }}{% else %}{{ url_for('service_inquiry', service_key='digital-id-solutions') }}{% endif %}">Digital ID Solutions</a></h3><p class="text-muted mb-0">ID card design, printing, issuance, and lifecycle support.</p></div></div>
       <div class="col-md-6 col-lg-4"><div class="card service-card p-3 position-relative"><h3 class="h5"><a class="text-decoration-none stretched-link" href="{% if ns.machine %}{{ url_for('services', name=ns.machine.category_name) }}{% else %}{{ url_for('service_inquiry', service_key='machine-sales-consumables') }}{% endif %}">Machine Sales & Consumables</a></h3><p class="text-muted mb-0">Machine sourcing, setup guidance, and consumables restock.</p></div></div>

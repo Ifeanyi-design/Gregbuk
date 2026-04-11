@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, Blueprint, request,url_for, jsonify, redirect, flash, session
+from flask import Flask, render_template, send_from_directory, Blueprint, request,url_for, jsonify, redirect, flash, session, abort
 from config import Config
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import or_, func, inspect
@@ -6,6 +6,8 @@ from db import db, Services, Products, Variable, SubService, Transaction, Wallet
 from random import randint, choice
 from form import ContactForm
 import os, traceback, logging
+import click
+from functools import wraps
 from datetime import datetime, timedelta, timezone
 import smtplib
 from email.message import EmailMessage
@@ -54,6 +56,70 @@ ALLOWED = {"csv", "xlsx"}
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)   # ensure folder exists
 
 app.register_blueprint(bp)
+
+
+@app.cli.command("seed-targeted-services")
+def seed_targeted_services_command():
+    """Seed or refresh the newer corporate service branches."""
+    from seed_targeted_services import seed_targeted_services
+
+    results = seed_targeted_services()
+    click.echo(
+        "Targeted service seed complete -> "
+        f"services created: {results['services_created']}, "
+        f"services refreshed: {results['services_updated']}, "
+        f"subservices created: {results['subservices_created']}, "
+        f"subservices refreshed: {results['subservices_updated']}, "
+        f"products created: {results['products_created']}, "
+        f"products refreshed: {results['products_updated']}, "
+        f"gallery images added: {results['gallery_images_added']}"
+    )
+
+
+def admin_access_allowed(user):
+    if not getattr(user, "is_authenticated", False):
+        return False
+    allowed_emails = {
+        email.strip().lower()
+        for email in os.getenv("ADMIN_EMAILS", "").split(",")
+        if email.strip()
+    }
+    if allowed_emails:
+        return (user.email or "").lower() in allowed_emails
+    return True
+
+
+def admin_required(view_func):
+    @wraps(view_func)
+    def wrapper(*args, **kwargs):
+        if not current_user.is_authenticated:
+            return login_manager.unauthorized()
+        if not admin_access_allowed(current_user):
+            abort(403)
+        return view_func(*args, **kwargs)
+
+    return wrapper
+
+
+def admin_layout_context(page_key="admin-dashboard", **extra):
+    context = {
+        "bulkk_sms": True,
+        "the_name": page_key,
+        "change": False,
+        "admin_enabled": True,
+    }
+    context.update(extra)
+    return context
+
+
+def summarize_text(value, limit=120):
+    if not value:
+        return ""
+    text = re.sub(r"<[^>]+>", " ", str(value))
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) <= limit:
+        return text
+    return text[:limit - 3].rstrip() + "..."
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED
@@ -139,6 +205,7 @@ def valid_phone(phone):
 
 
 INQUIRY_SERVICE_KEYWORDS = (
+    "contract",
     "pharma",
     "pharmaceutical",
     "engineering",
@@ -871,6 +938,542 @@ def dashboard():
     delivery_rate = (delivered / total * 100) if total > 0 else 0
 
     return render_template("dashboard.html", recent_messages=recent_messages, the_name=the_name, delivery_rate=delivery_rate, total=total, delivered=delivered, pending=pending, failed=failed, bulkk_sms=True, show_welcome_toast=show_welcome_toast)
+
+
+@app.route("/dashboard/seed-targeted-services", methods=["POST"])
+@login_required
+def dashboard_seed_targeted_services():
+    from seed_targeted_services import seed_targeted_services
+
+    results = seed_targeted_services()
+    flash(
+        "Targeted service seed complete. "
+        f"Created services: {results['services_created']}, "
+        f"refreshed services: {results['services_updated']}, "
+        f"created subservices: {results['subservices_created']}, "
+        f"refreshed subservices: {results['subservices_updated']}, "
+        f"created products: {results['products_created']}, "
+        f"refreshed products: {results['products_updated']}.",
+        "success",
+    )
+    return redirect(url_for("dashboard"))
+
+
+@app.route("/admin")
+@admin_required
+def admin_dashboard():
+    metrics = {
+        "services": Services.query.count(),
+        "subservices": SubService.query.count(),
+        "products": Products.query.count(),
+        "headers": Header.query.count(),
+        "users": User.query.count(),
+        "contacts": Contact.query.count(),
+        "messages": Message.query.count(),
+        "transactions": Transaction.query.count(),
+    }
+    latest_users = User.query.order_by(User.id.desc()).limit(8).all()
+    latest_contacts = Contact.query.order_by(Contact.created_at.desc()).limit(8).all()
+    latest_messages = Message.query.order_by(Message.created_at.desc()).limit(8).all()
+    return render_template(
+        "admin_dashboard.html",
+        metrics=metrics,
+        latest_users=latest_users,
+        latest_contacts=latest_contacts,
+        latest_messages=latest_messages,
+        summarize_text=summarize_text,
+        **admin_layout_context("admin-dashboard")
+    )
+
+
+@app.route("/admin/tools/seed-targeted-services", methods=["POST"])
+@admin_required
+def admin_seed_targeted_services():
+    from seed_targeted_services import seed_targeted_services
+
+    results = seed_targeted_services()
+    flash(
+        "Corporate service seed complete. "
+        f"Created services: {results['services_created']}, "
+        f"refreshed services: {results['services_updated']}, "
+        f"created subservices: {results['subservices_created']}, "
+        f"refreshed subservices: {results['subservices_updated']}, "
+        f"created products: {results['products_created']}, "
+        f"refreshed products: {results['products_updated']}.",
+        "success",
+    )
+    return redirect(url_for("admin_dashboard"))
+
+
+@app.route("/admin/services")
+@admin_required
+def admin_services():
+    records = Services.query.order_by(Services.id.desc()).all()
+    return render_template(
+        "admin_list.html",
+        title="Manage Services",
+        subtitle="Create, update, and remove top-level public service categories.",
+        records=records,
+        columns=[
+            ("ID", lambda item: item.id),
+            ("Name", lambda item: item.name),
+            ("Category", lambda item: item.category_name),
+            ("Subservices", lambda item: len(item.sub_service)),
+            ("Products", lambda item: len(item.products)),
+        ],
+        create_url=url_for("admin_service_create"),
+        edit_endpoint="admin_service_edit",
+        delete_endpoint="admin_service_delete",
+        item_kind="service",
+        page_key="admin-services",
+        **admin_layout_context("admin-services")
+    )
+
+
+@app.route("/admin/services/new", methods=["GET", "POST"])
+@admin_required
+def admin_service_create():
+    if request.method == "POST":
+        service = Services(
+            name=(request.form.get("name") or "").strip(),
+            category_name=(request.form.get("category_name") or "").strip(),
+            description=(request.form.get("description") or "").strip(),
+            image_url=(request.form.get("image_url") or "").strip(),
+            icon_name=(request.form.get("icon_name") or "").strip(),
+            alt_texts=(request.form.get("alt_texts") or "").strip(),
+            content=(request.form.get("content") or "").strip(),
+        )
+        db.session.add(service)
+        db.session.commit()
+        flash("Service created successfully.", "success")
+        return redirect(url_for("admin_services"))
+
+    return render_template(
+        "admin_form.html",
+        title="Create Service",
+        subtitle="Add a new top-level service category.",
+        submit_label="Create Service",
+        fields=[
+            {"name": "name", "label": "Name", "type": "text", "required": True},
+            {"name": "category_name", "label": "Category Name", "type": "text", "required": True},
+            {"name": "description", "label": "Description", "type": "textarea"},
+            {"name": "image_url", "label": "Image URL / Path", "type": "text"},
+            {"name": "icon_name", "label": "Icon Name", "type": "text"},
+            {"name": "alt_texts", "label": "Alt Text", "type": "text"},
+            {"name": "content", "label": "HTML Content", "type": "textarea", "rows": 10},
+        ],
+        values={},
+        back_url=url_for("admin_services"),
+        **admin_layout_context("admin-services")
+    )
+
+
+@app.route("/admin/services/<int:service_id>/edit", methods=["GET", "POST"])
+@admin_required
+def admin_service_edit(service_id):
+    service = Services.query.get_or_404(service_id)
+    if request.method == "POST":
+        service.name = (request.form.get("name") or "").strip()
+        service.category_name = (request.form.get("category_name") or "").strip()
+        service.description = (request.form.get("description") or "").strip()
+        service.image_url = (request.form.get("image_url") or "").strip()
+        service.icon_name = (request.form.get("icon_name") or "").strip()
+        service.alt_texts = (request.form.get("alt_texts") or "").strip()
+        service.content = (request.form.get("content") or "").strip()
+        db.session.commit()
+        flash("Service updated successfully.", "success")
+        return redirect(url_for("admin_services"))
+
+    return render_template(
+        "admin_form.html",
+        title=f"Edit Service: {service.name}",
+        subtitle="Update the service metadata and public content.",
+        submit_label="Save Service",
+        fields=[
+            {"name": "name", "label": "Name", "type": "text", "required": True},
+            {"name": "category_name", "label": "Category Name", "type": "text", "required": True},
+            {"name": "description", "label": "Description", "type": "textarea"},
+            {"name": "image_url", "label": "Image URL / Path", "type": "text"},
+            {"name": "icon_name", "label": "Icon Name", "type": "text"},
+            {"name": "alt_texts", "label": "Alt Text", "type": "text"},
+            {"name": "content", "label": "HTML Content", "type": "textarea", "rows": 10},
+        ],
+        values={
+            "name": service.name,
+            "category_name": service.category_name,
+            "description": service.description,
+            "image_url": service.image_url,
+            "icon_name": service.icon_name,
+            "alt_texts": service.alt_texts,
+            "content": service.content,
+        },
+        back_url=url_for("admin_services"),
+        **admin_layout_context("admin-services")
+    )
+
+
+@app.route("/admin/services/<int:service_id>/delete", methods=["POST"])
+@admin_required
+def admin_service_delete(service_id):
+    service = Services.query.get_or_404(service_id)
+    db.session.delete(service)
+    db.session.commit()
+    flash("Service deleted successfully.", "success")
+    return redirect(url_for("admin_services"))
+
+
+@app.route("/admin/subservices")
+@admin_required
+def admin_subservices():
+    records = SubService.query.order_by(SubService.id.desc()).all()
+    return render_template(
+        "admin_list.html",
+        title="Manage Subservices",
+        subtitle="Maintain grouped service branches under each top-level category.",
+        records=records,
+        columns=[
+            ("ID", lambda item: item.id),
+            ("Name", lambda item: item.name),
+            ("Category", lambda item: item.category_name),
+            ("Parent Service", lambda item: item.services.name if item.services else "-"),
+            ("Products", lambda item: len(item.products)),
+        ],
+        create_url=url_for("admin_subservice_create"),
+        edit_endpoint="admin_subservice_edit",
+        delete_endpoint="admin_subservice_delete",
+        item_kind="subservice",
+        page_key="admin-subservices",
+        **admin_layout_context("admin-subservices")
+    )
+
+
+@app.route("/admin/subservices/new", methods=["GET", "POST"])
+@admin_required
+def admin_subservice_create():
+    service_choices = Services.query.order_by(Services.name.asc()).all()
+    if request.method == "POST":
+        subservice = SubService(
+            name=(request.form.get("name") or "").strip(),
+            category_name=(request.form.get("category_name") or "").strip(),
+            description=(request.form.get("description") or "").strip(),
+            image_url=(request.form.get("image_url") or "").strip(),
+            alt_texts=(request.form.get("alt_texts") or "").strip(),
+            content=(request.form.get("content") or "").strip(),
+            service_id=int(request.form.get("service_id")),
+        )
+        db.session.add(subservice)
+        db.session.commit()
+        flash("Subservice created successfully.", "success")
+        return redirect(url_for("admin_subservices"))
+
+    return render_template(
+        "admin_form.html",
+        title="Create Subservice",
+        subtitle="Add a grouped service branch under a top-level service.",
+        submit_label="Create Subservice",
+        fields=[
+            {"name": "service_id", "label": "Parent Service", "type": "select", "required": True, "options": [(str(item.id), item.name) for item in service_choices]},
+            {"name": "name", "label": "Name", "type": "text", "required": True},
+            {"name": "category_name", "label": "Category Name", "type": "text", "required": True},
+            {"name": "description", "label": "Description", "type": "textarea"},
+            {"name": "image_url", "label": "Image URL / Path", "type": "text"},
+            {"name": "alt_texts", "label": "Alt Text", "type": "text"},
+            {"name": "content", "label": "HTML Content", "type": "textarea", "rows": 10},
+        ],
+        values={},
+        back_url=url_for("admin_subservices"),
+        **admin_layout_context("admin-subservices")
+    )
+
+
+@app.route("/admin/subservices/<int:subservice_id>/edit", methods=["GET", "POST"])
+@admin_required
+def admin_subservice_edit(subservice_id):
+    subservice = SubService.query.get_or_404(subservice_id)
+    service_choices = Services.query.order_by(Services.name.asc()).all()
+    if request.method == "POST":
+        subservice.service_id = int(request.form.get("service_id"))
+        subservice.name = (request.form.get("name") or "").strip()
+        subservice.category_name = (request.form.get("category_name") or "").strip()
+        subservice.description = (request.form.get("description") or "").strip()
+        subservice.image_url = (request.form.get("image_url") or "").strip()
+        subservice.alt_texts = (request.form.get("alt_texts") or "").strip()
+        subservice.content = (request.form.get("content") or "").strip()
+        db.session.commit()
+        flash("Subservice updated successfully.", "success")
+        return redirect(url_for("admin_subservices"))
+
+    return render_template(
+        "admin_form.html",
+        title=f"Edit Subservice: {subservice.name}",
+        subtitle="Update grouped service information and relationship.",
+        submit_label="Save Subservice",
+        fields=[
+            {"name": "service_id", "label": "Parent Service", "type": "select", "required": True, "options": [(str(item.id), item.name) for item in service_choices]},
+            {"name": "name", "label": "Name", "type": "text", "required": True},
+            {"name": "category_name", "label": "Category Name", "type": "text", "required": True},
+            {"name": "description", "label": "Description", "type": "textarea"},
+            {"name": "image_url", "label": "Image URL / Path", "type": "text"},
+            {"name": "alt_texts", "label": "Alt Text", "type": "text"},
+            {"name": "content", "label": "HTML Content", "type": "textarea", "rows": 10},
+        ],
+        values={
+            "service_id": str(subservice.service_id),
+            "name": subservice.name,
+            "category_name": subservice.category_name,
+            "description": subservice.description,
+            "image_url": subservice.image_url,
+            "alt_texts": subservice.alt_texts,
+            "content": subservice.content,
+        },
+        back_url=url_for("admin_subservices"),
+        **admin_layout_context("admin-subservices")
+    )
+
+
+@app.route("/admin/subservices/<int:subservice_id>/delete", methods=["POST"])
+@admin_required
+def admin_subservice_delete(subservice_id):
+    subservice = SubService.query.get_or_404(subservice_id)
+    db.session.delete(subservice)
+    db.session.commit()
+    flash("Subservice deleted successfully.", "success")
+    return redirect(url_for("admin_subservices"))
+
+
+@app.route("/admin/products")
+@admin_required
+def admin_products():
+    records = Products.query.order_by(Products.id.desc()).all()
+    return render_template(
+        "admin_list.html",
+        title="Manage Products / Offerings",
+        subtitle="Maintain detailed offerings under either a service or a subservice.",
+        records=records,
+        columns=[
+            ("ID", lambda item: item.id),
+            ("Name", lambda item: item.name),
+            ("Category", lambda item: item.category_name),
+            ("Parent", lambda item: item.subservice.name if item.subservice else (item.services.name if item.services else "-")),
+            ("Gallery", lambda item: len(item.image_collections)),
+        ],
+        create_url=url_for("admin_product_create"),
+        edit_endpoint="admin_product_edit",
+        delete_endpoint="admin_product_delete",
+        item_kind="product",
+        page_key="admin-products",
+        **admin_layout_context("admin-products")
+    )
+
+
+@app.route("/admin/products/new", methods=["GET", "POST"])
+@admin_required
+def admin_product_create():
+    service_choices = Services.query.order_by(Services.name.asc()).all()
+    subservice_choices = SubService.query.order_by(SubService.name.asc()).all()
+    if request.method == "POST":
+        service_id = request.form.get("service_id") or None
+        subservice_id = request.form.get("sub_service_id") or None
+        product = Products(
+            name=(request.form.get("name") or "").strip(),
+            category_name=(request.form.get("category_name") or "").strip(),
+            description=(request.form.get("description") or "").strip(),
+            image_url=(request.form.get("image_url") or "").strip(),
+            alt_texts=(request.form.get("alt_texts") or "").strip(),
+            content=(request.form.get("content") or "").strip(),
+            service_id=int(service_id) if service_id else None,
+            sub_service_id=int(subservice_id) if subservice_id else None,
+        )
+        db.session.add(product)
+        db.session.commit()
+        flash("Product created successfully.", "success")
+        return redirect(url_for("admin_products"))
+
+    return render_template(
+        "admin_form.html",
+        title="Create Product / Offering",
+        subtitle="Add a service detail under a top-level service or a subservice.",
+        submit_label="Create Product",
+        fields=[
+            {"name": "service_id", "label": "Parent Service (optional)", "type": "select", "options": [("", "None")] + [(str(item.id), item.name) for item in service_choices]},
+            {"name": "sub_service_id", "label": "Parent Subservice (optional)", "type": "select", "options": [("", "None")] + [(str(item.id), item.name) for item in subservice_choices]},
+            {"name": "name", "label": "Name", "type": "text", "required": True},
+            {"name": "category_name", "label": "Category Name", "type": "text", "required": True},
+            {"name": "description", "label": "Description", "type": "textarea"},
+            {"name": "image_url", "label": "Image URL / Path", "type": "text"},
+            {"name": "alt_texts", "label": "Alt Text", "type": "text"},
+            {"name": "content", "label": "HTML Content", "type": "textarea", "rows": 10},
+        ],
+        values={},
+        back_url=url_for("admin_products"),
+        **admin_layout_context("admin-products")
+    )
+
+
+@app.route("/admin/products/<int:product_id>/edit", methods=["GET", "POST"])
+@admin_required
+def admin_product_edit(product_id):
+    product = Products.query.get_or_404(product_id)
+    service_choices = Services.query.order_by(Services.name.asc()).all()
+    subservice_choices = SubService.query.order_by(SubService.name.asc()).all()
+    if request.method == "POST":
+        service_id = request.form.get("service_id") or None
+        subservice_id = request.form.get("sub_service_id") or None
+        product.service_id = int(service_id) if service_id else None
+        product.sub_service_id = int(subservice_id) if subservice_id else None
+        product.name = (request.form.get("name") or "").strip()
+        product.category_name = (request.form.get("category_name") or "").strip()
+        product.description = (request.form.get("description") or "").strip()
+        product.image_url = (request.form.get("image_url") or "").strip()
+        product.alt_texts = (request.form.get("alt_texts") or "").strip()
+        product.content = (request.form.get("content") or "").strip()
+        db.session.commit()
+        flash("Product updated successfully.", "success")
+        return redirect(url_for("admin_products"))
+
+    return render_template(
+        "admin_form.html",
+        title=f"Edit Product: {product.name}",
+        subtitle="Update the product/offering and parent relationship.",
+        submit_label="Save Product",
+        fields=[
+            {"name": "service_id", "label": "Parent Service (optional)", "type": "select", "options": [("", "None")] + [(str(item.id), item.name) for item in service_choices]},
+            {"name": "sub_service_id", "label": "Parent Subservice (optional)", "type": "select", "options": [("", "None")] + [(str(item.id), item.name) for item in subservice_choices]},
+            {"name": "name", "label": "Name", "type": "text", "required": True},
+            {"name": "category_name", "label": "Category Name", "type": "text", "required": True},
+            {"name": "description", "label": "Description", "type": "textarea"},
+            {"name": "image_url", "label": "Image URL / Path", "type": "text"},
+            {"name": "alt_texts", "label": "Alt Text", "type": "text"},
+            {"name": "content", "label": "HTML Content", "type": "textarea", "rows": 10},
+        ],
+        values={
+            "service_id": str(product.service_id) if product.service_id else "",
+            "sub_service_id": str(product.sub_service_id) if product.sub_service_id else "",
+            "name": product.name,
+            "category_name": product.category_name,
+            "description": product.description,
+            "image_url": product.image_url,
+            "alt_texts": product.alt_texts,
+            "content": product.content,
+        },
+        back_url=url_for("admin_products"),
+        **admin_layout_context("admin-products")
+    )
+
+
+@app.route("/admin/products/<int:product_id>/delete", methods=["POST"])
+@admin_required
+def admin_product_delete(product_id):
+    product = Products.query.get_or_404(product_id)
+    db.session.delete(product)
+    db.session.commit()
+    flash("Product deleted successfully.", "success")
+    return redirect(url_for("admin_products"))
+
+
+@app.route("/admin/headers")
+@admin_required
+def admin_headers():
+    records = Header.query.order_by(Header.id.desc()).all()
+    return render_template(
+        "admin_list.html",
+        title="Manage Header Links",
+        subtitle="Maintain legacy/shared header link records stored in the database.",
+        records=records,
+        columns=[
+            ("ID", lambda item: item.id),
+            ("Name", lambda item: item.name),
+            ("End URL", lambda item: item.end_url),
+        ],
+        create_url=url_for("admin_header_create"),
+        edit_endpoint="admin_header_edit",
+        delete_endpoint="admin_header_delete",
+        item_kind="header",
+        page_key="admin-headers",
+        **admin_layout_context("admin-headers")
+    )
+
+
+@app.route("/admin/headers/new", methods=["GET", "POST"])
+@admin_required
+def admin_header_create():
+    if request.method == "POST":
+        header = Header(
+            name=(request.form.get("name") or "").strip(),
+            end_url=(request.form.get("end_url") or "").strip(),
+        )
+        db.session.add(header)
+        db.session.commit()
+        flash("Header link created successfully.", "success")
+        return redirect(url_for("admin_headers"))
+
+    return render_template(
+        "admin_form.html",
+        title="Create Header Link",
+        subtitle="Add a database-backed navigation record.",
+        submit_label="Create Header Link",
+        fields=[
+            {"name": "name", "label": "Display Name", "type": "text", "required": True},
+            {"name": "end_url", "label": "Endpoint / URL Key", "type": "text", "required": True},
+        ],
+        values={},
+        back_url=url_for("admin_headers"),
+        **admin_layout_context("admin-headers")
+    )
+
+
+@app.route("/admin/headers/<int:header_id>/edit", methods=["GET", "POST"])
+@admin_required
+def admin_header_edit(header_id):
+    header = Header.query.get_or_404(header_id)
+    if request.method == "POST":
+        header.name = (request.form.get("name") or "").strip()
+        header.end_url = (request.form.get("end_url") or "").strip()
+        db.session.commit()
+        flash("Header link updated successfully.", "success")
+        return redirect(url_for("admin_headers"))
+
+    return render_template(
+        "admin_form.html",
+        title=f"Edit Header Link: {header.name}",
+        subtitle="Update the database-backed navigation record.",
+        submit_label="Save Header Link",
+        fields=[
+            {"name": "name", "label": "Display Name", "type": "text", "required": True},
+            {"name": "end_url", "label": "Endpoint / URL Key", "type": "text", "required": True},
+        ],
+        values={"name": header.name, "end_url": header.end_url},
+        back_url=url_for("admin_headers"),
+        **admin_layout_context("admin-headers")
+    )
+
+
+@app.route("/admin/headers/<int:header_id>/delete", methods=["POST"])
+@admin_required
+def admin_header_delete(header_id):
+    header = Header.query.get_or_404(header_id)
+    db.session.delete(header)
+    db.session.commit()
+    flash("Header link deleted successfully.", "success")
+    return redirect(url_for("admin_headers"))
+
+
+@app.route("/admin/database")
+@admin_required
+def admin_database():
+    users = User.query.order_by(User.id.desc()).limit(30).all()
+    contacts = Contact.query.order_by(Contact.created_at.desc()).limit(30).all()
+    messages = Message.query.order_by(Message.created_at.desc()).limit(30).all()
+    transactions = Transaction.query.order_by(Transaction.timestamp.desc()).limit(30).all()
+    return render_template(
+        "admin_database.html",
+        users=users,
+        contacts=contacts,
+        messages=messages,
+        transactions=transactions,
+        summarize_text=summarize_text,
+        **admin_layout_context("admin-database")
+    )
 
 @app.route("/api/stats")
 @login_required

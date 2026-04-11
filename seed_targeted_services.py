@@ -1,5 +1,6 @@
 from main import app
 from db import db, Services, SubService, Products, ProductCollection
+from sqlalchemy import or_
 
 
 def html_block(title, intro, bullets, outro):
@@ -12,6 +13,19 @@ def html_block(title, intro, bullets, outro):
 </ul>
 <p>{outro}</p>
 """.strip()
+
+
+def default_subservice_content(service_name, subservice_name, description):
+    return html_block(
+        subservice_name,
+        f"{subservice_name} sits under Gregbuk's {service_name} division and is designed for clients that need structured, practical support.",
+        [
+            description,
+            "Inquiry-led support matched to organization needs",
+            "Clearer delivery structure and next-step guidance",
+        ],
+        "This area can be expanded later with more specific workflow details, case examples, or service requirements.",
+    )
 
 
 MACHINE_GALLERY = [
@@ -1091,6 +1105,16 @@ TARGETED_SERVICES = [
 ]
 
 
+for service_payload in TARGETED_SERVICES:
+    for sub_payload in service_payload.get("subservices", []):
+        if not sub_payload.get("content"):
+            sub_payload["content"] = default_subservice_content(
+                service_payload["name"],
+                sub_payload["name"],
+                sub_payload["description"],
+            )
+
+
 def sync_fields(instance, payload, fields):
     changed = False
     for field in fields:
@@ -1102,15 +1126,30 @@ def sync_fields(instance, payload, fields):
 
 
 def get_service(payload):
-    return Services.query.filter_by(category_name=payload["category_name"]).first()
+    return Services.query.filter(
+        or_(
+            Services.category_name == payload["category_name"],
+            Services.name == payload["name"],
+        )
+    ).first()
 
 
 def get_subservice(payload):
-    return SubService.query.filter_by(category_name=payload["category_name"]).first()
+    return SubService.query.filter(
+        or_(
+            SubService.category_name == payload["category_name"],
+            SubService.name == payload["name"],
+        )
+    ).first()
 
 
 def get_product(payload):
-    return Products.query.filter_by(category_name=payload["category_name"]).first()
+    return Products.query.filter(
+        or_(
+            Products.category_name == payload["category_name"],
+            Products.name == payload["name"],
+        )
+    ).first()
 
 
 def upsert_service(payload):
@@ -1196,17 +1235,14 @@ def seed_targeted_services():
     }
 
     for service_payload in TARGETED_SERVICES:
-        service_exists = get_service(service_payload) is not None
         service, service_created = upsert_service(service_payload)
         counts["services_created" if service_created else "services_updated"] += 1
 
         for sub_payload in service_payload.get("subservices", []):
-            sub_exists = get_subservice(sub_payload) is not None
             subservice, sub_created = upsert_subservice(service, sub_payload)
             counts["subservices_created" if sub_created else "subservices_updated"] += 1
 
             for product_payload in sub_payload.get("products", []):
-                product_exists = get_product(product_payload) is not None
                 product, product_created = upsert_product(service, subservice, product_payload)
                 counts["products_created" if product_created else "products_updated"] += 1
                 counts["gallery_images_added"] += sync_product_gallery(

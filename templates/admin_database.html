@@ -1,0 +1,95 @@
+{% extends "admin_base.html" %}
+
+{% block admin_title %}Database View{% endblock %}
+{% block admin_heading %}Database View{% endblock %}
+{% block admin_subheading %}Quick read-only visibility into users, contacts, messages, and transactions.{% endblock %}
+
+{% block admin_content %}
+<div class="row g-4">
+  <div class="col-12">
+    <div class="card admin-card">
+      <div class="card-body">
+        <h2 class="h5 mb-3">Users</h2>
+        <div class="table-responsive">
+          <table class="table table-sm admin-table">
+            <thead><tr><th>ID</th><th>Username</th><th>Email</th><th>Verified</th></tr></thead>
+            <tbody>
+              {% for user in users %}
+              <tr><td>{{ user.id }}</td><td>{{ user.username }}</td><td>{{ user.email }}</td><td>{{ 'Yes' if user.verified else 'No' }}</td></tr>
+              {% else %}
+              <tr><td colspan="4" class="text-muted">No users found.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card admin-card">
+      <div class="card-body">
+        <h2 class="h5 mb-3">Contacts</h2>
+        <div class="table-responsive">
+          <table class="table table-sm admin-table">
+            <thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Created</th></tr></thead>
+            <tbody>
+              {% for contact in contacts %}
+              <tr><td>{{ contact.id }}</td><td>{{ contact.name or 'No name' }}</td><td>{{ contact.phone }}</td><td>{{ contact.created_at.strftime('%Y-%m-%d %H:%M') if contact.created_at else '-' }}</td></tr>
+              {% else %}
+              <tr><td colspan="4" class="text-muted">No contacts found.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card admin-card">
+      <div class="card-body">
+        <h2 class="h5 mb-3">Messages</h2>
+        <div class="table-responsive">
+          <table class="table table-sm admin-table">
+            <thead><tr><th>ID</th><th>Name</th><th>Status</th><th>Preview</th></tr></thead>
+            <tbody>
+              {% for message in messages %}
+              <tr><td>{{ message.id }}</td><td>{{ message.name }}</td><td>{{ message.status }}</td><td>{{ summarize_text(message.message, 90) }}</td></tr>
+              {% else %}
+              <tr><td colspan="4" class="text-muted">No messages found.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card admin-card">
+      <div class="card-body">
+        <h2 class="h5 mb-3">Transactions</h2>
+        <div class="table-responsive">
+          <table class="table table-sm admin-table">
+            <thead><tr><th>ID</th><th>User</th><th>Amount</th><th>Status</th><th>Timestamp</th></tr></thead>
+            <tbody>
+              {% for txn in transactions %}
+              <tr>
+                <td>{{ txn.id }}</td>
+                <td>{{ txn.user.username if txn.user else '-' }}</td>
+                <td>{{ txn.amount }}</td>
+                <td>{{ txn.status }}</td>
+                <td>{{ txn.timestamp.strftime('%Y-%m-%d %H:%M') if txn.timestamp else '-' }}</td>
+              </tr>
+              {% else %}
+              <tr><td colspan="5" class="text-muted">No transactions found.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

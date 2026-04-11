@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}{% block admin_title %}Admin Panel{% endblock %}{% endblock %}
+
+{% block style %}
+.admin-shell {
+  padding: 2rem 0 3rem;
+}
+.admin-hero {
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(2, 27, 69, 0.95), rgba(16, 73, 153, 0.92));
+  color: #fff;
+  margin-bottom: 1.25rem;
+}
+.admin-hero p {
+  color: rgba(255, 255, 255, 0.82);
+}
+.admin-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+.admin-nav a {
+  text-decoration: none;
+}
+.admin-card {
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+.admin-metric {
+  border-radius: 1rem;
+  padding: 1rem;
+  background: var(--cui-body-bg);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  height: 100%;
+}
+.admin-table td,
+.admin-table th {
+  vertical-align: middle;
+}
+.admin-table .actions {
+  white-space: nowrap;
+}
+.admin-form-card {
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+{% endblock %}
+
+{% block content %}
+<div class="container-xl admin-shell">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} mt-3">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <section class="admin-hero">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+      <div>
+        <h1 class="h3 mb-2">{% block admin_heading %}Admin Panel{% endblock %}</h1>
+        <p class="mb-0">{% block admin_subheading %}Manage core site content and internal data from one place.{% endblock %}</p>
+      </div>
+      <div class="small text-white-50">
+        Logged in as {{ current_user.username }}
+      </div>
+    </div>
+  </section>
+
+  <nav class="admin-nav">
+    <a href="{{ url_for('admin_dashboard') }}" class="btn {% if the_name == 'admin-dashboard' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">Overview</a>
+    <a href="{{ url_for('admin_services') }}" class="btn {% if the_name == 'admin-services' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">Services</a>
+    <a href="{{ url_for('admin_subservices') }}" class="btn {% if the_name == 'admin-subservices' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">Subservices</a>
+    <a href="{{ url_for('admin_products') }}" class="btn {% if the_name == 'admin-products' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">Products</a>
+    <a href="{{ url_for('admin_headers') }}" class="btn {% if the_name == 'admin-headers' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">Header Links</a>
+    <a href="{{ url_for('admin_database') }}" class="btn {% if the_name == 'admin-database' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">Database View</a>
+  </nav>
+
+  {% block admin_content %}{% endblock %}
+</div>
+{% endblock %}

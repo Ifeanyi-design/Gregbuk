@@ -9,11 +9,12 @@
 
 {% block content %}
 <main class="container-xl services-main pb-5">
-  {% set ns = namespace(printing=None, cards=None, machine=None, pharma=None, engineering=None, travel=None, support=None) %}
+  {% set ns = namespace(printing=None, cards=None, machine=None, pharma=None, engineering=None, travel=None, support=None, contracts=None) %}
   {% for svc in services %}
     {% set key = (svc.name ~ ' ' ~ svc.category_name)|lower %}
     {% if ns.printing is none and ('marketing' in key or 'print' in key or 'sticker' in key or 'sign' in key) %}{% set ns.printing = svc %}{% endif %}
     {% if ns.cards is none and ('cards' in key or 'id' in key) %}{% set ns.cards = svc %}{% endif %}
+    {% if ns.contracts is none and ('contract' in key or 'general-contracts' in key) %}{% set ns.contracts = svc %}{% endif %}
     {% if ns.machine is none and ('machine' in key or 'equipment' in key or 'consumable' in key) %}{% set ns.machine = svc %}{% endif %}
     {% if ns.pharma is none and ('pharma' in key or 'pharmaceutical' in key) %}{% set ns.pharma = svc %}{% endif %}
     {% if ns.engineering is none and ('engineering' in key or 'consult' in key) %}{% set ns.engineering = svc %}{% endif %}
@@ -63,7 +64,10 @@
             <li>Execution coordination for project scopes</li>
             <li>Timeline and quality-focused delivery handling</li>
           </ul>
-          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Request Contract Consultation</a>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Request Contract Consultation</a>
+            <a href="{% if ns.contracts %}{{ url_for('services', name=ns.contracts.category_name) }}{% else %}{{ url_for('services', name='general-contracts') }}{% endif %}" class="btn btn-outline-secondary">View Contract Services</a>
+          </div>
           </div>
         </div>
       </div>
@@ -138,7 +142,7 @@
           </ul>
           <div class="d-flex flex-wrap gap-2">
             <a href="{{ url_for('service_inquiry', service_key='pharmaceutical-distribution') }}" class="btn btn-outline-primary">Submit Pharma Inquiry</a>
-            <a href="{% if ns.pharma %}{{ url_for('services', name=ns.pharma.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-secondary">View Related Category</a>
+            <a href="{% if ns.pharma %}{{ url_for('services', name=ns.pharma.category_name) }}{% else %}{{ url_for('services', name='pharmaceutical-distribution') }}{% endif %}" class="btn btn-outline-secondary">View Related Category</a>
           </div>
           </div>
         </div>
@@ -155,7 +159,10 @@
             <li>Technical review and recommendation support</li>
             <li>Execution-focused consultancy engagement</li>
           </ul>
-          <a href="{{ url_for('contact', head=ns.engineering.category_name) if ns.engineering else url_for('contact') }}" class="btn btn-outline-primary">Book Engineering Consultation</a>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="{{ url_for('contact', head=ns.engineering.category_name) if ns.engineering else url_for('contact') }}" class="btn btn-outline-primary">Book Engineering Consultation</a>
+            <a href="{% if ns.engineering %}{{ url_for('services', name=ns.engineering.category_name) }}{% else %}{{ url_for('services', name='engineering-consultancy') }}{% endif %}" class="btn btn-outline-secondary">View Consultancy Areas</a>
+          </div>
           </div>
         </div>
       </div>
@@ -171,7 +178,10 @@
             <li>Travel documentation guidance</li>
             <li>Coordination for teams and organizational travel</li>
           </ul>
-          <a href="{{ url_for('service_inquiry', service_key='travel-agency') }}" class="btn btn-outline-primary">Request Travel Assistance</a>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="{{ url_for('service_inquiry', service_key='travel-agency') }}" class="btn btn-outline-primary">Request Travel Assistance</a>
+            <a href="{% if ns.travel %}{{ url_for('services', name=ns.travel.category_name) }}{% else %}{{ url_for('services', name='travel-agency') }}{% endif %}" class="btn btn-outline-secondary">View Travel Services</a>
+          </div>
           </div>
         </div>
       </div>
@@ -187,7 +197,10 @@
             <li>Trademark application guidance</li>
             <li>Commission-related documentation support</li>
           </ul>
-          <a href="{{ url_for('service_inquiry', service_key='cac-trademark-commission') }}" class="btn btn-outline-primary">Start Business Support Request</a>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="{{ url_for('service_inquiry', service_key='cac-trademark-commission') }}" class="btn btn-outline-primary">Start Business Support Request</a>
+            <a href="{% if ns.support %}{{ url_for('services', name=ns.support.category_name) }}{% else %}{{ url_for('services', name='cac-trademark-commission') }}{% endif %}" class="btn btn-outline-secondary">View Support Areas</a>
+          </div>
           </div>
         </div>
       </div>
