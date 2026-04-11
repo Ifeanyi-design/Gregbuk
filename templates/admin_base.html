@@ -3,52 +3,261 @@
 {% block title %}{% block admin_title %}Admin Panel{% endblock %}{% endblock %}
 
 {% block style %}
-.admin-shell {
-  padding: 2rem 0 3rem;
-}
-.admin-hero {
-  border-radius: 1rem;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, rgba(2, 27, 69, 0.95), rgba(16, 73, 153, 0.92));
-  color: #fff;
-  margin-bottom: 1.25rem;
-}
-.admin-hero p {
-  color: rgba(255, 255, 255, 0.82);
-}
-.admin-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  margin-bottom: 1.25rem;
-}
-.admin-nav a {
-  text-decoration: none;
-}
-.admin-card {
-  border-radius: 1rem;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-}
-.admin-metric {
-  border-radius: 1rem;
-  padding: 1rem;
-  background: var(--cui-body-bg);
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  height: 100%;
-}
-.admin-table td,
-.admin-table th {
-  vertical-align: middle;
-}
-.admin-table .actions {
-  white-space: nowrap;
-}
-.admin-form-card {
-  border-radius: 1rem;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-}
+  /* Premium Design System */
+  :root {
+    --admin-bg: #050810;
+    --admin-surface: rgba(15, 23, 42, 0.6);
+    --admin-card-bg: rgba(255, 255, 255, 0.03);
+    --admin-accent: #3b82f6;
+    --admin-accent-glow: rgba(59, 130, 246, 0.4);
+    --admin-text-main: #f8fafc;
+    --admin-text-muted: #94a3b8;
+    --admin-glass-border: rgba(255, 255, 255, 0.08);
+    --admin-radius: 1.25rem;
+    --admin-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    background-color: var(--admin-bg) !important;
+    color: var(--admin-text-main) !important;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-image: 
+      radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* Typography */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  .admin-shell {
+    padding: 3rem 0 5rem;
+  }
+
+  .admin-hero {
+    position: relative;
+    border-radius: var(--admin-radius);
+    padding: 2.5rem;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+    border: 1px solid var(--admin-glass-border);
+    backdrop-filter: blur(20px);
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+
+  .admin-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    z-index: 0;
+  }
+
+  .admin-hero > div {
+    position: relative;
+    z-index: 1;
+  }
+
+  .admin-hero h1 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    background: linear-gradient(to right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .admin-hero p {
+    color: var(--admin-text-muted);
+    font-size: 1.1rem;
+    max-width: 600px;
+  }
+
+  .admin-nav {
+    display: flex;
+    padding: 0.5rem;
+    background: var(--admin-surface);
+    border-radius: 1rem;
+    border: 1px solid var(--admin-glass-border);
+    backdrop-filter: blur(10px);
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    position: sticky;
+    top: 1rem;
+    z-index: 1000;
+  }
+
+  .admin-nav a {
+    padding: 0.6rem 1.25rem;
+    border-radius: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--admin-text-muted);
+    transition: var(--admin-transition);
+    border: 1px solid transparent;
+  }
+
+  .admin-nav a:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .admin-nav a.active-link {
+    background: var(--admin-accent);
+    color: #fff;
+    box-shadow: 0 0 20px var(--admin-accent-glow);
+  }
+
+  /* Cards */
+  .admin-card {
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-glass-border);
+    border-radius: var(--admin-radius);
+    backdrop-filter: blur(16px);
+    transition: var(--admin-transition);
+  }
+
+  .admin-card:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-4px);
+  }
+
+  /* Metrics */
+  .admin-metric {
+    background: var(--admin-card-bg);
+    border: 1px solid var(--admin-glass-border);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    transition: var(--admin-transition);
+    text-align: center;
+  }
+
+  .admin-metric:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--admin-accent);
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.1);
+  }
+
+  .admin-metric .value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+    color: #fff;
+  }
+
+  .admin-metric .label {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: var(--admin-text-muted);
+  }
+
+  /* Tables */
+  .admin-table {
+    margin-bottom: 0;
+    color: var(--admin-text-main) !important;
+  }
+
+  .admin-table thead th {
+    background: rgba(255,255,255,0.02);
+    border-bottom: 2px solid var(--admin-glass-border);
+    color: var(--admin-text-muted);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    padding: 1rem 1.5rem;
+  }
+
+  .admin-table tbody tr {
+    transition: var(--admin-transition);
+    border-bottom: 1px solid var(--admin-glass-border);
+  }
+
+  .admin-table tbody tr:hover {
+    background: rgba(255,255,255,0.03);
+  }
+
+  .admin-table td {
+    padding: 1.25rem 1.5rem;
+    vertical-align: middle;
+  }
+
+  /* Buttons */
+  .btn-premium {
+    background: var(--admin-accent);
+    border: none;
+    color: #fff;
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: var(--admin-transition);
+  }
+
+  .btn-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px var(--admin-accent-glow);
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .btn-premium-outline {
+    background: transparent;
+    border: 1px solid var(--admin-glass-border);
+    color: var(--admin-text-main);
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: var(--admin-transition);
+  }
+
+  .btn-premium-outline:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: #fff;
+    color: #fff;
+  }
+
+  /* Forms */
+  .admin-form-card {
+    background: var(--admin-surface);
+    border-radius: var(--admin-radius);
+    padding: 2.5rem;
+    border: 1px solid var(--admin-glass-border);
+  }
+
+  .form-control, .form-select {
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px solid var(--admin-glass-border) !important;
+    color: #fff !important;
+    padding: 0.8rem 1.2rem !important;
+    border-radius: 0.75rem !important;
+    transition: var(--admin-transition) !important;
+  }
+
+  .form-control:focus, .form-select:focus {
+    background: rgba(255,255,255,0.06) !important;
+    border-color: var(--admin-accent) !important;
+    box-shadow: 0 0 15px var(--admin-accent-glow) !important;
+    outline: none !important;
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: var(--admin-text-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease forwards;
+  }
 {% endblock %}
 
 {% block content %}
@@ -56,32 +265,39 @@
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       {% for category, message in messages %}
-        <div class="alert alert-{{ category }} mt-3">{{ message }}</div>
+        <div class="alert alert-{{ category }} animate-fade-in mb-4" style="border-radius: 1rem; background: rgba(0,0,0,0.2); backdrop-filter: blur(10px); border: 1px solid var(--admin-glass-border); color: #fff;">{{ message }}</div>
       {% endfor %}
     {% endif %}
   {% endwith %}
 
-  <section class="admin-hero">
-    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+  <section class="admin-hero animate-fade-in">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
       <div>
-        <h1 class="h3 mb-2">{% block admin_heading %}Admin Panel{% endblock %}</h1>
+        <h1 class="display-6 mb-2">{% block admin_heading %}Admin Panel{% endblock %}</h1>
         <p class="mb-0">{% block admin_subheading %}Manage core site content and internal data from one place.{% endblock %}</p>
       </div>
-      <div class="small text-white-50">
-        Logged in as {{ current_user.username }}
+      <div class="d-flex align-items-center gap-3 glass-user-pill" style="padding: 0.75rem 1.25rem; background: rgba(255,255,255,0.03); border-radius: 100px; border: 1px solid var(--admin-glass-border);">
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--admin-accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem;">
+          {{ current_user.username[0].upper() }}
+        </div>
+        <div class="small fw-500">
+          {{ current_user.username }}
+        </div>
       </div>
     </div>
   </section>
 
-  <nav class="admin-nav">
-    <a href="{{ url_for('admin_dashboard') }}" class="btn {% if the_name == 'admin-dashboard' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">Overview</a>
-    <a href="{{ url_for('admin_services') }}" class="btn {% if the_name == 'admin-services' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">Services</a>
-    <a href="{{ url_for('admin_subservices') }}" class="btn {% if the_name == 'admin-subservices' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">Subservices</a>
-    <a href="{{ url_for('admin_products') }}" class="btn {% if the_name == 'admin-products' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">Products</a>
-    <a href="{{ url_for('admin_headers') }}" class="btn {% if the_name == 'admin-headers' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">Header Links</a>
-    <a href="{{ url_for('admin_database') }}" class="btn {% if the_name == 'admin-database' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">Database View</a>
+  <nav class="admin-nav animate-fade-in">
+    <a href="{{ url_for('admin_dashboard') }}" class="{% if the_name == 'admin-dashboard' %}active-link{% endif %}">Overview</a>
+    <a href="{{ url_for('admin_services') }}" class="{% if the_name == 'admin-services' %}active-link{% endif %}">Services</a>
+    <a href="{{ url_for('admin_subservices') }}" class="{% if the_name == 'admin-subservices' %}active-link{% endif %}">Subservices</a>
+    <a href="{{ url_for('admin_products') }}" class="{% if the_name == 'admin-products' %}active-link{% endif %}">Products</a>
+    <a href="{{ url_for('admin_headers') }}" class="{% if the_name == 'admin-headers' %}active-link{% endif %}">Header Links</a>
+    <a href="{{ url_for('admin_database') }}" class="{% if the_name == 'admin-database' %}active-link{% endif %}">Database View</a>
   </nav>
 
-  {% block admin_content %}{% endblock %}
+  <div class="admin-content-wrapper animate-fade-in">
+    {% block admin_content %}{% endblock %}
+  </div>
 </div>
 {% endblock %}

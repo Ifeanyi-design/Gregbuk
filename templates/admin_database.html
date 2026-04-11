@@ -5,19 +5,30 @@
 {% block admin_subheading %}Quick read-only visibility into users, contacts, messages, and transactions.{% endblock %}
 
 {% block admin_content %}
-<div class="row g-4">
+<div class="row g-5">
   <div class="col-12">
     <div class="card admin-card">
-      <div class="card-body">
-        <h2 class="h5 mb-3">Users</h2>
+      <div class="card-body p-4">
+        <h2 class="h5 mb-4" style="font-weight: 600; letter-spacing: -0.01em;">User Directory</h2>
         <div class="table-responsive">
-          <table class="table table-sm admin-table">
-            <thead><tr><th>ID</th><th>Username</th><th>Email</th><th>Verified</th></tr></thead>
+          <table class="table admin-table">
+            <thead><tr><th>ID</th><th>Username</th><th>Email</th><th>Status</th></tr></thead>
             <tbody>
               {% for user in users %}
-              <tr><td>{{ user.id }}</td><td>{{ user.username }}</td><td>{{ user.email }}</td><td>{{ 'Yes' if user.verified else 'No' }}</td></tr>
+              <tr>
+                <td class="text-muted small fw-500">#{{ user.id }}</td>
+                <td class="fw-600">{{ user.username }}</td>
+                <td class="text-muted">{{ user.email }}</td>
+                <td>
+                  {% if user.verified %}
+                  <span class="badge" style="background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); font-size: 0.65rem;">VERIFIED</span>
+                  {% else %}
+                  <span class="badge" style="background: rgba(245, 158, 11, 0.1); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.2); font-size: 0.65rem;">PENDING</span>
+                  {% endif %}
+                </td>
+              </tr>
               {% else %}
-              <tr><td colspan="4" class="text-muted">No users found.</td></tr>
+              <tr><td colspan="4" class="text-muted text-center py-4">No users found in database.</td></tr>
               {% endfor %}
             </tbody>
           </table>
@@ -28,16 +39,21 @@
 
   <div class="col-12">
     <div class="card admin-card">
-      <div class="card-body">
-        <h2 class="h5 mb-3">Contacts</h2>
+      <div class="card-body p-4">
+        <h2 class="h5 mb-4" style="font-weight: 600; letter-spacing: -0.01em;">Contact Records</h2>
         <div class="table-responsive">
-          <table class="table table-sm admin-table">
-            <thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Created</th></tr></thead>
+          <table class="table admin-table">
+            <thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Date Created</th></tr></thead>
             <tbody>
               {% for contact in contacts %}
-              <tr><td>{{ contact.id }}</td><td>{{ contact.name or 'No name' }}</td><td>{{ contact.phone }}</td><td>{{ contact.created_at.strftime('%Y-%m-%d %H:%M') if contact.created_at else '-' }}</td></tr>
+              <tr>
+                <td class="text-muted small fw-500">#{{ contact.id }}</td>
+                <td class="fw-600">{{ contact.name or 'General Inquiry' }}</td>
+                <td class="text-muted">{{ contact.phone }}</td>
+                <td class="small">{{ contact.created_at.strftime('%b %d, %Y %H:%M') if contact.created_at else '-' }}</td>
+              </tr>
               {% else %}
-              <tr><td colspan="4" class="text-muted">No contacts found.</td></tr>
+              <tr><td colspan="4" class="text-muted text-center py-4">No contact records found.</td></tr>
               {% endfor %}
             </tbody>
           </table>
@@ -48,16 +64,23 @@
 
   <div class="col-12">
     <div class="card admin-card">
-      <div class="card-body">
-        <h2 class="h5 mb-3">Messages</h2>
+      <div class="card-body p-4">
+        <h2 class="h5 mb-4" style="font-weight: 600; letter-spacing: -0.01em;">Message Archive</h2>
         <div class="table-responsive">
-          <table class="table table-sm admin-table">
-            <thead><tr><th>ID</th><th>Name</th><th>Status</th><th>Preview</th></tr></thead>
+          <table class="table admin-table">
+            <thead><tr><th>ID</th><th>Sender</th><th>Status</th><th>Preview</th></tr></thead>
             <tbody>
               {% for message in messages %}
-              <tr><td>{{ message.id }}</td><td>{{ message.name }}</td><td>{{ message.status }}</td><td>{{ summarize_text(message.message, 90) }}</td></tr>
+              <tr>
+                <td class="text-muted small fw-500">#{{ message.id }}</td>
+                <td class="fw-600">{{ message.name }}</td>
+                <td>
+                  <span class="badge" style="background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); font-size: 0.65rem;">{{ message.status|upper }}</span>
+                </td>
+                <td class="text-muted small" style="max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ summarize_text(message.message, 120) }}</td>
+              </tr>
               {% else %}
-              <tr><td colspan="4" class="text-muted">No messages found.</td></tr>
+              <tr><td colspan="4" class="text-muted text-center py-4">Message archive is empty.</td></tr>
               {% endfor %}
             </tbody>
           </table>
@@ -68,22 +91,24 @@
 
   <div class="col-12">
     <div class="card admin-card">
-      <div class="card-body">
-        <h2 class="h5 mb-3">Transactions</h2>
+      <div class="card-body p-4">
+        <h2 class="h5 mb-4" style="font-weight: 600; letter-spacing: -0.01em;">Transaction Ledger</h2>
         <div class="table-responsive">
-          <table class="table table-sm admin-table">
-            <thead><tr><th>ID</th><th>User</th><th>Amount</th><th>Status</th><th>Timestamp</th></tr></thead>
+          <table class="table admin-table">
+            <thead><tr><th>Ref ID</th><th>User</th><th>Amount</th><th>Status</th><th>Timestamp</th></tr></thead>
             <tbody>
               {% for txn in transactions %}
               <tr>
-                <td>{{ txn.id }}</td>
-                <td>{{ txn.user.username if txn.user else '-' }}</td>
-                <td>{{ txn.amount }}</td>
-                <td>{{ txn.status }}</td>
-                <td>{{ txn.timestamp.strftime('%Y-%m-%d %H:%M') if txn.timestamp else '-' }}</td>
+                <td class="small fw-600">TXN-{{ txn.id }}</td>
+                <td class="fw-500">{{ txn.user.username if txn.user else 'Guest' }}</td>
+                <td class="fw-700 text-white">{{ txn.amount }}</td>
+                <td>
+                  <span class="badge" style="background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); font-size: 0.65rem;">{{ txn.status|upper }}</span>
+                </td>
+                <td class="small text-muted">{{ txn.timestamp.strftime('%b %d, %Y %H:%M') if txn.timestamp else '-' }}</td>
               </tr>
               {% else %}
-              <tr><td colspan="5" class="text-muted">No transactions found.</td></tr>
+              <tr><td colspan="5" class="text-muted text-center py-4">No transaction history found.</td></tr>
               {% endfor %}
             </tbody>
           </table>

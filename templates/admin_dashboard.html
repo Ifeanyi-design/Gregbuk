@@ -5,26 +5,66 @@
 {% block admin_subheading %}Manage public-site content, inspect core records, and run internal maintenance tools.{% endblock %}
 
 {% block admin_content %}
-<div class="row g-3 mb-4">
-  <div class="col-md-6 col-xl-3"><div class="admin-metric"><div class="text-muted small">Services</div><div class="h3 mb-0">{{ metrics.services }}</div></div></div>
-  <div class="col-md-6 col-xl-3"><div class="admin-metric"><div class="text-muted small">Subservices</div><div class="h3 mb-0">{{ metrics.subservices }}</div></div></div>
-  <div class="col-md-6 col-xl-3"><div class="admin-metric"><div class="text-muted small">Products</div><div class="h3 mb-0">{{ metrics.products }}</div></div></div>
-  <div class="col-md-6 col-xl-3"><div class="admin-metric"><div class="text-muted small">Users</div><div class="h3 mb-0">{{ metrics.users }}</div></div></div>
-  <div class="col-md-6 col-xl-3"><div class="admin-metric"><div class="text-muted small">Contacts</div><div class="h3 mb-0">{{ metrics.contacts }}</div></div></div>
-  <div class="col-md-6 col-xl-3"><div class="admin-metric"><div class="text-muted small">Messages</div><div class="h3 mb-0">{{ metrics.messages }}</div></div></div>
-  <div class="col-md-6 col-xl-3"><div class="admin-metric"><div class="text-muted small">Transactions</div><div class="h3 mb-0">{{ metrics.transactions }}</div></div></div>
-  <div class="col-md-6 col-xl-3"><div class="admin-metric"><div class="text-muted small">Header Links</div><div class="h3 mb-0">{{ metrics.headers }}</div></div></div>
+<div class="row g-4 mb-5">
+  <div class="col-md-6 col-xl-3">
+    <div class="admin-metric">
+      <div class="label">Services</div>
+      <div class="value">{{ metrics.services }}</div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <div class="admin-metric">
+      <div class="label">Subservices</div>
+      <div class="value">{{ metrics.subservices }}</div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <div class="admin-metric">
+      <div class="label">Products</div>
+      <div class="value">{{ metrics.products }}</div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <div class="admin-metric">
+      <div class="label">Users</div>
+      <div class="value">{{ metrics.users }}</div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <div class="admin-metric">
+      <div class="label">Contacts</div>
+      <div class="value">{{ metrics.contacts }}</div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <div class="admin-metric">
+      <div class="label">Messages</div>
+      <div class="value">{{ metrics.messages }}</div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <div class="admin-metric">
+      <div class="label">Transactions</div>
+      <div class="value">{{ metrics.transactions }}</div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <div class="admin-metric">
+      <div class="label">Headers</div>
+      <div class="value">{{ metrics.headers }}</div>
+    </div>
+  </div>
 </div>
 
-<div class="card admin-card mb-4">
-  <div class="card-body">
-    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+<div class="card admin-card mb-5">
+  <div class="card-body p-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
       <div>
-        <h2 class="h5 mb-1">Corporate Seed Tools</h2>
-        <p class="text-muted mb-0">Refresh the newer corporate service branches for a fresh or updated database.</p>
+        <h2 class="h4 mb-1" style="font-weight: 600;">Corporate Seed Tools</h2>
+        <p class="text-muted mb-0">Synchronize and refresh the corporate service database branches.</p>
       </div>
       <form method="POST" action="{{ url_for('admin_seed_targeted_services') }}">
-        <button type="submit" class="btn btn-primary">Run Targeted Service Seed</button>
+        <button type="submit" class="btn-premium">Run Maintenance Sync</button>
       </form>
     </div>
   </div>
@@ -33,16 +73,19 @@
 <div class="row g-4">
   <div class="col-xl-4">
     <div class="card admin-card h-100">
-      <div class="card-body">
-        <h2 class="h5 mb-3">Latest Users</h2>
+      <div class="card-body p-4">
+        <h2 class="h5 mb-4" style="font-weight: 600;">Latest Users</h2>
         <div class="table-responsive">
-          <table class="table table-sm admin-table">
-            <thead><tr><th>ID</th><th>Username</th><th>Email</th></tr></thead>
+          <table class="table admin-table">
+            <thead><tr><th>ID</th><th>Username</th></tr></thead>
             <tbody>
               {% for user in latest_users %}
-              <tr><td>{{ user.id }}</td><td>{{ user.username }}</td><td>{{ user.email }}</td></tr>
+              <tr>
+                <td class="text-muted small fw-500">#{{ user.id }}</td>
+                <td class="fw-600">{{ user.username }}</td>
+              </tr>
               {% else %}
-              <tr><td colspan="3" class="text-muted">No users found.</td></tr>
+              <tr><td colspan="2" class="text-muted text-center py-4">No users found.</td></tr>
               {% endfor %}
             </tbody>
           </table>
@@ -52,16 +95,19 @@
   </div>
   <div class="col-xl-4">
     <div class="card admin-card h-100">
-      <div class="card-body">
-        <h2 class="h5 mb-3">Latest Contacts</h2>
+      <div class="card-body p-4">
+        <h2 class="h5 mb-4" style="font-weight: 600;">Recent Contacts</h2>
         <div class="table-responsive">
-          <table class="table table-sm admin-table">
-            <thead><tr><th>ID</th><th>Name</th><th>Phone</th></tr></thead>
+          <table class="table admin-table">
+            <thead><tr><th>Name</th><th>Phone</th></tr></thead>
             <tbody>
               {% for contact in latest_contacts %}
-              <tr><td>{{ contact.id }}</td><td>{{ contact.name or 'No name' }}</td><td>{{ contact.phone }}</td></tr>
+              <tr>
+                <td class="fw-600">{{ contact.name or 'Inquiry' }}</td>
+                <td class="text-muted small">{{ contact.phone }}</td>
+              </tr>
               {% else %}
-              <tr><td colspan="3" class="text-muted">No contacts found.</td></tr>
+              <tr><td colspan="2" class="text-muted text-center py-4">No contacts found.</td></tr>
               {% endfor %}
             </tbody>
           </table>
@@ -71,16 +117,21 @@
   </div>
   <div class="col-xl-4">
     <div class="card admin-card h-100">
-      <div class="card-body">
-        <h2 class="h5 mb-3">Latest Messages</h2>
+      <div class="card-body p-4">
+        <h2 class="h5 mb-4" style="font-weight: 600;">Inbox Preview</h2>
         <div class="table-responsive">
-          <table class="table table-sm admin-table">
-            <thead><tr><th>ID</th><th>Name</th><th>Status</th></tr></thead>
+          <table class="table admin-table">
+            <thead><tr><th>From</th><th>Status</th></tr></thead>
             <tbody>
               {% for msg in latest_messages %}
-              <tr><td>{{ msg.id }}</td><td>{{ msg.name }}</td><td>{{ msg.status }}</td></tr>
+              <tr>
+                <td class="fw-600">{{ msg.name }}</td>
+                <td>
+                  <span class="badge" style="background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em;">{{ msg.status }}</span>
+                </td>
+              </tr>
               {% else %}
-              <tr><td colspan="3" class="text-muted">No messages found.</td></tr>
+              <tr><td colspan="2" class="text-muted text-center py-4">Inbox is empty.</td></tr>
               {% endfor %}
             </tbody>
           </table>
