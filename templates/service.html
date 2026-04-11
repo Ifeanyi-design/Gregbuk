@@ -1,5 +1,55 @@
 {% extends "base.html" %}
-{% block title %}{{ the_data.name }}{% endblock %}
+{% set hero_image = the_data.image_url if the_data.image_url else 'placeholders/operations.svg' %}
+{% block title %}{{ the_data.name }} | Services | Gregbuk Intl Company Ltd{% endblock %}
+{% block meta_description %}Explore {{ the_data.name }} services from Gregbuk Intl Company Ltd in Lagos, Nigeria. {{ the_data.description|default('Browse service capabilities, request support, and discover related service areas for your organization.', true)|striptags }}{% endblock %}
+{% block og_title %}{{ the_data.name }} | Gregbuk Intl Company Ltd{% endblock %}
+{% block og_description %}{{ the_data.description|default('Corporate service category from Gregbuk Intl Company Ltd in Lagos, Nigeria.', true)|striptags }}{% endblock %}
+{% block og_image %}{% if '://' in hero_image %}{{ hero_image }}{% else %}{{ url_for('static', filename='images/' + hero_image, _external=True) }}{% endif %}{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": {{ the_data.name|tojson }},
+      "description": {{ (the_data.description or 'Corporate service category from Gregbuk Intl Company Ltd in Lagos, Nigeria.')|striptags|tojson }},
+      "provider": {
+        "@id": "{{ request.url_root.rstrip('/') }}#organization"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Nigeria"
+      },
+      "url": "{{ request.base_url }}"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "{{ url_for('home', _external=True) }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "{{ url_for('all', _external=True) }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": {{ the_data.name|tojson }},
+          "item": "{{ request.base_url }}"
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <main class="container-xl service-main pb-5">
@@ -28,7 +78,7 @@
 
   <section class="service-hero page-hero p-4 p-md-5 mb-4">
     <div class="row g-4 align-items-center">
-      <div class="col-lg-8">
+      <div class="col-lg-7">
         <p class="text-uppercase fw-semibold mb-2 opacity-75">
           {{ "Professional Service Category" if mode == "inquiry" else "Service Category" }}
         </p>
@@ -38,14 +88,19 @@
         </p>
         <a href="{{ inquiry_url_for_service(the_data) }}" class="btn btn-light btn-lg px-4">{{ cta.primary }}</a>
       </div>
-      <div class="col-lg-4">
-        <div class="capability-card p-3 p-md-4 text-dark">
-          <h6 class="section-title">Category Snapshot</h6>
-          <ul class="mb-0">
-            <li>{{ "Subservice groups available" if has_subservices else ("Service areas available" if mode == "inquiry" else "Direct offerings available") }}</li>
-            <li>{{ "Consultative delivery and advisory support" if mode == "inquiry" else "Corporate delivery and support model" }}</li>
-            <li>{{ "Inquiry-first engagement workflow" if mode == "inquiry" else "Structured quote and delivery workflow" }}</li>
-          </ul>
+      <div class="col-lg-5">
+        <div class="hero-media service-hero-media">
+          <img src="{% if '://' in hero_image %}{{ hero_image }}{% else %}{{ url_for('static', filename='images/' + hero_image) }}{% endif %}" alt="{{ the_data.name }} service category visual" class="hero-fallback">
+          <div class="hero-media-badges">
+            <span>{{ "Subservices" if has_subservices else "Offerings" }}</span>
+            <span>{{ "Inquiry-led" if mode == "inquiry" else "Browseable" }}</span>
+            <span>Corporate Support</span>
+          </div>
+        </div>
+        <div class="service-hero-glance mt-3">
+          <span class="glance-badge">{{ "Subservice groups available" if has_subservices else ("Service areas available" if mode == "inquiry" else "Direct offerings available") }}</span>
+          <span class="glance-badge">{{ "Consultative delivery and advisory support" if mode == "inquiry" else "Corporate delivery and support model" }}</span>
+          <span class="glance-badge">{{ "Inquiry-first engagement workflow" if mode == "inquiry" else "Structured quote and delivery workflow" }}</span>
         </div>
       </div>
     </div>
@@ -93,7 +148,7 @@
           {% set sub_image = sub.image_url if sub.image_url else 'placeholders/operations.svg' %}
           <div class="col-md-6 col-xl-4">
             <div class="child-card overflow-hidden">
-              <img src="{% if '://' in sub_image %}{{ sub_image }}{% else %}{{ url_for('static', filename='images/' + sub_image) }}{% endif %}" class="w-100" alt="{{ sub.name }}">
+              <img src="{% if '://' in sub_image %}{{ sub_image }}{% else %}{{ url_for('static', filename='images/' + sub_image) }}{% endif %}" class="w-100" alt="{{ sub.name }} service group at Gregbuk Intl Company Ltd">
               <div class="p-3">
                 <h5>{{ sub.name }}</h5>
                 <p class="text-muted mb-3">{{ sub.description or "Service grouping within this category." }}</p>
@@ -107,7 +162,7 @@
           {% set product_image = pro.image_url if pro.image_url else 'placeholders/operations.svg' %}
           <div class="col-md-6 col-xl-4">
             <div class="child-card overflow-hidden">
-              <img src="{% if '://' in product_image %}{{ product_image }}{% else %}{{ url_for('static', filename='images/' + product_image) }}{% endif %}" class="w-100" alt="{{ pro.name }}">
+              <img src="{% if '://' in product_image %}{{ product_image }}{% else %}{{ url_for('static', filename='images/' + product_image) }}{% endif %}" class="w-100" alt="{{ pro.name }} service offering from Gregbuk Intl Company Ltd">
               <div class="p-3">
                 <h5>{{ pro.name }}</h5>
                 <p class="text-muted mb-3">{{ pro.description or ("Professional service area within this category." if mode == "inquiry" else "Service offering within this category.") }}</p>
@@ -158,7 +213,7 @@
         {% set svc_image = svc.image_url if svc.image_url else 'placeholders/operations.svg' %}
         <div class="col-md-6 col-lg-4">
           <div class="related-card overflow-hidden">
-            <img src="{% if '://' in svc_image %}{{ svc_image }}{% else %}{{ url_for('static', filename='images/' + svc_image) }}{% endif %}" class="w-100" alt="{{ svc.name }}">
+            <img src="{% if '://' in svc_image %}{{ svc_image }}{% else %}{{ url_for('static', filename='images/' + svc_image) }}{% endif %}" class="w-100" alt="{{ svc.name }} related service at Gregbuk Intl Company Ltd">
             <div class="p-3">
               <h6 class="mb-2">{{ svc.name }}</h6>
               <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('services', name=svc.category_name) }}">Explore</a>

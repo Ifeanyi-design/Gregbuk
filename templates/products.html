@@ -1,5 +1,76 @@
 {% extends "base.html" %}
-{% block title %}{{ the_data.name }}{% endblock %}
+{% set parent_service = the_data.subservice.services if the_data.subservice else the_data.services %}
+{% set parent_sub = the_data.subservice %}
+{% set sibling_products = parent_sub.products if parent_sub else parent_service.products %}
+{% set primary_image = the_data.image_collections[0].image_collections if the_data.image_collections|length > 0 else (the_data.image_url if the_data.image_url else 'placeholders/operations.svg') %}
+{% block title %}{{ the_data.name }} | Gregbuk Intl Company Ltd{% endblock %}
+{% block meta_description %}Explore {{ the_data.name }} from Gregbuk Intl Company Ltd in Lagos, Nigeria. {{ the_data.description|default('Review this service detail, browse related offerings, and submit a request for your organization.', true)|striptags }}{% endblock %}
+{% block og_title %}{{ the_data.name }} | Gregbuk Intl Company Ltd{% endblock %}
+{% block og_description %}{{ the_data.description|default('Service detail from Gregbuk Intl Company Ltd in Lagos, Nigeria.', true)|striptags }}{% endblock %}
+{% block og_image %}{% if '://' in primary_image %}{{ primary_image }}{% else %}{{ url_for('static', filename='images/' + primary_image, _external=True) }}{% endif %}{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": {{ the_data.name|tojson }},
+      "description": {{ (the_data.description or 'Service detail from Gregbuk Intl Company Ltd in Lagos, Nigeria.')|striptags|tojson }},
+      "provider": {
+        "@id": "{{ request.url_root.rstrip('/') }}#organization"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Nigeria"
+      },
+      "url": "{{ request.base_url }}"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "{{ url_for('home', _external=True) }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "{{ url_for('all', _external=True) }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": {{ parent_service.name|tojson }},
+          "item": "{{ url_for('services', name=parent_service.category_name, _external=True) }}"
+        }{% if parent_sub %},
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": {{ parent_sub.name|tojson }},
+          "item": "{{ url_for('services', name=parent_service.category_name, sec=parent_sub.category_name, _external=True) }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": {{ the_data.name|tojson }},
+          "item": "{{ request.base_url }}"
+        }{% else %},
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": {{ the_data.name|tojson }},
+          "item": "{{ request.base_url }}"
+        }{% endif %}
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <main class="container-xl product-main pb-5">
@@ -13,10 +84,6 @@
     "quick_label": "Related Offerings",
     "section_hint": "Browse available items and select one to view details."
   } %}
-  {% set parent_service = the_data.subservice.services if the_data.subservice else the_data.services %}
-  {% set parent_sub = the_data.subservice %}
-  {% set sibling_products = parent_sub.products if parent_sub else parent_service.products %}
-  {% set primary_image = the_data.image_collections[0].image_collections if the_data.image_collections|length > 0 else (the_data.image_url if the_data.image_url else 'placeholders/operations.svg') %}
 
   <section class="mb-3">
     <nav aria-label="breadcrumb">
@@ -34,13 +101,28 @@
 
   <section class="product-hero page-hero p-4 p-md-5 mb-4">
     <div class="row g-4 align-items-center">
-      <div class="col-lg-8">
+      <div class="col-lg-7">
         <p class="text-uppercase fw-semibold mb-2 opacity-75">{{ parent_service.name }}</p>
         <h1 class="display-6 fw-bold mb-3">{{ the_data.name }}</h1>
         <p class="lead mb-4">
           {{ the_data.description or ("Professional service brief with consultation-led engagement and delivery guidance." if mode == "inquiry" else "Detailed offering page with practical delivery support and inquiry-based engagement.") }}
         </p>
         <a href="{{ inquiry_url_for_service(parent_service) }}" class="btn btn-light btn-lg px-4">{{ cta.secondary }}</a>
+      </div>
+      <div class="col-lg-5">
+        <div class="hero-media service-hero-media">
+          <img src="{% if '://' in primary_image %}{{ primary_image }}{% else %}{{ url_for('static', filename='images/' + primary_image) }}{% endif %}" alt="{{ the_data.name }} detail visual" class="hero-fallback">
+          <div class="hero-media-badges">
+            <span>{{ "Inquiry-led" if mode == "inquiry" else "Detail View" }}</span>
+            <span>{{ parent_sub.name if parent_sub else parent_service.name }}</span>
+            <span>Gregbuk Support</span>
+          </div>
+        </div>
+        <div class="service-hero-glance mt-3">
+          <span class="glance-badge">{{ "Professional request pathway" if mode == "inquiry" else "Structured service detail page" }}</span>
+          <span class="glance-badge">{{ "Tailored guidance and response" if mode == "inquiry" else "Browse, review, and request a quote" }}</span>
+          <span class="glance-badge">{{ "Corporate delivery continuity" if mode == "inquiry" else "Operational support available" }}</span>
+        </div>
       </div>
     </div>
   </section>
@@ -81,14 +163,14 @@
     <div class="row g-3 g-md-4">
       <div class="col-lg-7">
         <div class="main-image">
-          <img src="{% if '://' in primary_image %}{{ primary_image }}{% else %}{{ url_for('static', filename='images/' + primary_image) }}{% endif %}" alt="{{ the_data.name }}">
+          <img src="{% if '://' in primary_image %}{{ primary_image }}{% else %}{{ url_for('static', filename='images/' + primary_image) }}{% endif %}" alt="{{ the_data.name }} service detail from Gregbuk Intl Company Ltd">
         </div>
         {% if mode != "inquiry" and the_data.image_collections|length > 1 %}
           <div class="row g-2 mt-2">
             {% for image_item in the_data.image_collections[1:5] %}
               <div class="col-3">
                 <div class="thumb-image">
-                  <img src="{% if '://' in image_item.image_collections %}{{ image_item.image_collections }}{% else %}{{ url_for('static', filename='images/' + image_item.image_collections) }}{% endif %}" alt="{{ the_data.name }} gallery image">
+                  <img src="{% if '://' in image_item.image_collections %}{{ image_item.image_collections }}{% else %}{{ url_for('static', filename='images/' + image_item.image_collections) }}{% endif %}" alt="{{ the_data.name }} gallery view from Gregbuk Intl Company Ltd">
                 </div>
               </div>
             {% endfor %}
@@ -139,7 +221,7 @@
         {% set related_image = pro.image_url if pro.image_url else 'placeholders/operations.svg' %}
         <div class="col-md-6 col-lg-4">
           <div class="related-card">
-            <img src="{% if '://' in related_image %}{{ related_image }}{% else %}{{ url_for('static', filename='images/' + related_image) }}{% endif %}" alt="{{ pro.name }}">
+            <img src="{% if '://' in related_image %}{{ related_image }}{% else %}{{ url_for('static', filename='images/' + related_image) }}{% endif %}" alt="{{ pro.name }} related offering from Gregbuk Intl Company Ltd">
             <div class="p-3">
               <h6 class="mb-2">{{ pro.name }}</h6>
               <a class="btn btn-outline-secondary btn-sm"

@@ -3,6 +3,7 @@
 {% block meta_description %}Contact Gregbuk Intl Company Ltd for corporate services in Lagos, Nigeria. Reach us by phone, email, WhatsApp, or submit a general business inquiry.{% endblock %}
 {% block og_title %}Contact Gregbuk Intl Company Ltd{% endblock %}
 {% block og_description %}General business inquiries, corporate support, and service consultations.{% endblock %}
+{% block og_image %}{{ url_for('static', filename='images/contact_us_now.jpg', _external=True) }}{% endblock %}
 
 {% block content %}
 <main class="container-xl contact-main pb-5">
@@ -109,6 +110,18 @@
       <div class="col-md-6 col-lg-4"><a class="support-pill d-block text-decoration-none text-reset" href="{{ url_for('service_inquiry', service_key='travel-agency') }}"><h6 class="mb-1">Travel Agency</h6><p class="text-muted mb-0">Request travel assistance</p></a></div>
       <div class="col-md-6 col-lg-4"><a class="support-pill d-block text-decoration-none text-reset" href="{{ url_for('service_inquiry', service_key='cac-trademark-commission') }}"><h6 class="mb-1">CAC / Trademark / Commission</h6><p class="text-muted mb-0">Start business support request</p></a></div>
       <div class="col-md-6 col-lg-4"><a class="support-pill d-block text-decoration-none text-reset" href="{{ url_for('service_inquiry', service_key='pharmaceutical-distribution') }}"><h6 class="mb-1">Pharmaceutical Distribution</h6><p class="text-muted mb-0">Submit pharma inquiry</p></a></div>
+    </div>
+  </section>
+
+  <section class="mt-5">
+    <div class="facts-card p-4">
+      <h2 class="h4 section-title mb-2">Need More Context First?</h2>
+      <p class="mb-3">Explore our company profile, leadership, and full services overview before sending your inquiry.</p>
+      <div class="d-flex flex-wrap gap-2">
+        <a href="{{ url_for('about_us') }}" class="btn btn-outline-primary">About Gregbuk</a>
+        <a href="{{ url_for('all') }}" class="btn btn-outline-primary">View Services</a>
+        <a href="{{ url_for('leadership') }}" class="btn btn-outline-primary">Leadership Team</a>
+      </div>
     </div>
   </section>
 </main>

@@ -1,8 +1,9 @@
 {% extends "base.html" %}
-{% block title %}{{ inquiry_config.headline }}{% endblock %}
-{% block meta_description %}{{ inquiry_config.description }} Request support from Gregbuk Intl Company Ltd in Lagos, Nigeria.{% endblock %}
+{% block title %}{{ inquiry_config.headline }} | Gregbuk Intl Company Ltd{% endblock %}
+{% block meta_description %}{{ inquiry_config.description }} Request support from Gregbuk Intl Company Ltd in Lagos, Nigeria through this dedicated {{ inquiry_config.service_label|lower }} inquiry form.{% endblock %}
 {% block og_title %}{{ inquiry_config.headline }} | Gregbuk Intl Company Ltd{% endblock %}
 {% block og_description %}{{ inquiry_config.description }}{% endblock %}
+{% block og_image %}{{ url_for('static', filename=inquiry_config.hero_image|default('images/placeholders/operations.svg'), _external=True) }}{% endblock %}
 
 {% block content %}
 <main class="container-xl contact-main pb-5 inquiry-flow inquiry-theme-{{ inquiry_config.theme|default('default') }}">

@@ -3,6 +3,7 @@
 {% block meta_description %}Meet the leadership team of Gregbuk Intl Company Ltd, a family-led corporate services company in Lagos, Nigeria.{% endblock %}
 {% block og_title %}Leadership Team | Gregbuk Intl Company Ltd{% endblock %}
 {% block og_description %}Family-led governance across executive management, business development, operations, and technology oversight.{% endblock %}
+{% block og_image %}{{ url_for('static', filename='images/about_us_machinery.jpeg', _external=True) }}{% endblock %}
 
 {% block content %}
 <main class="container-xl leadership-main pb-5">
@@ -81,6 +82,18 @@
           </ul>
           <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Contact Leadership Office</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-5">
+    <div class="facts-card p-4">
+      <h2 class="h4 section-title mb-2">Continue Exploring Gregbuk</h2>
+      <p class="mb-3">Review our company profile, explore service divisions, or contact the team for a business conversation.</p>
+      <div class="d-flex flex-wrap gap-2">
+        <a href="{{ url_for('about_us') }}" class="btn btn-outline-primary">About Us</a>
+        <a href="{{ url_for('all') }}" class="btn btn-outline-primary">Our Services</a>
+        <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Contact Us</a>
       </div>
     </div>
   </section>

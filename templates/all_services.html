@@ -3,6 +3,9 @@
 {% block meta_description %}Explore Gregbuk Intl Company Ltd corporate service divisions: general contracts, printing and supplies, digital ID solutions, machine sales and consumables, pharmaceutical distribution, engineering consultancy, travel agency, and CAC/trademark services.{% endblock %}
 {% block og_title %}Corporate Services | Gregbuk Intl Company Ltd{% endblock %}
 {% block og_description %}Business-focused service divisions for institutions, SMEs, healthcare, corporate offices, and public-sector operations in Nigeria.{% endblock %}
+{% block og_image %}{{ url_for('static', filename='images/print_about_us.webp', _external=True) }}{% endblock %}
+{% block twitter_title %}Services | Gregbuk Intl Company Ltd{% endblock %}
+{% block twitter_description %}Explore Gregbuk service divisions in Lagos, Nigeria including digital ID printing, machine sales, printing and supplies, distribution, consultancy, travel, and business support.{% endblock %}
 
 {% block content %}
 <main class="container-xl services-main pb-5">
@@ -19,11 +22,26 @@
   {% endfor %}
 
   <section class="services-hero page-hero p-4 p-md-5 mb-4 mb-md-5">
-    <div class="row">
-      <div class="col-lg-9">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-7">
         <p class="text-uppercase fw-semibold mb-2 opacity-75">Service Divisions</p>
         <h1 class="display-5 fw-bold mb-3">Corporate Service Divisions</h1>
-        <p class="lead mb-0">Gregbuk Intl Company Ltd provides coordinated, multi-service support for organizations that need reliable execution and responsive partnership.</p>
+        <p class="lead mb-4">Gregbuk Intl Company Ltd provides coordinated, multi-service support for organizations that need reliable execution and responsive partnership.</p>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg px-4">Discuss Your Needs</a>
+          <a href="#digital-id-solutions" class="btn btn-outline-primary btn-lg px-4">See Digital ID Solutions</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="hero-media service-hero-media">
+          <img src="{{ url_for('static', filename='images/print_about_us.webp') }}" alt="Gregbuk service delivery, coordination, and company operations" class="hero-fallback">
+          <div class="hero-media-badges">
+            <span>Printing</span>
+            <span>Digital ID</span>
+            <span>Machines</span>
+            <span>Consultancy</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -35,7 +53,9 @@
   <section class="mb-5">
     <div class="row g-3 g-md-4">
       <div class="col-lg-6">
-        <div class="service-group-card p-4 h-100">
+        <div class="service-group-card service-division-card overflow-hidden h-100">
+          <img src="{{ url_for('static', filename='images/placeholders/operations.svg') }}" alt="General contracts and project execution support" loading="lazy">
+          <div class="p-4">
           <h2 class="h4 section-title mb-2">General Contracts</h2>
           <p class="text-muted mb-3">Structured project support for institutions and business operations requiring dependable delivery management.</p>
           <ul class="mb-4">
@@ -44,11 +64,14 @@
             <li>Timeline and quality-focused delivery handling</li>
           </ul>
           <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Request Contract Consultation</a>
+          </div>
         </div>
       </div>
 
       <div class="col-lg-6">
-        <div class="service-group-card p-4 h-100">
+        <div class="service-group-card service-division-card overflow-hidden h-100">
+          <img src="{{ url_for('static', filename='images/marketing-essentials.jpeg') }}" alt="Printing and supplies, branded materials, and operational print support" loading="lazy">
+          <div class="p-4">
           <h2 class="h4 section-title mb-2">Printing & Supplies</h2>
           <p class="text-muted mb-3">Business print production and supply continuity for daily operations, campaigns, and institutional needs.</p>
           <ul class="mb-4">
@@ -60,11 +83,14 @@
             <a href="{{ url_for('service_inquiry', service_key='printing-supplies') }}" class="btn btn-outline-primary">Request Print Service</a>
             <a href="{% if ns.printing %}{{ url_for('services', name=ns.printing.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-secondary">Browse Related Pages</a>
           </div>
+          </div>
         </div>
       </div>
 
       <div class="col-lg-6">
-        <div class="service-group-card p-4 h-100" id="digital-id-solutions">
+        <div class="service-group-card service-division-card overflow-hidden h-100" id="digital-id-solutions">
+          <img src="{{ url_for('static', filename='images/id_cards.jpeg') }}" alt="Digital ID printing systems, secure cards, and issuance support" loading="lazy">
+          <div class="p-4">
           <h2 class="h4 section-title mb-2">Digital ID Solutions</h2>
           <p class="text-muted mb-3">End-to-end ID printing systems for schools, healthcare, enterprises, and public institutions.</p>
           <ul class="mb-4">
@@ -76,11 +102,14 @@
             <a href="{{ url_for('service_inquiry', service_key='digital-id-solutions') }}" class="btn btn-outline-primary">Request ID Solution</a>
             <a href="{% if ns.cards %}{{ url_for('services', name=ns.cards.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-secondary">Browse ID Category</a>
           </div>
+          </div>
         </div>
       </div>
 
       <div class="col-lg-6">
-        <div class="service-group-card p-4 h-100">
+        <div class="service-group-card service-division-card overflow-hidden h-100">
+          <img src="{{ url_for('static', filename='images/about_us_machinery.jpeg') }}" alt="Machines, setup guidance, and consumables for ID and print operations" loading="lazy">
+          <div class="p-4">
           <h2 class="h4 section-title mb-2">Machine Sales & Consumables</h2>
           <p class="text-muted mb-3">Machine sourcing and consumables support for ID and printing operations.</p>
           <ul class="mb-4">
@@ -92,11 +121,14 @@
             <a href="{{ url_for('service_inquiry', service_key='machine-sales-consumables') }}" class="btn btn-outline-primary">Request Equipment Quote</a>
             <a href="{% if ns.machine %}{{ url_for('services', name=ns.machine.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-secondary">Browse Machine Category</a>
           </div>
+          </div>
         </div>
       </div>
 
       <div class="col-lg-6">
-        <div class="service-group-card p-4 h-100">
+        <div class="service-group-card service-division-card overflow-hidden h-100">
+          <img src="{{ url_for('static', filename='images/placeholders/pharmaceutical-distribution.svg') }}" alt="Pharmaceutical distribution and healthcare supply coordination" loading="lazy">
+          <div class="p-4">
           <h2 class="h4 section-title mb-2">Pharmaceutical Distribution</h2>
           <p class="text-muted mb-3">Inquiry-led support for institutional pharmaceutical distribution and logistics coordination.</p>
           <ul class="mb-4">
@@ -108,11 +140,14 @@
             <a href="{{ url_for('service_inquiry', service_key='pharmaceutical-distribution') }}" class="btn btn-outline-primary">Submit Pharma Inquiry</a>
             <a href="{% if ns.pharma %}{{ url_for('services', name=ns.pharma.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-secondary">View Related Category</a>
           </div>
+          </div>
         </div>
       </div>
 
       <div class="col-lg-6">
-        <div class="service-group-card p-4 h-100">
+        <div class="service-group-card service-division-card overflow-hidden h-100">
+          <img src="{{ url_for('static', filename='images/placeholders/engineering-consultancy.svg') }}" alt="Engineering consultancy, technical review, and project planning" loading="lazy">
+          <div class="p-4">
           <h2 class="h4 section-title mb-2">Engineering Consultancy</h2>
           <p class="text-muted mb-3">Technical guidance and project advisory to support effective execution decisions.</p>
           <ul class="mb-4">
@@ -121,11 +156,14 @@
             <li>Execution-focused consultancy engagement</li>
           </ul>
           <a href="{{ url_for('contact', head=ns.engineering.category_name) if ns.engineering else url_for('contact') }}" class="btn btn-outline-primary">Book Engineering Consultation</a>
+          </div>
         </div>
       </div>
 
       <div class="col-lg-6">
-        <div class="service-group-card p-4 h-100">
+        <div class="service-group-card service-division-card overflow-hidden h-100">
+          <img src="{{ url_for('static', filename='images/placeholders/travel-agency.svg') }}" alt="Travel agency planning and documentation support for organizations" loading="lazy">
+          <div class="p-4">
           <h2 class="h4 section-title mb-2">Travel Agency</h2>
           <p class="text-muted mb-3">Travel and documentation support for corporate and institutional mobility needs.</p>
           <ul class="mb-4">
@@ -134,11 +172,14 @@
             <li>Coordination for teams and organizational travel</li>
           </ul>
           <a href="{{ url_for('service_inquiry', service_key='travel-agency') }}" class="btn btn-outline-primary">Request Travel Assistance</a>
+          </div>
         </div>
       </div>
 
       <div class="col-lg-6">
-        <div class="service-group-card p-4 h-100">
+        <div class="service-group-card service-division-card overflow-hidden h-100">
+          <img src="{{ url_for('static', filename='images/placeholders/operations.svg') }}" alt="Business registration, trademark, and compliance support services" loading="lazy">
+          <div class="p-4">
           <h2 class="h4 section-title mb-2">CAC / Trademark / Commission Services</h2>
           <p class="text-muted mb-3">Business support for registration, compliance-oriented documentation, and filing workflows.</p>
           <ul class="mb-4">
@@ -147,6 +188,7 @@
             <li>Commission-related documentation support</li>
           </ul>
           <a href="{{ url_for('service_inquiry', service_key='cac-trademark-commission') }}" class="btn btn-outline-primary">Start Business Support Request</a>
+          </div>
         </div>
       </div>
     </div>

@@ -12,13 +12,18 @@ from email.message import EmailMessage
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import secure_filename
 import csv, io
-import openpyxl
 from decimal import Decimal
-import requests
+try:
+    import requests
+except ModuleNotFoundError:
+    requests = None
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_bcrypt import Bcrypt
 import re
-import pandas as pd
+try:
+    import pandas as pd
+except ModuleNotFoundError:
+    pd = None
 from routes import bp
 from flask_migrate import Migrate
 
@@ -534,13 +539,15 @@ def home():
 
 @app.route("/printing")
 def printing():
-    return render_template("printing.html")
+    # Legacy public route: keep compatibility, but send visitors to the
+    # corporate services overview instead of the old storefront-style page.
+    return redirect(url_for("all"), code=301)
 
 @app.route("/business-reg")
 def business_registration():
-    header = Header.query.all()
-    service = Services.query.all()
-    return render_template("main.html", header=header, services=service)
+    # Legacy public route: map business registration intent into the newer
+    # service-specific support flow.
+    return redirect(url_for("service_inquiry", service_key="cac-trademark-commission"), code=301)
 
 
 @app.route("/services/<name>")
@@ -1067,6 +1074,12 @@ PHONE_ALIASES = ["phone", "mobile", "number", "contact"]
 @login_required
 def upload_contacts():
     try:
+        if pd is None:
+            return jsonify({
+                "status": "error",
+                "message": "Spreadsheet import support is unavailable because pandas is not installed."
+            }), 500
+
         file = request.files.get("file")
         group_id = request.form.get("group_id")
         print(group_id)
@@ -1136,6 +1149,12 @@ def upload_contacts():
 @login_required
 def confirm_upload():
     try:
+        if pd is None:
+            return jsonify({
+                "status": "error",
+                "message": "Spreadsheet import support is unavailable because pandas is not installed."
+            }), 500
+
         filepath = session.get("upload_file")
         group_id = request.json.get("group_id") or session.get("upload_group_id")
         phone_col = session.get("phone_column")
@@ -1236,6 +1255,10 @@ def fund_wallet():
 @app.route("/wallet/verify/<reference>")
 @login_required
 def verify_payment(reference):
+    if requests is None:
+        flash("Payment verification is unavailable because the requests package is not installed.", "danger")
+        return redirect(url_for("wallet"))
+
     url = f"https://api.paystack.co/transaction/verify/{reference}"
     headers = {"Authorization": f"Bearer {PAYSTACK_SECRET_KEY}"}
 

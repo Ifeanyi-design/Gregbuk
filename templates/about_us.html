@@ -3,6 +3,7 @@
 {% block meta_description %}About Gregbuk Intl Company Ltd: family-owned since 2004, incorporated in Lagos, Nigeria (RC 1057410), active multi-service company delivering digital ID printing, machine sales, pharmaceutical distribution, consultancy, and corporate support.{% endblock %}
 {% block og_title %}About Gregbuk Intl Company Ltd{% endblock %}
 {% block og_description %}Learn our background, mission, vision, core values, and why institutions trust Gregbuk for corporate services in Lagos, Nigeria.{% endblock %}
+{% block og_image %}{{ url_for('static', filename='images/print_about_us.webp', _external=True) }}{% endblock %}
 
 {% block content %}
 <main class="container-xl about-main pb-5">
@@ -116,6 +117,18 @@
     <div class="facts-card p-4">
       <p class="mb-2">Clients trust Gregbuk because we combine multi-sector capability with practical execution. We communicate clearly, align to timelines, and stay accountable from planning to delivery.</p>
       <p class="mb-0">Our family-led governance model strengthens continuity and long-term partnership culture.</p>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="facts-card p-4">
+      <h2 class="h4 section-title mb-2">Explore Our Service Areas</h2>
+      <p class="mb-3">You can continue to our full services overview, review the leadership team, or send a direct inquiry based on your organization&apos;s needs.</p>
+      <div class="d-flex flex-wrap gap-2">
+        <a href="{{ url_for('all') }}" class="btn btn-outline-primary">View Services</a>
+        <a href="{{ url_for('leadership') }}" class="btn btn-outline-primary">Meet Leadership</a>
+        <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Contact Gregbuk</a>
+      </div>
     </div>
   </section>
 

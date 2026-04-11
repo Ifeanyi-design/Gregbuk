@@ -1,11 +1,14 @@
 <!doctype html>
-<html lang="en" data-coreui-theme="dark">
+<html lang="en-NG" data-coreui-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Gregbuk{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}Gregbuk Intl Company Ltd provides corporate printing, digital ID solutions, distribution, consultancy, and business support services in Lagos, Nigeria.{% endblock %}">
+  <meta name="robots" content="index,follow">
   <link rel="canonical" href="{% block canonical_href %}{{ request.base_url }}{% endblock %}">
+  <meta property="og:site_name" content="Gregbuk Intl Company Ltd">
+  <meta property="og:locale" content="en_NG">
   <meta property="og:title" content="{% block og_title %}Gregbuk Intl Company Ltd{% endblock %}">
   <meta property="og:description" content="{% block og_description %}Trusted multi-service corporate solutions since 2004.{% endblock %}">
   <meta property="og:type" content="website">
@@ -52,19 +55,41 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "{{ company_name }}",
-    "url": "{{ request.url_root.rstrip('/') }}",
-    "email": "{{ company_email }}",
-    "telephone": "{{ company_phone_primary }}",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "{{ company_address }}",
-      "addressLocality": "{{ company_city }}",
-      "addressCountry": "{{ company_country }}"
-    },
-    "foundingDate": "{{ company_established_year }}",
-    "description": "Family-owned corporate services company in Lagos, Nigeria offering printing and supplies, digital ID printing, machine sales, pharmaceutical distribution, engineering consultancy, travel agency, and CAC/trademark support."
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "{{ request.url_root.rstrip('/') }}#organization",
+        "name": "{{ company_name }}",
+        "url": "{{ request.url_root.rstrip('/') }}",
+        "logo": "{{ url_for('static', filename='images/placeholders/hero-corporate.svg', _external=True) }}",
+        "email": "{{ company_email }}",
+        "telephone": "{{ company_phone_primary }}",
+        "foundingDate": "{{ company_established_year }}",
+        "sameAs": [
+          "https://www.facebook.com/gregbuk",
+          "https://x.com/gregbuk1?s=08"
+        ]
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "{{ request.url_root.rstrip('/') }}#professional-service",
+        "name": "{{ company_name }}",
+        "url": "{{ request.url_root.rstrip('/') }}",
+        "description": "Family-owned corporate services company in Lagos, Nigeria offering printing and supplies, digital ID printing, machine sales, pharmaceutical distribution, engineering consultancy, travel agency support, and CAC or trademark services.",
+        "areaServed": {
+          "@type": "Country",
+          "name": "Nigeria"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "{{ company_address }}",
+          "addressLocality": "{{ company_city }}",
+          "addressCountry": "{{ company_country }}"
+        },
+        "email": "{{ company_email }}",
+        "telephone": "{{ company_phone_primary }}"
+      }
+    ]
   }
   </script>
   {% endblock %}
