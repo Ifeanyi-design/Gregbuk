@@ -4,27 +4,29 @@
 
 {% block style %}
   /* Premium Design System */
-  :root {
-    --admin-bg: #050810;
-    --admin-surface: rgba(15, 23, 42, 0.6);
-    --admin-card-bg: rgba(255, 255, 255, 0.03);
-    --admin-accent: #3b82f6;
-    --admin-accent-glow: rgba(59, 130, 246, 0.4);
-    --admin-text-main: #f8fafc;
-    --admin-text-muted: #94a3b8;
-    --admin-glass-border: rgba(255, 255, 255, 0.08);
+  body.admin-mode {
+    --admin-bg: var(--internal-page-bg);
+    --admin-surface: var(--internal-card-bg);
+    --admin-card-bg: var(--internal-card-soft);
+    --admin-accent: #1f6feb;
+    --admin-accent-glow: rgba(31, 111, 235, 0.24);
+    --admin-text-main: var(--internal-text);
+    --admin-text-muted: var(--internal-muted);
+    --admin-glass-border: var(--internal-line);
     --admin-radius: 1.25rem;
     --admin-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  body {
     background-color: var(--admin-bg) !important;
     color: var(--admin-text-main) !important;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background-image: 
-      radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
+      radial-gradient(circle at 0% 0%, rgba(31, 111, 235, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.06) 0%, transparent 50%);
     background-attachment: fixed;
+  }
+
+  html[data-coreui-theme="dark"] body.admin-mode {
+    --admin-accent: #79b3ff;
+    --admin-accent-glow: rgba(121, 179, 255, 0.24);
   }
 
   /* Typography */
@@ -64,9 +66,19 @@
   .admin-hero h1 {
     font-weight: 700;
     letter-spacing: -0.025em;
-    background: linear-gradient(to right, #fff, #94a3b8);
+    background: linear-gradient(to right, var(--admin-text-main), var(--admin-text-muted));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  html[data-coreui-theme="light"] .admin-hero h1 {
+    background: linear-gradient(to right, #10233a, #34506f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  html[data-coreui-theme="light"] .admin-hero p {
+    color: #4f647d;
   }
 
   .admin-hero p {
@@ -124,6 +136,11 @@
     transform: translateY(-4px);
   }
 
+  html[data-coreui-theme="dark"] .admin-card:hover,
+  html[data-coreui-theme="dark"] .admin-metric:hover {
+    border-color: rgba(121, 179, 255, 0.35);
+  }
+
   /* Metrics */
   .admin-metric {
     background: var(--admin-card-bg);
@@ -144,7 +161,7 @@
     font-size: 2rem;
     font-weight: 700;
     margin: 0.5rem 0;
-    color: #fff;
+    color: var(--admin-text-main);
   }
 
   .admin-metric .label {
@@ -228,16 +245,16 @@
   }
 
   .form-control, .form-select {
-    background: rgba(255,255,255,0.03) !important;
+    background: var(--admin-card-bg) !important;
     border: 1px solid var(--admin-glass-border) !important;
-    color: #fff !important;
+    color: var(--admin-text-main) !important;
     padding: 0.8rem 1.2rem !important;
     border-radius: 0.75rem !important;
     transition: var(--admin-transition) !important;
   }
 
   .form-control:focus, .form-select:focus {
-    background: rgba(255,255,255,0.06) !important;
+    background: var(--admin-card-bg) !important;
     border-color: var(--admin-accent) !important;
     box-shadow: 0 0 15px var(--admin-accent-glow) !important;
     outline: none !important;
