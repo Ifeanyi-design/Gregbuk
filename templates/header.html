@@ -1,9 +1,10 @@
 <nav class="navbar hole navbar-expand-lg shadow-sm fixed-top">
   <div class="container-xl">
     {% if not change %}
-    <button class="btn btn-primary d-lg-none me-2" type="button" data-coreui-toggle="sidebar" data-coreui-target="#sidebar"
-      id="sidebar-toggler" aria-label="Toggle sidebar">
-      <i class="bi bi-list"></i>
+    <button class="btn sidebar-open-btn d-lg-none me-2" type="button" 
+      onclick="document.getElementById('sidebar').classList.toggle('active')"
+      aria-label="Toggle sidebar">
+      <i class="bi bi-layout-sidebar"></i>
     </button>
     {% endif %}
 

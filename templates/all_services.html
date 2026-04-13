@@ -1,25 +1,35 @@
 {% extends "base.html" %}
 {% block title %}Services | Gregbuk Intl Company Ltd{% endblock %}
-{% block meta_description %}Explore Gregbuk Intl Company Ltd corporate service divisions: general contracts, printing and supplies, digital ID solutions, machine sales and consumables, pharmaceutical distribution, engineering consultancy, travel agency, and CAC/trademark services.{% endblock %}
+{% block meta_description %}Explore Gregbuk Intl Company Ltd corporate service divisions: general contracts, printing
+and supplies, digital ID solutions, machine sales and consumables, pharmaceutical distribution, engineering consultancy,
+travel agency, and CAC/trademark services.{% endblock %}
 {% block og_title %}Corporate Services | Gregbuk Intl Company Ltd{% endblock %}
-{% block og_description %}Business-focused service divisions for institutions, SMEs, healthcare, corporate offices, and public-sector operations in Nigeria.{% endblock %}
+{% block og_description %}Business-focused service divisions for institutions, SMEs, healthcare, corporate offices, and
+public-sector operations in Nigeria.{% endblock %}
 {% block og_image %}{{ url_for('static', filename='images/print_about_us.webp', _external=True) }}{% endblock %}
 {% block twitter_title %}Services | Gregbuk Intl Company Ltd{% endblock %}
-{% block twitter_description %}Explore Gregbuk service divisions in Lagos, Nigeria including digital ID printing, machine sales, printing and supplies, distribution, consultancy, travel, and business support.{% endblock %}
+{% block twitter_description %}Explore Gregbuk service divisions in Lagos, Nigeria including digital ID printing,
+machine sales, printing and supplies, distribution, consultancy, travel, and business support.{% endblock %}
 
 {% block content %}
 <main class="container-xl services-main pb-5">
-  {% set ns = namespace(printing=None, cards=None, machine=None, pharma=None, engineering=None, travel=None, support=None, contracts=None) %}
+  {% set ns = namespace(printing=None, cards=None, machine=None, pharma=None, engineering=None, travel=None,
+  support=None, contracts=None) %}
   {% for svc in services %}
-    {% set key = (svc.name ~ ' ' ~ svc.category_name)|lower %}
-    {% if ns.printing is none and ('marketing' in key or 'print' in key or 'sticker' in key or 'sign' in key) %}{% set ns.printing = svc %}{% endif %}
-    {% if ns.cards is none and ('cards' in key or 'id' in key) %}{% set ns.cards = svc %}{% endif %}
-    {% if ns.contracts is none and ('contract' in key or 'general-contracts' in key) %}{% set ns.contracts = svc %}{% endif %}
-    {% if ns.machine is none and ('machine' in key or 'equipment' in key or 'consumable' in key) %}{% set ns.machine = svc %}{% endif %}
-    {% if ns.pharma is none and ('pharma' in key or 'pharmaceutical' in key) %}{% set ns.pharma = svc %}{% endif %}
-    {% if ns.engineering is none and ('engineering' in key or 'consult' in key) %}{% set ns.engineering = svc %}{% endif %}
-    {% if ns.travel is none and 'travel' in key %}{% set ns.travel = svc %}{% endif %}
-    {% if ns.support is none and ('cac' in key or 'trademark' in key or 'commission' in key) %}{% set ns.support = svc %}{% endif %}
+  {% set key = (svc.name ~ ' ' ~ svc.category_name)|lower %}
+  {% if ns.printing is none and ('marketing' in key or 'print' in key or 'sticker' in key or 'sign' in key) %}{% set
+  ns.printing = svc %}{% endif %}
+  {% if ns.cards is none and ('cards' in key or 'id' in key) %}{% set ns.cards = svc %}{% endif %}
+  {% if ns.contracts is none and ('contract' in key or 'general-contracts' in key) %}{% set ns.contracts = svc %}{%
+  endif %}
+  {% if ns.machine is none and ('machine' in key or 'equipment' in key or 'consumable' in key) %}{% set ns.machine = svc
+  %}{% endif %}
+  {% if ns.pharma is none and ('pharma' in key or 'pharmaceutical' in key) %}{% set ns.pharma = svc %}{% endif %}
+  {% if ns.engineering is none and ('engineering' in key or 'consult' in key) %}{% set ns.engineering = svc %}{% endif
+  %}
+  {% if ns.travel is none and 'travel' in key %}{% set ns.travel = svc %}{% endif %}
+  {% if ns.support is none and ('cac' in key or 'trademark' in key or 'commission' in key) %}{% set ns.support = svc
+  %}{% endif %}
   {% endfor %}
 
   <section class="services-hero page-hero p-4 p-md-5 mb-4 mb-md-5">
@@ -27,7 +37,8 @@
       <div class="col-lg-7">
         <p class="text-uppercase fw-semibold mb-2 opacity-75">Service Divisions</p>
         <h1 class="display-5 fw-bold mb-3">Corporate Service Divisions</h1>
-        <p class="lead mb-4">Gregbuk Intl Company Ltd provides coordinated, multi-service support for organizations that need reliable execution and responsive partnership.</p>
+        <p class="lead mb-4">Gregbuk Intl Company Ltd provides coordinated, multi-service support for organizations that
+          need reliable execution and responsive partnership.</p>
         <div class="d-flex flex-wrap gap-2">
           <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg px-4">Discuss Your Needs</a>
           <a href="#digital-id-solutions" class="btn btn-outline-primary btn-lg px-4">See Digital ID Solutions</a>
@@ -35,7 +46,8 @@
       </div>
       <div class="col-lg-5">
         <div class="hero-media service-hero-media">
-          <img src="{{ url_for('static', filename='images/print_about_us.webp') }}" alt="Gregbuk service delivery, coordination, and company operations" class="hero-fallback">
+          <img src="{{ url_for('static', filename='images/print_about_us.webp') }}"
+            alt="Gregbuk service delivery, coordination, and company operations" class="hero-fallback">
           <div class="hero-media-badges">
             <span>Printing</span>
             <span>Digital ID</span>
@@ -48,159 +60,190 @@
   </section>
 
   <section class="page-first mb-5">
-    <p class="section-subtitle mb-0">Our delivery covers operational services, technical support, compliance-focused business services, and inquiry-led professional engagements.</p>
+    <p class="section-subtitle mb-0">Our delivery covers operational services, technical support, compliance-focused
+      business services, and inquiry-led professional engagements.</p>
   </section>
 
   <section class="mb-5">
     <div class="row g-3 g-md-4">
       <div class="col-lg-6">
         <div class="service-group-card service-division-card overflow-hidden h-100">
-          <img src="{{ url_for('static', filename='images/placeholders/operations.svg') }}" alt="General contracts and project execution support" loading="lazy">
+          <img src="{{ url_for('static', filename='images/placeholders/operations.svg') }}"
+            alt="General contracts and project execution support" loading="lazy">
           <div class="p-4">
-          <h2 class="h4 section-title mb-2">General Contracts</h2>
-          <p class="text-muted mb-3">Structured project support for institutions and business operations requiring dependable delivery management.</p>
-          <ul class="mb-4">
-            <li>Operational sourcing and fulfillment support</li>
-            <li>Execution coordination for project scopes</li>
-            <li>Timeline and quality-focused delivery handling</li>
-          </ul>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Request Contract Consultation</a>
-            <a href="{% if ns.contracts %}{{ url_for('services', name=ns.contracts.category_name) }}{% else %}{{ url_for('services', name='general-contracts') }}{% endif %}" class="btn btn-outline-secondary">View Contract Services</a>
-          </div>
+            <h2 class="h4 section-title mb-2">General Contracts</h2>
+            <p class="text-muted mb-3">Structured project support for institutions and business operations requiring
+              dependable delivery management.</p>
+            <ul class="mb-4">
+              <li>Operational sourcing and fulfillment support</li>
+              <li>Execution coordination for project scopes</li>
+              <li>Timeline and quality-focused delivery handling</li>
+            </ul>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Request Contract Consultation</a>
+              <a href="{% if ns.contracts %}{{ url_for('services', name=ns.contracts.category_name) }}{% else %}{{ url_for('services', name='general-contracts') }}{% endif %}"
+                class="btn btn-outline-secondary">View Contract Services</a>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-lg-6">
         <div class="service-group-card service-division-card overflow-hidden h-100">
-          <img src="{{ url_for('static', filename='images/marketing-essentials.jpeg') }}" alt="Printing and supplies, branded materials, and operational print support" loading="lazy">
+          <img src="{{ url_for('static', filename='images/marketing-essentials.jpeg') }}"
+            alt="Printing and supplies, branded materials, and operational print support" loading="lazy">
           <div class="p-4">
-          <h2 class="h4 section-title mb-2">Printing & Supplies</h2>
-          <p class="text-muted mb-3">Business print production and supply continuity for daily operations, campaigns, and institutional needs.</p>
-          <ul class="mb-4">
-            <li>Corporate document and branded material printing</li>
-            <li>Stationery, signage, and identity print production</li>
-            <li>Reliable replenishment for print-related supplies</li>
-          </ul>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="{{ url_for('service_inquiry', service_key='printing-supplies') }}" class="btn btn-outline-primary">Request Print Service</a>
-            <a href="{% if ns.printing %}{{ url_for('services', name=ns.printing.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-secondary">Browse Related Pages</a>
-          </div>
+            <h2 class="h4 section-title mb-2">Printing & Supplies</h2>
+            <p class="text-muted mb-3">Business print production and supply continuity for daily operations, campaigns,
+              and institutional needs.</p>
+            <ul class="mb-4">
+              <li>Corporate document and branded material printing</li>
+              <li>Stationery, signage, and identity print production</li>
+              <li>Reliable replenishment for print-related supplies</li>
+            </ul>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="{{ url_for('service_inquiry', service_key='printing-supplies') }}"
+                class="btn btn-outline-primary">Request Print Service</a>
+              <a href="{% if ns.printing %}{{ url_for('services', name=ns.printing.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}"
+                class="btn btn-outline-secondary">Browse Related Pages</a>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-lg-6">
         <div class="service-group-card service-division-card overflow-hidden h-100" id="digital-id-solutions">
-          <img src="{{ url_for('static', filename='images/id_cards.jpeg') }}" alt="Digital ID printing systems, secure cards, and issuance support" loading="lazy">
+          <img src="{{ url_for('static', filename='images/id_cards.jpeg') }}"
+            alt="Digital ID printing systems, secure cards, and issuance support" loading="lazy">
           <div class="p-4">
-          <h2 class="h4 section-title mb-2">Digital ID Solutions</h2>
-          <p class="text-muted mb-3">End-to-end ID printing systems for schools, healthcare, enterprises, and public institutions.</p>
-          <ul class="mb-4">
-            <li>ID card design and secure printing</li>
-            <li>Issuance workflow setup support</li>
-            <li>Ongoing consumables and technical continuity</li>
-          </ul>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="{{ url_for('service_inquiry', service_key='digital-id-solutions') }}" class="btn btn-outline-primary">Request ID Solution</a>
-            <a href="{% if ns.cards %}{{ url_for('services', name=ns.cards.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-secondary">Browse ID Category</a>
-          </div>
+            <h2 class="h4 section-title mb-2">Digital ID Solutions</h2>
+            <p class="text-muted mb-3">End-to-end ID printing systems for schools, healthcare, enterprises, and public
+              institutions.</p>
+            <ul class="mb-4">
+              <li>ID card design and secure printing</li>
+              <li>Issuance workflow setup support</li>
+              <li>Ongoing consumables and technical continuity</li>
+            </ul>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="{{ url_for('service_inquiry', service_key='digital-id-solutions') }}"
+                class="btn btn-outline-primary">Request ID Solution</a>
+              <a href="{% if ns.cards %}{{ url_for('services', name=ns.cards.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}"
+                class="btn btn-outline-secondary">Browse ID Category</a>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-lg-6">
         <div class="service-group-card service-division-card overflow-hidden h-100">
-          <img src="{{ url_for('static', filename='images/about_us_machinery.jpeg') }}" alt="Machines, setup guidance, and consumables for ID and print operations" loading="lazy">
+          <img src="{{ url_for('static', filename='images/about_us_machinery.jpeg') }}"
+            alt="Machines, setup guidance, and consumables for ID and print operations" loading="lazy">
           <div class="p-4">
-          <h2 class="h4 section-title mb-2">Machine Sales & Consumables</h2>
-          <p class="text-muted mb-3">Machine sourcing and consumables support for ID and printing operations.</p>
-          <ul class="mb-4">
-            <li>ID card machine recommendations and setup</li>
-            <li>Operational equipment and accessories</li>
-            <li>Consumables replenishment and continuity planning</li>
-          </ul>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="{{ url_for('service_inquiry', service_key='machine-sales-consumables') }}" class="btn btn-outline-primary">Request Equipment Quote</a>
-            <a href="{% if ns.machine %}{{ url_for('services', name=ns.machine.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}" class="btn btn-outline-secondary">Browse Machine Category</a>
-          </div>
+            <h2 class="h4 section-title mb-2">Machine Sales & Consumables</h2>
+            <p class="text-muted mb-3">Machine sourcing and consumables support for ID and printing operations.</p>
+            <ul class="mb-4">
+              <li>ID card machine recommendations and setup</li>
+              <li>Operational equipment and accessories</li>
+              <li>Consumables replenishment and continuity planning</li>
+            </ul>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="{{ url_for('service_inquiry', service_key='machine-sales-consumables') }}"
+                class="btn btn-outline-primary">Request Equipment Quote</a>
+              <a href="{% if ns.machine %}{{ url_for('services', name=ns.machine.category_name) }}{% else %}{{ url_for('contact') }}{% endif %}"
+                class="btn btn-outline-secondary">Browse Machine Category</a>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-lg-6">
         <div class="service-group-card service-division-card overflow-hidden h-100">
-          <img src="{{ url_for('static', filename='images/placeholders/pharmaceutical-distribution.svg') }}" alt="Pharmaceutical distribution and healthcare supply coordination" loading="lazy">
+          <img src="{{ url_for('static', filename='images/placeholders/pharmaceutical-distribution.svg') }}"
+            alt="Pharmaceutical distribution and healthcare supply coordination" loading="lazy">
           <div class="p-4">
-          <h2 class="h4 section-title mb-2">Pharmaceutical Distribution</h2>
-          <p class="text-muted mb-3">Inquiry-led support for institutional pharmaceutical distribution and logistics coordination.</p>
-          <ul class="mb-4">
-            <li>Institution-focused supply coordination</li>
-            <li>Delivery planning and restock support</li>
-            <li>Documentation-oriented distribution workflow support</li>
-          </ul>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="{{ url_for('service_inquiry', service_key='pharmaceutical-distribution') }}" class="btn btn-outline-primary">Submit Pharma Inquiry</a>
-            <a href="{% if ns.pharma %}{{ url_for('services', name=ns.pharma.category_name) }}{% else %}{{ url_for('services', name='pharmaceutical-distribution') }}{% endif %}" class="btn btn-outline-secondary">View Related Category</a>
-          </div>
+            <h2 class="h4 section-title mb-2">Pharmaceutical Distribution</h2>
+            <p class="text-muted mb-3">Inquiry-led support for institutional pharmaceutical distribution and logistics
+              coordination.</p>
+            <ul class="mb-4">
+              <li>Institution-focused supply coordination</li>
+              <li>Delivery planning and restock support</li>
+              <li>Documentation-oriented distribution workflow support</li>
+            </ul>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="{{ url_for('service_inquiry', service_key='pharmaceutical-distribution') }}"
+                class="btn btn-outline-primary">Submit Pharma Inquiry</a>
+              <a href="{% if ns.pharma %}{{ url_for('services', name=ns.pharma.category_name) }}{% else %}{{ url_for('services', name='pharmaceutical-distribution') }}{% endif %}"
+                class="btn btn-outline-secondary">View Related Category</a>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-lg-6">
         <div class="service-group-card service-division-card overflow-hidden h-100">
-          <img src="{{ url_for('static', filename='images/placeholders/engineering-consultancy.svg') }}" alt="Engineering consultancy, technical review, and project planning" loading="lazy">
+          <img src="{{ url_for('static', filename='images/placeholders/engineering-consultancy.svg') }}"
+            alt="Engineering consultancy, technical review, and project planning" loading="lazy">
           <div class="p-4">
-          <h2 class="h4 section-title mb-2">Engineering Consultancy</h2>
-          <p class="text-muted mb-3">Technical guidance and project advisory to support effective execution decisions.</p>
-          <ul class="mb-4">
-            <li>Advisory planning for projects and operations</li>
-            <li>Technical review and recommendation support</li>
-            <li>Execution-focused consultancy engagement</li>
-          </ul>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="{{ url_for('contact', head=ns.engineering.category_name) if ns.engineering else url_for('contact') }}" class="btn btn-outline-primary">Book Engineering Consultation</a>
-            <a href="{% if ns.engineering %}{{ url_for('services', name=ns.engineering.category_name) }}{% else %}{{ url_for('services', name='engineering-consultancy') }}{% endif %}" class="btn btn-outline-secondary">View Consultancy Areas</a>
-          </div>
+            <h2 class="h4 section-title mb-2">Engineering Consultancy</h2>
+            <p class="text-muted mb-3">Technical guidance and project advisory to support effective execution decisions.
+            </p>
+            <ul class="mb-4">
+              <li>Advisory planning for projects and operations</li>
+              <li>Technical review and recommendation support</li>
+              <li>Execution-focused consultancy engagement</li>
+            </ul>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="{{ url_for('contact', head=ns.engineering.category_name) if ns.engineering else url_for('contact') }}"
+                class="btn btn-outline-primary">Book Engineering Consultation</a>
+              <a href="{% if ns.engineering %}{{ url_for('services', name=ns.engineering.category_name) }}{% else %}{{ url_for('services', name='engineering-consultancy') }}{% endif %}"
+                class="btn btn-outline-secondary">View Consultancy Areas</a>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-lg-6">
         <div class="service-group-card service-division-card overflow-hidden h-100">
-          <img src="{{ url_for('static', filename='images/placeholders/travel-agency.svg') }}" alt="Travel agency planning and documentation support for organizations" loading="lazy">
+          <img src="{{ url_for('static', filename='images/placeholders/travel-agency.svg') }}"
+            alt="Travel agency planning and documentation support for organizations" loading="lazy">
           <div class="p-4">
-          <h2 class="h4 section-title mb-2">Travel Agency</h2>
-          <p class="text-muted mb-3">Travel and documentation support for corporate and institutional mobility needs.</p>
-          <ul class="mb-4">
-            <li>Trip planning and schedule support</li>
-            <li>Travel documentation guidance</li>
-            <li>Coordination for teams and organizational travel</li>
-          </ul>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="{{ url_for('service_inquiry', service_key='travel-agency') }}" class="btn btn-outline-primary">Request Travel Assistance</a>
-            <a href="{% if ns.travel %}{{ url_for('services', name=ns.travel.category_name) }}{% else %}{{ url_for('services', name='travel-agency') }}{% endif %}" class="btn btn-outline-secondary">View Travel Services</a>
-          </div>
+            <h2 class="h4 section-title mb-2">Travel Agency</h2>
+            <p class="text-muted mb-3">Travel and documentation support for corporate and institutional mobility needs.
+            </p>
+            <ul class="mb-4">
+              <li>Trip planning and schedule support</li>
+              <li>Travel documentation guidance</li>
+              <li>Coordination for teams and organizational travel</li>
+            </ul>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="{{ url_for('service_inquiry', service_key='travel-agency') }}"
+                class="btn btn-outline-primary">Request Travel Assistance</a>
+              <a href="{% if ns.travel %}{{ url_for('services', name=ns.travel.category_name) }}{% else %}{{ url_for('services', name='travel-agency') }}{% endif %}"
+                class="btn btn-outline-secondary">View Travel Services</a>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-lg-6">
         <div class="service-group-card service-division-card overflow-hidden h-100">
-          <img src="{{ url_for('static', filename='images/placeholders/operations.svg') }}" alt="Business registration, trademark, and compliance support services" loading="lazy">
+          <img src="{{ url_for('static', filename='images/placeholders/operations.svg') }}"
+            alt="Business registration, trademark, and compliance support services" loading="lazy">
           <div class="p-4">
-          <h2 class="h4 section-title mb-2">CAC / Trademark / Commission Services</h2>
-          <p class="text-muted mb-3">Business support for registration, compliance-oriented documentation, and filing workflows.</p>
-          <ul class="mb-4">
-            <li>CAC registration support process</li>
-            <li>Trademark application guidance</li>
-            <li>Commission-related documentation support</li>
-          </ul>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="{{ url_for('service_inquiry', service_key='cac-trademark-commission') }}" class="btn btn-outline-primary">Start Business Support Request</a>
-            <a href="{% if ns.support %}{{ url_for('services', name=ns.support.category_name) }}{% else %}{{ url_for('services', name='cac-trademark-commission') }}{% endif %}" class="btn btn-outline-secondary">View Support Areas</a>
-          </div>
+            <h2 class="h4 section-title mb-2">CAC / Trademark / Commission Services</h2>
+            <p class="text-muted mb-3">Business support for registration, compliance-oriented documentation, and filing
+              workflows.</p>
+            <ul class="mb-4">
+              <li>CAC registration support process</li>
+              <li>Trademark application guidance</li>
+              <li>Commission-related documentation support</li>
+            </ul>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="{{ url_for('service_inquiry', service_key='cac-trademark-commission') }}"
+                class="btn btn-outline-primary">Start Business Support Request</a>
+              <a href="{% if ns.support %}{{ url_for('services', name=ns.support.category_name) }}{% else %}{{ url_for('services', name='cac-trademark-commission') }}{% endif %}"
+                class="btn btn-outline-secondary">View Support Areas</a>
+            </div>
           </div>
         </div>
       </div>
@@ -209,7 +252,8 @@
 
   <section class="final-cta p-4 p-md-5 text-center">
     <h2 class="fw-bold mb-3">Need Multi-Service Support Under One Engagement?</h2>
-    <p class="mb-4">We can coordinate combined support across service divisions based on your project scope and timelines.</p>
+    <p class="mb-4">We can coordinate combined support across service divisions based on your project scope and
+      timelines.</p>
     <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg px-4">Send General Business Inquiry</a>
   </section>
 </main>

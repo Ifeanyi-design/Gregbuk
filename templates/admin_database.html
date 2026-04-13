@@ -5,6 +5,15 @@
 {% block admin_subheading %}Quick read-only visibility into users, contacts, messages, and transactions.{% endblock %}
 
 {% block admin_content %}
+<div class="card admin-card mb-5">
+  <div class="card-body p-3">
+    <div class="search-wrapper" style="max-width: 100%;">
+      <i class="bi bi-search"></i>
+      <input type="text" id="adminSearchInput" class="form-control form-control-lg" placeholder="Global database search (Users, Contacts, Messages, Transactions)...">
+    </div>
+  </div>
+</div>
+
 <div class="row g-5">
   <div class="col-12">
     <div class="card admin-card">

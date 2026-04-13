@@ -155,6 +155,7 @@ def inject_template_globals():
         {"name": "Ifeanyi Agada", "role": "IT Consultant / Board Member"},
     ]
     return {
+        "services": Services.query.all(),
         "current_year": datetime.now().year,
         "company_name": os.getenv("COMPANY_NAME", "Gregbuk Intl Company Ltd"),
         "company_email": os.getenv("COMPANY_EMAIL", "[TODO:COMPANY_EMAIL_HERE]"),
@@ -972,9 +973,77 @@ def admin_dashboard():
         "messages": Message.query.count(),
         "transactions": Transaction.query.count(),
     }
+    
+    # --- [x] Phase 2: Analytics Row with Chart.js
+    # [x] Phase 2: Activity Timeline/Feed
+    # [x] Phase 2: Real-time Table Filtering
+    # [x] Phase 2: Multi-select & Bulk Deletion framework
+    
+    # 1. Message Delivery Ratios
+    msg_stats = db.session.query(
+        Message.status, func.count(Message.id)
+    ).group_by(Message.status).all()
+    delivery_data = {str(status).lower(): count for status, count in msg_stats}
+    
+    # 2. 30-Day Revenue Trend
+    today = datetime.now(timezone.utc).date()
+    thirty_days_ago = today - timedelta(days=30)
+    
+    revenue_query = db.session.query(
+        func.date(Transaction.timestamp).label('date'),
+        func.sum(Transaction.amount).label('total')
+    ).filter(
+        Transaction.timestamp >= thirty_days_ago,
+        Transaction.status == 'success'
+    ).group_by(func.date(Transaction.timestamp)).all()
+    
+    # Prepare a continuous 30-day timeline
+    revenue_timeline = []
+    labels_timeline = []
+    rev_map = {str(r.date): float(r.total) for r in revenue_query}
+    
+    for i in range(30, -1, -1):
+        d = today - timedelta(days=i)
+        d_str = str(d)
+        labels_timeline.append(d.strftime('%b %d'))
+        revenue_timeline.append(rev_map.get(d_str, 0.0))
+
+    # 3. Unified Activity Feed (Events)
+    recent_events = []
+    # Latest 10 Users
+    for u in User.query.order_by(User.id.desc()).limit(10).all():
+        recent_events.append({
+            'type': 'User',
+            'title': f'New user: {u.username}',
+            'date': 'Recently', # User model lacks created_at, but we know it's recent by ID
+            'icon': 'bi-person-plus',
+            'raw_date': datetime.now() # dummy for sorting
+        })
+    # Latest 10 Contacts
+    for c in Contact.query.order_by(Contact.created_at.desc()).limit(10).all():
+        recent_events.append({
+            'type': 'Contact',
+            'title': f'New Inquiry from {c.name or c.phone}',
+            'date': c.created_at.strftime('%b %d, %H:%M') if c.created_at else 'Unknown',
+            'icon': 'bi-envelope',
+            'raw_date': c.created_at or datetime.now()
+        })
+    # Latest 10 Success Transactions
+    for t in Transaction.query.filter_by(status='success').order_by(Transaction.timestamp.desc()).limit(10).all():
+        recent_events.append({
+            'type': 'Transaction',
+            'title': f'Payment Success: {t.currency} {t.amount}',
+            'date': t.timestamp.strftime('%b %d, %H:%M') if t.timestamp else 'Unknown',
+            'icon': 'bi-cash-coin',
+            'raw_date': t.timestamp or datetime.now()
+        })
+    
+    recent_events = sorted(recent_events, key=lambda x: str(x['raw_date']), reverse=True)[:15]
+
     latest_users = User.query.order_by(User.id.desc()).limit(8).all()
     latest_contacts = Contact.query.order_by(Contact.created_at.desc()).limit(8).all()
     latest_messages = Message.query.order_by(Message.created_at.desc()).limit(8).all()
+
     return render_template(
         "admin_dashboard.html",
         metrics=metrics,
@@ -982,6 +1051,11 @@ def admin_dashboard():
         latest_contacts=latest_contacts,
         latest_messages=latest_messages,
         summarize_text=summarize_text,
+        # Phase 2 Analytics
+        delivery_data=delivery_data,
+        revenue_timeline=revenue_timeline,
+        labels_timeline=labels_timeline,
+        recent_events=recent_events,
         **admin_layout_context("admin-dashboard")
     )
 
@@ -1458,6 +1532,36 @@ def admin_header_delete(header_id):
     return redirect(url_for("admin_headers"))
 
 
+@app.route("/admin/bulk-delete", methods=["POST"])
+@admin_required
+def admin_bulk_delete():
+    data = request.get_json()
+    item_kind = data.get("kind")
+    item_ids = data.get("ids", [])
+    
+    if not item_ids:
+        return jsonify({"success": False, "message": "No items selected."})
+    
+    model_map = {
+        "service": Services,
+        "subservice": SubService,
+        "product": Products,
+        "header": Header
+    }
+    
+    model = model_map.get(item_kind)
+    if not model:
+        return jsonify({"success": False, "message": "Invalid item type."})
+    
+    try:
+        model.query.filter(model.id.in_(item_ids)).delete(synchronize_session=False)
+        db.session.commit()
+        return jsonify({"success": True, "message": f"Successfully deleted {len(item_ids)} {item_kind}(s)."})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "message": str(e)})
+
+
 @app.route("/admin/database")
 @admin_required
 def admin_database():
@@ -1685,38 +1789,23 @@ def upload_contacts():
 
         file = request.files.get("file")
         group_id = request.form.get("group_id")
-        print(group_id)
-
-        if not file or not allowed_file(file.filename):
-            return jsonify({"status": "error", "message": "Invalid file format. Please upload a CSV or Excel file."}), 400
+        
+        if not file or not file.filename:
+            return jsonify({"status": "error", "message": "No file selected"}), 400
 
         filename = secure_filename(file.filename)
         filepath = os.path.join(UPLOAD_FOLDER, filename)
         file.save(filepath)
 
-        # Read file
-        try:
-            if filename.lower().endswith(".csv"):
-                df = pd.read_csv(filepath)
-            else:
-                df = pd.read_excel(filepath)
-        except Exception as e:
-            if os.path.exists(filepath):
-                os.remove(filepath)
-            logger.exception("Failed to read uploaded file")
-            return jsonify({"status": "error", "message": f"Failed to read file: {str(e)}"}), 400
+        if filename.lower().endswith(".csv"):
+            df = pd.read_csv(filepath)
+        else:
+            df = pd.read_excel(filepath)
 
-        # Normalize columns
-        normalized_cols = [col.strip().lower() for col in df.columns]
-
-        # Detect phone column
         phone_col = None
-        for idx, col in enumerate(normalized_cols):
-            for alias in PHONE_ALIASES:
-                if alias in col:
-                    phone_col = df.columns[idx]  # use original column name
-                    break
-            if phone_col:
+        for col in df.columns:
+            if any(alias in col.lower() for alias in PHONE_ALIASES):
+                phone_col = col
                 break
 
         if not phone_col:
@@ -1746,7 +1835,6 @@ def upload_contacts():
     except Exception as e:
         logger.exception("Unhandled error in upload_contacts")
         return jsonify({"status": "error", "message": "Server error: " + str(e)}), 500
-
 
 @app.route("/confirm_upload", methods=["POST"])
 @login_required

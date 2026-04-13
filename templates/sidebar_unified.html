@@ -1,0 +1,178 @@
+<div class="sidebar-wrapper" id="sidebar">
+  <div class="sidebar-floating-card">
+    <!-- Premium Branding -->
+    <div class="sidebar-header">
+      <div class="brand-container">
+        <span class="brand-text">Gregbuk</span>
+        <span class="brand-accent">Intl</span>
+      </div>
+      <div class="header-actions">
+        <button class="collapse-toggle d-none d-lg-flex" onclick="toggleSidebarCollapse()" aria-label="Toggle Sidebar">
+          <i class="bi bi-chevron-bar-left"></i>
+        </button>
+        <button class="menu-close d-lg-none" onclick="document.getElementById('sidebar').classList.remove('active')">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-scroll-area">
+      <ul class="nav-list">
+        
+        {# --- COMMON DASHBOARD --- #}
+        <li class="nav-section">
+          <span class="section-label">General</span>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('all') }}" class="nav-link {% if the_name == 'var' %}active{% endif %}" data-tooltip="All Services">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>All Services</span>
+          </a>
+        </li>
+
+        {# --- ADMIN SECTION (CONDITIONAL) --- #}
+        {% if admin_enabled %}
+        <li class="nav-section">
+          <span class="section-label">Admin Command Center</span>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('admin_dashboard') }}" class="nav-link {% if the_name == 'admin-dashboard' %}active{% endif %}" data-tooltip="Overview">
+            <i class="bi bi-speedometer2"></i>
+            <span>Overview</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('admin_services') }}" class="nav-link {% if the_name == 'admin-services' %}active{% endif %}" data-tooltip="Services">
+            <i class="bi bi-stack"></i>
+            <span>Services</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('admin_subservices') }}" class="nav-link {% if the_name == 'admin-subservices' %}active{% endif %}" data-tooltip="Subservices">
+            <i class="bi bi-layers"></i>
+            <span>Subservices</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('admin_products') }}" class="nav-link {% if the_name == 'admin-products' %}active{% endif %}" data-tooltip="Products">
+            <i class="bi bi-box-seam"></i>
+            <span>Products</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('admin_headers') }}" class="nav-link {% if the_name == 'admin-headers' %}active{% endif %}" data-tooltip="Site Headers">
+            <i class="bi bi-card-heading"></i>
+            <span>Site Headers</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('admin_database') }}" class="nav-link {% if the_name == 'admin-database' %}active{% endif %}" data-tooltip="Database">
+            <i class="bi bi-database"></i>
+            <span>Database</span>
+          </a>
+        </li>
+        {% endif %}
+
+        {# --- BULK SMS SECTION (CONDITIONAL) --- #}
+        {% if bulkk_sms and not admin_enabled %}
+        <li class="nav-section">
+          <span class="section-label">Messaging Workspace</span>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('dashboard') }}" class="nav-link {% if the_name == 'dashboard' %}active{% endif %}" data-tooltip="Dashboard">
+            <i class="bi bi-house-door"></i>
+            <span>SMS Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('contacts') }}" class="nav-link {% if the_name == 'contacts' %}active{% endif %}" data-tooltip="Contacts">
+            <i class="bi bi-people"></i>
+            <span>Contacts</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('main.select_sms_type') }}" class="nav-link" data-tooltip="Send Message">
+            <i class="bi bi-send-plus"></i>
+            <span>Send Message</span>
+          </a>
+        </li>
+
+        <!-- Reports Dropdown -->
+        <li class="nav-item has-dropdown">
+          <a href="#" class="nav-link dropdown-toggle-custom" onclick="this.parentElement.classList.toggle('open')" data-tooltip="Reports">
+            <i class="bi bi-bar-chart"></i>
+            <span>Reports</span>
+            <i class="bi bi-chevron-down ms-auto x-small"></i>
+          </a>
+          <ul class="dropdown-list">
+            <li><a href="{{ url_for('main.delivery_report') }}">Delivery Reports</a></li>
+            <li><a href="#">Message History</a></li>
+          </ul>
+        </li>
+
+        <!-- Wallet Dropdown -->
+        <li class="nav-item has-dropdown">
+          <a href="#" class="nav-link dropdown-toggle-custom" onclick="this.parentElement.classList.toggle('open')" data-tooltip="Wallet">
+            <i class="bi bi-wallet2"></i>
+            <span>Wallet</span>
+            <i class="bi bi-chevron-down ms-auto x-small"></i>
+          </a>
+          <ul class="dropdown-list">
+            <li><a href="{{ url_for('wallet') }}">Add Funds</a></li>
+            <li><a href="{{ url_for('transactions') }}">Transaction History</a></li>
+          </ul>
+        </li>
+
+        <!-- Settings Dropdown -->
+        <li class="nav-item has-dropdown">
+          <a href="#" class="nav-link dropdown-toggle-custom" onclick="this.parentElement.classList.toggle('open')" data-tooltip="Settings">
+            <i class="bi bi-gear"></i>
+            <span>Settings</span>
+            <i class="bi bi-chevron-down ms-auto x-small"></i>
+          </a>
+          <ul class="dropdown-list">
+            <li><a href="#">Update Profile</a></li>
+            <li><a href="#">Change Password</a></li>
+          </ul>
+        </li>
+        {% endif %}
+
+        {# --- SERVICES ACCORDION (FOR PUBLIC VIEW) --- #}
+        {% if not admin_enabled %}
+        <li class="nav-section">
+          <span class="section-label">Service Catalog</span>
+        </li>
+        {% for service in services %}
+        <li class="nav-item has-dropdown">
+          <a href="{{ url_for('services', name=service.category_name) }}" class="nav-link {% if the_name == service.category_name %}active{% endif %}">
+            <i class="bi bi-chevron-right me-2 small dropdown-arrow"></i>
+            <span>{{ service.name }}</span>
+          </a>
+        </li>
+        {% endfor %}
+        {% endif %}
+
+        {# --- FOOTER ACTIONS --- #}
+        <li class="nav-section mt-auto">
+          <span class="section-label">Account</span>
+        </li>
+        {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          <a href="{{ url_for('logout') }}" class="nav-link text-danger-emphasis">
+            <i class="bi bi-box-arrow-left"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="{{ url_for('login') }}" class="nav-link">
+            <i class="bi bi-lock"></i>
+            <span>Client Login</span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+    
+  </div>
+</div>

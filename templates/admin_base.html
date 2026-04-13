@@ -255,9 +255,79 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease forwards;
+  /* Activity Timeline Styles */
+  .timeline {
+    position: relative;
+    padding: 1rem 0;
   }
+  .timeline-item {
+    position: relative;
+    padding-left: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-left: 1px solid var(--admin-glass-border);
+  }
+  .timeline-item:last-child {
+    border-left: none;
+    padding-bottom: 0;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--admin-accent);
+    box-shadow: 0 0 10px var(--admin-accent-glow);
+  }
+  .timeline-item .date {
+    font-size: 0.75rem;
+    color: var(--admin-text-muted);
+    margin-bottom: 0.25rem;
+  }
+  .timeline-item .content {
+    font-size: 0.85rem;
+    color: var(--admin-text-main);
+  }
+
+  /* Search & Bulk Filter */
+  .search-wrapper {
+    position: relative;
+    max-width: 400px;
+  }
+  .search-wrapper i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--admin-text-muted);
+  }
+  .search-wrapper input {
+    padding-left: 2.75rem !important;
+  }
+
+  /* Charts */
+  .chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+  }
+
+  /* Utils */
+  .glass-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+{% endblock %}
+
+{% block extra_head %}
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -278,26 +348,43 @@
       </div>
       <div class="d-flex align-items-center gap-3 glass-user-pill" style="padding: 0.75rem 1.25rem; background: rgba(255,255,255,0.03); border-radius: 100px; border: 1px solid var(--admin-glass-border);">
         <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--admin-accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem;">
-          {{ current_user.username[0].upper() }}
+          {{ current_user.username[0].upper() if current_user.is_authenticated else 'A' }}
         </div>
         <div class="small fw-500">
-          {{ current_user.username }}
+          {{ current_user.username if current_user.is_authenticated else 'Admin' }}
         </div>
       </div>
     </div>
   </section>
 
-  <nav class="admin-nav animate-fade-in">
-    <a href="{{ url_for('admin_dashboard') }}" class="{% if the_name == 'admin-dashboard' %}active-link{% endif %}">Overview</a>
-    <a href="{{ url_for('admin_services') }}" class="{% if the_name == 'admin-services' %}active-link{% endif %}">Services</a>
-    <a href="{{ url_for('admin_subservices') }}" class="{% if the_name == 'admin-subservices' %}active-link{% endif %}">Subservices</a>
-    <a href="{{ url_for('admin_products') }}" class="{% if the_name == 'admin-products' %}active-link{% endif %}">Products</a>
-    <a href="{{ url_for('admin_headers') }}" class="{% if the_name == 'admin-headers' %}active-link{% endif %}">Header Links</a>
-    <a href="{{ url_for('admin_database') }}" class="{% if the_name == 'admin-database' %}active-link{% endif %}">Database View</a>
-  </nav>
+  {# Redundant horizontal nav removed in favor of Unified Sidebar #}
 
   <div class="admin-content-wrapper animate-fade-in">
     {% block admin_content %}{% endblock %}
   </div>
 </div>
+
+<!-- Universal Admin JS -->
+<script>
+  // Real-time Search Logic - Enhanced for multiple tables
+  function initAdminSearch() {
+    const searchInput = document.getElementById('adminSearchInput');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('keyup', function() {
+      const filter = searchInput.value.toLowerCase();
+      const tables = document.querySelectorAll('.admin-table');
+      
+      tables.forEach(table => {
+        const rows = table.getElementsByTagName('tr');
+        for (let i = 1; i < rows.length; i++) { // Skip header
+          let textContent = rows[i].textContent.toLowerCase();
+          rows[i].style.display = textContent.indexOf(filter) > -1 ? "" : "none";
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initAdminSearch);
+</script>
 {% endblock %}

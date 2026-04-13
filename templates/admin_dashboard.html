@@ -1,6 +1,10 @@
 {% extends "admin_base.html" %}
 
 {% block admin_title %}Admin Overview{% endblock %}
+{% block extra_head %}
+<!-- Primary Analytics Engine -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+{% endblock %}
 {% block admin_heading %}Admin Overview{% endblock %}
 {% block admin_subheading %}Manage public-site content, inspect core records, and run internal maintenance tools.{% endblock %}
 
@@ -56,88 +60,221 @@
   </div>
 </div>
 
-<div class="card admin-card mb-5">
-  <div class="card-body p-4">
-    <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
-      <div>
-        <h2 class="h4 mb-1" style="font-weight: 600;">Corporate Seed Tools</h2>
-        <p class="text-muted mb-0">Synchronize and refresh the corporate service database branches.</p>
+<div class="row g-4 mb-5">
+  <div class="col-xl-8">
+    <div class="card admin-card h-100">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="h5 mb-0" style="font-weight: 600;">Revenue Trend (Last 30 Days)</h2>
+          <span class="glass-badge" style="background: rgba(59, 130, 246, 0.1); color: #60a5fa;">Corporate Revenue</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="revenueChart"></canvas>
+        </div>
       </div>
-      <form method="POST" action="{{ url_for('admin_seed_targeted_services') }}">
-        <button type="submit" class="btn-premium">Run Maintenance Sync</button>
-      </form>
+    </div>
+  </div>
+  <div class="col-xl-4">
+    <div class="card admin-card h-100">
+      <div class="card-body p-4">
+        <h2 class="h5 mb-4" style="font-weight: 600;">Delivery Status</h2>
+        <div class="chart-container" style="height: 220px;">
+          <canvas id="deliveryChart"></canvas>
+        </div>
+        <div class="mt-4">
+          <div class="d-flex justify-content-between mb-2 small">
+            <span class="text-muted">Total Messages</span>
+            <span class="fw-600">{{ metrics.messages }}</span>
+          </div>
+          <div class="progress" style="height: 6px; background: rgba(255,255,255,0.05);">
+            {% set total_msg = metrics.messages or 1 %}
+            {% set del_perc = (delivery_data.get('delivered', 0) / total_msg * 100)|round %}
+            <div class="progress-bar bg-primary" id="deliveryProgress" data-progress="{{ del_perc }}"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="row g-4">
+<div class="row g-4 mb-5">
   <div class="col-xl-4">
     <div class="card admin-card h-100">
       <div class="card-body p-4">
-        <h2 class="h5 mb-4" style="font-weight: 600;">Latest Users</h2>
-        <div class="table-responsive">
-          <table class="table admin-table">
-            <thead><tr><th>ID</th><th>Username</th></tr></thead>
-            <tbody>
-              {% for user in latest_users %}
-              <tr>
-                <td class="text-muted small fw-500">#{{ user.id }}</td>
-                <td class="fw-600">{{ user.username }}</td>
-              </tr>
-              {% else %}
-              <tr><td colspan="2" class="text-muted text-center py-4">No users found.</td></tr>
-              {% endfor %}
-            </tbody>
-          </table>
+        <h2 class="h5 mb-4" style="font-weight: 600;">Recent Activity Feed</h2>
+        <div class="timeline">
+          {% for event in recent_events %}
+          <div class="timeline-item">
+            <div class="date">{{ event.date }}</div>
+            <div class="content d-flex align-items-center gap-2">
+              <i class="bi {{ event.icon }} text-primary"></i>
+              {{ event.title }}
+            </div>
+          </div>
+          {% else %}
+          <p class="text-muted small">No recent activity found.</p>
+          {% endfor %}
         </div>
       </div>
     </div>
   </div>
-  <div class="col-xl-4">
-    <div class="card admin-card h-100">
+  <div class="col-xl-8">
+    <div class="card admin-card mb-4">
       <div class="card-body p-4">
-        <h2 class="h5 mb-4" style="font-weight: 600;">Recent Contacts</h2>
-        <div class="table-responsive">
-          <table class="table admin-table">
-            <thead><tr><th>Name</th><th>Phone</th></tr></thead>
-            <tbody>
-              {% for contact in latest_contacts %}
-              <tr>
-                <td class="fw-600">{{ contact.name or 'Inquiry' }}</td>
-                <td class="text-muted small">{{ contact.phone }}</td>
-              </tr>
-              {% else %}
-              <tr><td colspan="2" class="text-muted text-center py-4">No contacts found.</td></tr>
-              {% endfor %}
-            </tbody>
-          </table>
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
+          <div>
+            <h2 class="h4 mb-1" style="font-weight: 600;">Corporate Seed Tools</h2>
+            <p class="text-muted mb-0">Synchronize and refresh the corporate service database branches.</p>
+          </div>
+          <form method="POST" action="{{ url_for('admin_seed_targeted_services') }}">
+            <button type="submit" class="btn-premium">Run Maintenance Sync</button>
+          </form>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-xl-4">
-    <div class="card admin-card h-100">
-      <div class="card-body p-4">
-        <h2 class="h5 mb-4" style="font-weight: 600;">Inbox Preview</h2>
-        <div class="table-responsive">
-          <table class="table admin-table">
-            <thead><tr><th>From</th><th>Status</th></tr></thead>
-            <tbody>
-              {% for msg in latest_messages %}
-              <tr>
-                <td class="fw-600">{{ msg.name }}</td>
-                <td>
-                  <span class="badge" style="background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em;">{{ msg.status }}</span>
-                </td>
-              </tr>
-              {% else %}
-              <tr><td colspan="2" class="text-muted text-center py-4">Inbox is empty.</td></tr>
-              {% endfor %}
-            </tbody>
-          </table>
+    
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card admin-card">
+          <div class="card-body p-4">
+            <h2 class="h5 mb-4" style="font-weight: 600;">Latest Users</h2>
+            <div class="table-responsive">
+              <table class="table admin-table">
+                <thead><tr><th>ID</th><th>Username</th></tr></thead>
+                <tbody>
+                  {% for user in latest_users %}
+                  <tr>
+                    <td class="text-muted small fw-500">#{{ user.id }}</td>
+                    <td class="fw-600">{{ user.username }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card admin-card">
+          <div class="card-body p-4">
+            <h2 class="h5 mb-4" style="font-weight: 600;">Recent Inquiries</h2>
+            <div class="table-responsive">
+              <table class="table admin-table">
+                <thead><tr><th>Name</th><th>Phone</th></tr></thead>
+                <tbody>
+                  {% for contact in latest_contacts %}
+                  <tr>
+                    <td class="fw-600">{{ contact.name or 'Inquiry' }}</td>
+                    <td class="text-muted small">{{ contact.phone }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Data for Charts -->
+<div id="analyticsData" 
+     data-revenue="{{ revenue_timeline|tojson }}" 
+     data-labels="{{ labels_timeline|tojson }}"
+     data-delivery='[
+        {{ delivery_data.get("delivered", 0) }},
+        {{ delivery_data.get("pending", 0) }},
+        {{ delivery_data.get("failed", 0) }}
+     ]'>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const dataContainer = document.getElementById('analyticsData');
+    if (!dataContainer) return;
+
+    const revenueData = JSON.parse(dataContainer.getAttribute('data-revenue') || '[]');
+    const labelsData = JSON.parse(dataContainer.getAttribute('data-labels') || '[]');
+    let deliveryStats = JSON.parse(dataContainer.getAttribute('data-delivery') || '[0,0,0]');
+    
+    // Safety: ensure deliveryStats is valid for the doughnut
+    const hasDeliveryData = deliveryStats.some(v => v > 0);
+    if (!hasDeliveryData) {
+      deliveryStats = [1, 0, 0]; // Placeholder for empty state
+    }
+
+    // 1. Revenue Chart
+    const canvasRev = document.getElementById('revenueChart');
+    if (canvasRev) {
+      const ctxRev = canvasRev.getContext('2d');
+      new Chart(ctxRev, {
+        type: 'line',
+        data: {
+          labels: labelsData,
+          datasets: [{
+            label: 'Success Revenue (NGN)',
+            data: revenueData,
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointRadius: revenueData.length > 50 ? 0 : 2,
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { 
+              beginAtZero: true, 
+              grid: { color: 'rgba(255,255,255,0.05)' },
+              ticks: { color: '#94a3b8', font: { size: 10 } }
+            },
+            x: { 
+              grid: { display: false },
+              ticks: { color: '#94a3b8', font: { size: 10 }, maxRotation: 0 }
+            }
+          }
+        }
+      });
+    }
+
+    // 2. Delivery Chart (Doughnut)
+    const canvasDel = document.getElementById('deliveryChart');
+    if (canvasDel) {
+      const ctxDel = canvasDel.getContext('2d');
+      new Chart(ctxDel, {
+        type: 'doughnut',
+        data: {
+          labels: hasDeliveryData ? ['Delivered', 'Pending', 'Failed'] : ['No Data'],
+          datasets: [{
+            data: deliveryStats,
+            backgroundColor: hasDeliveryData ? ['#10b981', '#3b82f6', '#ef4444'] : ['rgba(255,255,255,0.05)'],
+            borderWidth: 0,
+            padding: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '75%',
+          plugins: {
+            legend: { 
+              position: 'bottom',
+              labels: { color: '#94a3b8', usePointStyle: true, padding: 20, font: { size: 11 } }
+            }
+          }
+        }
+      });
+    }
+
+    // 3. Progress Bar Fix
+    const prog = document.getElementById('deliveryProgress');
+    if (prog) prog.style.width = (prog.getAttribute('data-progress') || 0) + '%';
+  });
+</script>
 {% endblock %}
