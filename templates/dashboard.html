@@ -1,180 +1,231 @@
 {% extends "base.html" %}
-{% block title %} Dashboard {% endblock %}
-
-{% block style %}
-.upper {
-    margin-top: 8%;
-}
-.foooter {
-    margin-top: 5%;
-}
-.top-up {
-    padding-top: 3%;
-    padding-bottom: 3%;
-    font-size: 20px;
-}
-{% endblock %}
+{% block title %}Bulk SMS Dashboard{% endblock %}
 
 {% block content %}
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 1050">
-    <div id="welcomeToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-                Welcome, {{ current_user.username }}! You are now logged in.
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
+<main class="internal-page">
+  <section class="internal-hero">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+      <div>
+        <p class="internal-kicker mb-2">Messaging Workspace</p>
+        <h1 class="internal-title">Bulk SMS Dashboard</h1>
+        <p class="internal-subtitle">Track wallet balance, monitor delivery performance, and jump quickly into sending, contacts, and reporting.</p>
+      </div>
+      <div class="internal-badge">
+        <i class="bi bi-person-check"></i>
+        {{ current_user.username }}
+      </div>
     </div>
-</div>
+  </section>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
+      <div class="mb-4">
         {% for category, message in messages %}
-            <div class="alert alert-{{ category }} upper">
-                {{ message }}
-            </div>
+          <div class="alert alert-{{ category }} mb-2">{{ message }}</div>
         {% endfor %}
+      </div>
     {% endif %}
-{% endwith %}
+  {% endwith %}
 
-<div class="container-fluid mt-4">
-    <h6 class="tops"><i class="bi bi-credit-card me-2"></i>
-        Hi {{ current_user.username }}! Welcome to your Dashboard
-    </h6>
-
-    <!-- Balance Card -->
-    <div class="card d-flex flex-row text-white bg-primary top" style="height: 200px; width: 90%;">
-        <div class="card-body flexer" style="width: 50%;">
-            <h3 class="card-title" style="font-size: 1.2rem;">Balance</h3>
-            <h1 class="card-text" style="font-size: 1.6rem;">₦{{ current_user.wallet.balance or "0" }}</h1>
-            <small>{{ current_user.sms_units or "500" }} SMS Units</small>
-        </div>
-        <div class="d-flex flexer-2 flex-column" style="width: 50%; justify-content: center; text-align: center;">
-            <a class="btn btn-primary top-up" style="width: 65%; border: 2px solid white; margin: auto;" href="{{ url_for('wallet')}}">
-                <i class="bi bi-wallet me-2"></i>Fund wallet <i class="bi bi-chevron-right ms-2"></i>
+  <div class="row g-4 mb-4">
+    <div class="col-xl-5">
+      <div class="internal-card h-100">
+        <div class="card-body p-4">
+          <div class="internal-toolbar">
+            <div>
+              <h2 class="internal-section-title">Wallet Snapshot</h2>
+              <p class="internal-section-copy">Keep an eye on available balance and SMS units before sending.</p>
+            </div>
+            <span class="internal-badge">Live balance</span>
+          </div>
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <div class="internal-metric">
+                <div class="internal-metric-label">Balance</div>
+                <p class="internal-metric-value">NGN {{ "{:,.2f}".format(current_user.wallet.balance or 0) }}</p>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="internal-metric">
+                <div class="internal-metric-label">SMS Units</div>
+                <p class="internal-metric-value">{{ current_user.sms_units or 500 }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="internal-action-grid mt-4">
+            <a href="{{ url_for('wallet') }}" class="internal-action">
+              <span class="internal-action-icon"><i class="bi bi-wallet2"></i></span>
+              <span>
+                <strong class="d-block">Fund Wallet</strong>
+                <small class="text-muted">Add funds securely</small>
+              </span>
             </a>
+            <a href="{{ url_for('transactions') }}" class="internal-action">
+              <span class="internal-action-icon"><i class="bi bi-receipt"></i></span>
+              <span>
+                <strong class="d-block">Transactions</strong>
+                <small class="text-muted">Review payment history</small>
+              </span>
+            </a>
+          </div>
         </div>
+      </div>
     </div>
-
-    <!-- Top Cards Row -->
-    <div class="row mt-4">
-        <div class="col-md-4 mb-3">
-          <div class="card cards text-white bg-success">
-            <div class="card-body">
-              <h5 class="card-title">All Messages Sent</h5>
-              <p class="card-text" id="stat-total">{{ total or "0" }}</p>
+    <div class="col-xl-7">
+      <div class="row g-3">
+        <div class="col-md-6 col-xl-3">
+          <div class="internal-metric">
+            <div class="internal-metric-label">Messages Sent</div>
+            <p class="internal-metric-value" id="stat-total">{{ total or 0 }}</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="internal-metric">
+            <div class="internal-metric-label">Delivery Rate</div>
+            <p class="internal-metric-value" id="stat-rate">{{ delivery_rate or 0 }}%</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="internal-metric">
+            <div class="internal-metric-label">Pending</div>
+            <p class="internal-metric-value" id="stat-pending">{{ pending or 0 }}</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="internal-metric">
+            <div class="internal-metric-label">Failed</div>
+            <p class="internal-metric-value" id="stat-failed">{{ failed or 0 }}</p>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="internal-card internal-card-soft">
+            <div class="card-body p-4">
+              <div class="internal-toolbar">
+                <div>
+                  <h2 class="internal-section-title">Quick Actions</h2>
+                  <p class="internal-section-copy">Move straight into the main messaging tasks.</p>
+                </div>
+              </div>
+              <div class="internal-action-grid">
+                <a href="{{ url_for('contacts') }}" class="internal-action">
+                  <span class="internal-action-icon"><i class="bi bi-people"></i></span>
+                  <span><strong class="d-block">Manage Contacts</strong><small class="text-muted">Groups and recipients</small></span>
+                </a>
+                <a href="{{ url_for('main.select_sms_type') }}" class="internal-action">
+                  <span class="internal-action-icon"><i class="bi bi-send-plus"></i></span>
+                  <span><strong class="d-block">Send Message</strong><small class="text-muted">Start a campaign</small></span>
+                </a>
+                <a href="{{ url_for('main.delivery_report') }}" class="internal-action">
+                  <span class="internal-action-icon"><i class="bi bi-bar-chart"></i></span>
+                  <span><strong class="d-block">Reports</strong><small class="text-muted">Delivery tracking</small></span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="col-md-4 mb-3">
-          <div class="card cards text-white bg-info">
-            <div class="card-body">
-              <h5 class="card-title">Delivery Rate</h5>
-              <p class="card-text" id="stat-rate">{{ delivery_rate or "92%" }}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <div class="card cards text-white bg-warning">
-            <div class="card-body">
-              <h5 class="card-title">Pending Messages</h5>
-              <p class="card-text" id="stat-pending">{{ pending or "0" }}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card cards bg-danger text-white">
-            <div class="card-body">
-              <h5 class="card-title">Failed Messages</h5>
-              <p class="card-text display-6" id="stat-failed">{{ failed or "0" }}</p>
-            </div>
-          </div>
-        </div>
-
-
-    </div>
-    <div class="mt-4 mb-3">
-    <h4>Delivery Rate: <span id="progress-rate-text">{{ delivery_rate }}</span>%</h4>
-    <div class="progress">
-      <div class="progress-bar" id="progress-rate"
-           style="width: {{ delivery_rate }}%"
-           aria-valuenow="{{ delivery_rate }}" aria-valuemin="0" aria-valuemax="100">
       </div>
     </div>
   </div>
 
-    <!-- Charts Row -->
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Messages Sent (This Month)</h5>
-                    <canvas id="messagesSentChart"></canvas>
-                </div>
+  <div class="row g-4 mb-4">
+    <div class="col-lg-7">
+      <div class="internal-card h-100">
+        <div class="card-body p-4">
+          <div class="internal-toolbar">
+            <div>
+              <h2 class="internal-section-title">Messages Sent This Week</h2>
+              <p class="internal-section-copy">Daily message volume for the current week.</p>
             </div>
+          </div>
+          <div class="chart-container" style="height: 300px;">
+            <canvas id="messagesSentChart"></canvas>
+          </div>
         </div>
-        <div class="col-md-6">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Delivery Status</h5>
-                    <canvas id="deliveryStatusChart"></canvas>
-                </div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="internal-card h-100">
+        <div class="card-body p-4">
+          <div class="internal-toolbar">
+            <div>
+              <h2 class="internal-section-title">Delivery Status</h2>
+              <p class="internal-section-copy">Delivered, pending, and failed message mix.</p>
             </div>
+          </div>
+          <div class="chart-container" style="height: 300px;">
+            <canvas id="deliveryStatusChart"></canvas>
+          </div>
+          <div class="mt-4">
+            <div class="d-flex justify-content-between mb-2 small">
+              <span class="text-muted">Delivery Rate</span>
+              <span id="progress-rate-text">{{ delivery_rate }}</span>%
+            </div>
+            <div class="progress" style="height: 8px;">
+              <div class="progress-bar" id="progress-rate" style="width: {{ delivery_rate }}%" aria-valuenow="{{ delivery_rate }}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Recent Messages Table -->
-    <div class="card mt-3 mb-3">
-        <div class="card-header">Recent Messages</div>
-        <div class="card-body p-0">
-            <table class="table mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Date</th>
-                        <th>Recipient(s)</th>
-                        <th>Message</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for msg in recent_messages or [
-                    {'sent_at':'Sept 21, 2025','phone_number':'0803****123','message':'Hello, welcome!','status':'delivered'},
-                    {'sent_at':'Sept 20, 2025','phone_number':'0706****567','message':'Reminder: Meeting tomorrow','status':'pending'},
-                    {'sent_at':'Sept 19, 2025','phone_number':'0812****890','message':'Promo: Get 20% off!','status':'failed'}
-                ] %}
-                    <tr>
-                        <td>{% if msg.created_at %}
-                        {{msg.created_at.strftime("%b %d, %Y")}}
-                        {%else%}
-                        {{msg.sent_at}}
-                        {%endif%}</td>
-                        <td>{{ msg.phone_number }}</td>
-                        <td>{{ msg.message if msg.message is string else (msg.message.message if msg.message else '-') }}</td>
-                        <td>
-                            {% if msg.status == "delivered" %}
-                                <span class="badge bg-success">Delivered</span>
-                            {% elif msg.status == "pending" %}
-                                <span class="badge bg-warning">Pending</span>
-                            {% else %}
-                                <span class="badge bg-danger">Failed</span>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+  <div class="internal-card">
+    <div class="card-body p-4">
+      <div class="internal-toolbar">
+        <div>
+          <h2 class="internal-section-title">Recent Messages</h2>
+          <p class="internal-section-copy">Your latest activity logs and delivery states.</p>
         </div>
+      </div>
+      <div class="internal-table-wrap">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Date</th>
+                <th>Recipient(s)</th>
+                <th>Message</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for msg in recent_messages or [] %}
+              <tr>
+                <td>{% if msg.created_at %}{{ msg.created_at.strftime("%b %d, %Y") }}{% else %}-{% endif %}</td>
+                <td>{{ msg.phone_number or "-" }}</td>
+                <td>{{ msg.message if msg.message is string else (msg.message.message if msg.message else '-') }}</td>
+                <td>
+                  {% if msg.status == "delivered" %}
+                    <span class="badge bg-success">Delivered</span>
+                  {% elif msg.status == "pending" %}
+                    <span class="badge bg-warning text-dark">Pending</span>
+                  {% else %}
+                    <span class="badge bg-danger">Failed</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="4" class="internal-empty">No recent messages yet.</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
+</main>
 
-    <!-- Shortcut Buttons -->
-    <div class="mt-4 mb-4">
-        <a href="{{ url_for('send_sms') if false else '#' }}" class="btn btn-primary me-2">Send SMS</a>
-        <a href="{{ url_for('buy_credits') if false else '#' }}" class="btn btn-success me-2">Buy Credits</a>
-        <a href="{{ url_for('reports') if false else '#' }}" class="btn btn-info">View Reports</a>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1050">
+  <div id="welcomeToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        Welcome, {{ current_user.username }}! You are now logged in.
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -189,88 +240,83 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const messagesCtx = document.getElementById("messagesSentChart").getContext("2d");
     window.messagesChart = new Chart(messagesCtx, {
-    type: "bar",
-    data: {
+      type: "bar",
+      data: {
         labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         datasets: [{
-            label: "Messages Sent",
-            data: [0, 0, 0, 0, 0, 0, 0],
-            backgroundColor: "rgba(54, 162, 235, 0.6)"
+          label: "Messages Sent",
+          data: [0, 0, 0, 0, 0, 0, 0],
+          backgroundColor: "rgba(31, 111, 235, 0.65)",
+          borderRadius: 8
         }]
-    },
-    options: {
+      },
+      options: {
         responsive: true,
         plugins: { legend: { display: false } },
         scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    precision: 0, // integers only
-                    callback: function(value) {
-                        return value.toLocaleString(); // format large numbers with commas
-                    }
-                }
+          y: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0,
+              callback: function(value) { return value.toLocaleString(); }
             }
+          }
         }
-    }
-});
+      }
+    });
 
     function updateDeliveryChart(delivered, pending, failed) {
-    const data = [delivered, pending, failed];
+      const data = [delivered, pending, failed];
+      const allZero = data.every(val => val === 0);
 
-    // Check if all values are zero
-    const allZero = data.every(val => val === 0);
-
-    if (allZero) {
-        // Replace with a single "No Data" slice
+      if (allZero) {
         window.deliveryChart.data.datasets[0].data = [1];
         window.deliveryChart.data.labels = ["No Data"];
-        window.deliveryChart.data.datasets[0].backgroundColor = ["#cccccc"]; // gray
-    } else {
+        window.deliveryChart.data.datasets[0].backgroundColor = ["#cccccc"];
+      } else {
         window.deliveryChart.data.datasets[0].data = data;
         window.deliveryChart.data.labels = ["Delivered", "Pending", "Failed"];
-        window.deliveryChart.data.datasets[0].backgroundColor = ["#28a745", "#ffc107", "#dc3545"];
-    }
+        window.deliveryChart.data.datasets[0].backgroundColor = ["#10b981", "#f59e0b", "#ef4444"];
+      }
 
-    window.deliveryChart.update();
-}
+      window.deliveryChart.update();
+    }
 
     const deliveryCtx = document.getElementById("deliveryStatusChart").getContext("2d");
     window.deliveryChart = new Chart(deliveryCtx, {
-        type: "pie",
-        data: {
-            labels: ["Delivered", "Pending", "Failed"],
-            datasets: [{
-                data: [0, 0, 0],
-                backgroundColor: ["#28a745", "#ffc107", "#dc3545"]
-            }]
-        },
-        options: { responsive: true, plugins: { legend: { position: "bottom" } } }
+      type: "doughnut",
+      data: {
+        labels: ["Delivered", "Pending", "Failed"],
+        datasets: [{
+          data: [0, 0, 0],
+          backgroundColor: ["#10b981", "#f59e0b", "#ef4444"]
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { position: "bottom" } } }
     });
 
     function fetchStats() {
-        fetch("/api/stats")
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById("stat-total").innerText = data.messages_sent;
-                document.getElementById("stat-rate").innerText = data.delivery_rate + "%";
-                document.getElementById("stat-pending").innerText = data.pending;
-                document.getElementById("stat-failed").innerText = data.failed;
-                document.getElementById("progress-rate-text").innerText = data.delivery_rate;
-                document.getElementById("progress-rate").style.width = data.delivery_rate + "%";
-                document.getElementById("progress-rate").setAttribute("aria-valuenow", data.delivery_rate);
+      fetch("/api/stats")
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("stat-total").innerText = data.messages_sent;
+          document.getElementById("stat-rate").innerText = data.delivery_rate + "%";
+          document.getElementById("stat-pending").innerText = data.pending;
+          document.getElementById("stat-failed").innerText = data.failed;
+          document.getElementById("progress-rate-text").innerText = data.delivery_rate;
+          document.getElementById("progress-rate").style.width = data.delivery_rate + "%";
+          document.getElementById("progress-rate").setAttribute("aria-valuenow", data.delivery_rate);
 
-                window.messagesChart.data.datasets[0].data = data.messages_chart_data;
-                window.messagesChart.update();
+          window.messagesChart.data.datasets[0].data = data.messages_chart_data;
+          window.messagesChart.update();
 
-                updateDeliveryChart(data.delivered, data.pending, data.failed);
-            })
-            .catch(err => console.error("Error fetching stats:", err));
+          updateDeliveryChart(data.delivered, data.pending, data.failed);
+        })
+        .catch(err => console.error("Error fetching stats:", err));
     }
 
     fetchStats();
     setInterval(fetchStats, 10000);
 });
-
 </script>
 {% endblock %}

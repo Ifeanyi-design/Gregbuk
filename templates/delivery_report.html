@@ -1,42 +1,74 @@
 {% extends "base.html" %}
+{% block title %}Delivery Report{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-    <h3>Delivery Report</h3>
+<main class="internal-page">
+  <section class="internal-hero">
+    <p class="internal-kicker">Reporting</p>
+    <h1 class="internal-title">Delivery Report</h1>
+    <p class="internal-subtitle">Monitor message volume and delivery outcomes for the current week.</p>
+  </section>
 
-    <div class="row text-center">
-        <div class="col-md-3">
-            <div class="card p-3 shadow-sm">
-                <h6>Total Sent</h6>
-                <p id="total" class="fw-bold">0</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card p-3 shadow-sm">
-                <h6>Delivered</h6>
-                <p id="delivered" class="text-success fw-bold">0</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card p-3 shadow-sm">
-                <h6>Failed</h6>
-                <p id="failed" class="text-danger fw-bold">0</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card p-3 shadow-sm">
-                <h6>Pending</h6>
-                <p id="pending" class="text-warning fw-bold">0</p>
-            </div>
-        </div>
+  <div class="row g-4 mb-4">
+    <div class="col-md-6 col-xl-3">
+      <div class="internal-metric">
+        <div class="internal-metric-label">Total Sent</div>
+        <p id="total" class="internal-metric-value">0</p>
+      </div>
     </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="internal-metric">
+        <div class="internal-metric-label">Delivered</div>
+        <p id="delivered" class="internal-metric-value">0</p>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="internal-metric">
+        <div class="internal-metric-label">Failed</div>
+        <p id="failed" class="internal-metric-value">0</p>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="internal-metric">
+        <div class="internal-metric-label">Pending</div>
+        <p id="pending" class="internal-metric-value">0</p>
+      </div>
+    </div>
+  </div>
 
-    <div class="mt-4">
-        <canvas id="messagesChart" height="100"></canvas>
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="internal-card h-100">
+        <div class="card-body p-4">
+          <div class="internal-toolbar">
+            <div>
+              <h2 class="internal-section-title">Weekly Message Volume</h2>
+              <p class="internal-section-copy">Bar chart showing messages sent across the week.</p>
+            </div>
+          </div>
+          <div class="chart-container" style="height: 320px;">
+            <canvas id="messagesChart"></canvas>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="mt-4">
-        <canvas id="statusChart" height="100"></canvas>
+    <div class="col-lg-5">
+      <div class="internal-card h-100">
+        <div class="card-body p-4">
+          <div class="internal-toolbar">
+            <div>
+              <h2 class="internal-section-title">Delivery Split</h2>
+              <p class="internal-section-copy">Delivered, pending, and failed message distribution.</p>
+            </div>
+          </div>
+          <div class="chart-container" style="height: 320px;">
+            <canvas id="statusChart"></canvas>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+</main>
 {% endblock %}
 
 {% block script %}
@@ -51,7 +83,6 @@ async function loadDeliveryData() {
     document.getElementById("failed").innerText = data.failed;
     document.getElementById("pending").innerText = data.pending;
 
-    // Weekly bar chart
     const ctx = document.getElementById('messagesChart').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
@@ -60,21 +91,17 @@ async function loadDeliveryData() {
             datasets: [{
                 label: 'Messages Sent This Week',
                 data: data.messages_chart_data,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                backgroundColor: 'rgba(31, 111, 235, 0.65)',
+                borderRadius: 8
             }]
         },
         options: {
             responsive: true,
-            plugins: {
-                legend: { display: false }
-            },
-            scales: {
-                y: { beginAtZero: true }
-            }
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
         }
     });
 
-    // Doughnut chart for delivery status
     const ctx2 = document.getElementById('statusChart').getContext('2d');
     new Chart(ctx2, {
         type: 'doughnut',
@@ -82,18 +109,12 @@ async function loadDeliveryData() {
             labels: ['Delivered','Pending','Failed'],
             datasets: [{
                 data: data.delivery_status_data,
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.7)',
-                    'rgba(255, 206, 86, 0.7)',
-                    'rgba(255, 99, 132, 0.7)'
-                ]
+                backgroundColor: ['#10b981', '#f59e0b', '#ef4444']
             }]
         },
         options: {
             responsive: true,
-            plugins: {
-                legend: { position: 'bottom' }
-            }
+            plugins: { legend: { position: 'bottom' } }
         }
     });
 }

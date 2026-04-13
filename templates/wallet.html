@@ -1,30 +1,72 @@
 {% extends "base.html" %}
+{% block title %}Wallet{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-    <h2>My Wallet</h2>
-    <p>Balance: ₦{{ "%.2f"|format(wallet.balance) }}</p>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                            {% for category, message in messages %}
-                                <div class="alert alert-{{ category }}">
-                                    {{ message }}
-                                    </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+<main class="internal-page">
+  <section class="internal-hero">
+    <p class="internal-kicker">Payments</p>
+    <h1 class="internal-title">Wallet</h1>
+    <p class="internal-subtitle">Fund your SMS wallet securely and keep enough balance available for campaigns and transactional messaging.</p>
+  </section>
 
-    <form id="paymentForm" class="mb-3">
-        <div class="mb-3">
-            <label for="amount" class="form-label">Amount (₦)</label>
-            <input type="number" class="form-control" id="amount" required>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="mb-4">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} mb-2">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="internal-card h-100">
+        <div class="card-body p-4">
+          <div class="internal-toolbar">
+            <div>
+              <h2 class="internal-section-title">Balance Overview</h2>
+              <p class="internal-section-copy">Current wallet balance available for messaging activity.</p>
+            </div>
+            <span class="internal-badge">NGN Wallet</span>
+          </div>
+          <div class="internal-metric">
+            <div class="internal-metric-label">Available Balance</div>
+            <p class="internal-metric-value">NGN {{ "%.2f"|format(wallet.balance) }}</p>
+          </div>
+          <div class="internal-action-grid mt-4">
+            <a href="{{ url_for('transactions') }}" class="internal-action">
+              <span class="internal-action-icon"><i class="bi bi-clock-history"></i></span>
+              <span><strong class="d-block">Transaction History</strong><small class="text-muted">Review recent wallet movements</small></span>
+            </a>
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary">Fund Wallet</button>
-    </form>
-
-    <a href="{{ url_for('transactions') }}" class="btn btn-outline-secondary">
-        View Transactions
-    </a>
-</div>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div class="internal-card h-100">
+        <div class="card-body p-4">
+          <div class="internal-toolbar">
+            <div>
+              <h2 class="internal-section-title">Fund Wallet</h2>
+              <p class="internal-section-copy">Enter the amount you want to add and continue to Paystack checkout.</p>
+            </div>
+          </div>
+          <form id="paymentForm" class="row g-3">
+            <div class="col-12">
+              <label for="amount" class="form-label">Amount (NGN)</label>
+              <input type="number" class="form-control" id="amount" min="100" step="100" placeholder="e.g. 5000" required>
+            </div>
+            <div class="col-12 d-flex flex-wrap gap-2 align-items-center">
+              <button type="submit" class="btn btn-brand px-4">Continue to Paystack</button>
+              <span class="small text-muted">Secure checkout powered by Paystack.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <script>
@@ -36,17 +78,16 @@ function payWithPaystack(e) {
   let amount = document.getElementById("amount").value;
 
   var handler = PaystackPop.setup({
-    key: "{{ PAYSTACK_PUBLIC_KEY }}", // pass from Flask
+    key: "{{ PAYSTACK_PUBLIC_KEY }}",
     email: "{{ current_user.email }}",
-    amount: amount * 100,  // in kobo
+    amount: amount * 100,
     currency: "NGN",
-    ref: '' + Math.floor((Math.random() * 1000000000) + 1), // generate unique ref
+    ref: '' + Math.floor((Math.random() * 1000000000) + 1),
     callback: function(response) {
-        // Redirect to verify route
-        window.location.href = "/wallet/verify/" + response.reference;
+      window.location.href = "/wallet/verify/" + response.reference;
     },
     onClose: function() {
-        alert('Payment window closed.');
+      alert('Payment window closed.');
     }
   });
   handler.openIframe();

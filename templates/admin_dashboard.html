@@ -9,9 +9,9 @@
 {% block admin_subheading %}Manage public-site content, inspect core records, and run internal maintenance tools.{% endblock %}
 
 {% block admin_content %}
-<div class="row g-4 mb-5">
-  <div class="col-12">
-    <div class="card admin-card">
+<div class="row g-4 mb-4">
+  <div class="col-xl-8">
+    <div class="card admin-card h-100">
       <div class="card-body p-4">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
           <div>
@@ -22,7 +22,7 @@
         </div>
         <div class="row g-3">
           {% for action in quick_actions %}
-          <div class="col-md-6 col-xl-3">
+          <div class="col-md-6">
             {% if action.form_action %}
             <form method="POST" action="{{ action.form_action }}" class="h-100">
               <button type="submit" class="admin-metric text-start h-100 w-100" style="background: transparent;">
@@ -48,6 +48,36 @@
       </div>
     </div>
   </div>
+  <div class="col-xl-4">
+    <div class="card admin-card h-100">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+          <div>
+            <h2 class="h5 mb-1" style="font-weight: 600;">System Checks</h2>
+            <p class="text-muted mb-0">Quick health view for the admin tools and content structure.</p>
+          </div>
+          <span class="glass-badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">Operational</span>
+        </div>
+        <div class="row g-3">
+          {% for check in system_checks %}
+          <div class="col-sm-6 col-xl-12">
+            <div class="admin-metric text-start h-100">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">{{ check.label }}</span>
+                <span class="badge {% if check.value %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                  {% if check.value %}OK{% else %}Review{% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4 mb-5">
   <div class="col-md-6 col-xl-3">
     <div class="admin-metric">
       <div class="label">Services</div>
@@ -157,110 +187,113 @@
     </div>
   </div>
   <div class="col-xl-8">
-    <div class="card admin-card mb-4">
-      <div class="card-body p-4">
-        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
-          <div>
-            <h2 class="h5 mb-1" style="font-weight: 600;">System Checks</h2>
-            <p class="text-muted mb-0">Quick health view for the admin tools and content structure.</p>
+    <div class="row g-4 mb-4">
+      <div class="col-md-6">
+        <div class="card admin-card h-100">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
+              <div>
+                <h2 class="h4 mb-1" style="font-weight: 600;">Corporate Seed Tools</h2>
+                <p class="text-muted mb-0">Synchronize and refresh the corporate service database branches.</p>
+              </div>
+              <form method="POST" action="{{ url_for('admin_seed_targeted_services') }}">
+                <button type="submit" class="btn-premium">Run Maintenance Sync</button>
+              </form>
+            </div>
           </div>
-          <span class="glass-badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">Operational</span>
         </div>
-        <div class="row g-3">
-          {% for check in system_checks %}
-          <div class="col-md-6">
-            <div class="admin-metric text-start h-100">
+      </div>
+      <div class="col-md-6">
+        <div class="card admin-card h-100">
+          <div class="card-body p-4">
+            <h2 class="h5 mb-3" style="font-weight: 600;">At a Glance</h2>
+            <div class="internal-stacked-list">
               <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">{{ check.label }}</span>
-                <span class="badge {% if check.value %}bg-success{% else %}bg-warning text-dark{% endif %}">
-                  {% if check.value %}OK{% else %}Review{% endif %}
-                </span>
+                <span class="text-muted">Catalog depth</span>
+                <span class="fw-semibold">{{ metrics.services + metrics.subservices + metrics.products }}</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted">Public content blocks</span>
+                <span class="fw-semibold">{{ metrics.headers }}</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted">Tracked operational records</span>
+                <span class="fw-semibold">{{ metrics.contacts + metrics.messages + metrics.transactions }}</span>
               </div>
             </div>
           </div>
-          {% endfor %}
         </div>
       </div>
     </div>
 
-    <div class="card admin-card mb-4">
+    <div class="card admin-card">
       <div class="card-body p-4">
-        <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
-          <div>
-            <h2 class="h4 mb-1" style="font-weight: 600;">Corporate Seed Tools</h2>
-            <p class="text-muted mb-0">Synchronize and refresh the corporate service database branches.</p>
-          </div>
-          <form method="POST" action="{{ url_for('admin_seed_targeted_services') }}">
-            <button type="submit" class="btn-premium">Run Maintenance Sync</button>
-          </form>
-        </div>
-      </div>
-    </div>
-    
-    <div class="row g-4">
-      <div class="col-md-6">
-        <div class="card admin-card">
-          <div class="card-body p-4">
-            <h2 class="h5 mb-4" style="font-weight: 600;">Latest Users</h2>
-            <div class="table-responsive">
-              <table class="table admin-table">
-                <thead><tr><th>ID</th><th>Username</th></tr></thead>
-                <tbody>
-                  {% for user in latest_users %}
-                  <tr>
-                    <td class="text-muted small fw-500">#{{ user.id }}</td>
-                    <td class="fw-600">{{ user.username }}</td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card admin-card h-100">
+              <div class="card-body p-4">
+                <h2 class="h5 mb-4" style="font-weight: 600;">Latest Users</h2>
+                <div class="table-responsive">
+                  <table class="table admin-table">
+                    <thead><tr><th>ID</th><th>Username</th></tr></thead>
+                    <tbody>
+                      {% for user in latest_users %}
+                      <tr>
+                        <td class="text-muted small fw-500">#{{ user.id }}</td>
+                        <td class="fw-600">{{ user.username }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card admin-card">
-          <div class="card-body p-4">
-            <h2 class="h5 mb-4" style="font-weight: 600;">Recent Inquiries</h2>
-            <div class="table-responsive">
-              <table class="table admin-table">
-                <thead><tr><th>Name</th><th>Phone</th></tr></thead>
-                <tbody>
-                  {% for contact in latest_contacts %}
-                  <tr>
-                    <td class="fw-600">{{ contact.name or 'Inquiry' }}</td>
-                    <td class="text-muted small">{{ contact.phone }}</td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+          <div class="col-md-6">
+            <div class="card admin-card h-100">
+              <div class="card-body p-4">
+                <h2 class="h5 mb-4" style="font-weight: 600;">Recent Inquiries</h2>
+                <div class="table-responsive">
+                  <table class="table admin-table">
+                    <thead><tr><th>Name</th><th>Phone</th></tr></thead>
+                    <tbody>
+                      {% for contact in latest_contacts %}
+                      <tr>
+                        <td class="fw-600">{{ contact.name or 'Inquiry' }}</td>
+                        <td class="text-muted small">{{ contact.phone }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="card admin-card">
-          <div class="card-body p-4">
-            <h2 class="h5 mb-4" style="font-weight: 600;">Recent Message Logs</h2>
-            <div class="table-responsive">
-              <table class="table admin-table">
-                <thead><tr><th>ID</th><th>Recipient</th><th>Status</th></tr></thead>
-                <tbody>
-                  {% for message in latest_messages %}
-                  <tr>
-                    <td class="text-muted small fw-500">#{{ message.id }}</td>
-                    <td class="fw-600">{{ message.phone_number or message.recipient or "Unknown" }}</td>
-                    <td>
-                      <span class="badge {% if message.status == 'delivered' %}bg-success{% elif message.status == 'failed' %}bg-danger{% else %}bg-primary{% endif %}">
-                        {{ message.status|default('pending')|upper }}
-                      </span>
-                    </td>
-                  </tr>
-                  {% else %}
-                  <tr><td colspan="3" class="text-muted">No message activity found yet.</td></tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+          <div class="col-12">
+            <div class="card admin-card">
+              <div class="card-body p-4">
+                <h2 class="h5 mb-4" style="font-weight: 600;">Recent Message Logs</h2>
+                <div class="table-responsive">
+                  <table class="table admin-table">
+                    <thead><tr><th>ID</th><th>Recipient</th><th>Status</th></tr></thead>
+                    <tbody>
+                      {% for message in latest_messages %}
+                      <tr>
+                        <td class="text-muted small fw-500">#{{ message.id }}</td>
+                        <td class="fw-600">{{ message.phone_number or message.recipient or "Unknown" }}</td>
+                        <td>
+                          <span class="badge {% if message.status == 'delivered' %}bg-success{% elif message.status == 'failed' %}bg-danger{% else %}bg-primary{% endif %}">
+                            {{ message.status|default('pending')|upper }}
+                          </span>
+                        </td>
+                      </tr>
+                      {% else %}
+                      <tr><td colspan="3" class="text-muted">No message activity found yet.</td></tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>

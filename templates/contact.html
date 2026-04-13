@@ -1,154 +1,149 @@
 {% extends "base.html" %}
-{% block title %} Contacts {% endblock %}
+{% block title %}Contacts{% endblock %}
 
 {% block style %}
-<style>
   .action-btn { margin-right: 0.25rem; }
-</style>
 {% endblock %}
 
 {% block content %}
+<main class="internal-page">
+  <section class="internal-hero">
+    <p class="internal-kicker">Audience Management</p>
+    <h1 class="internal-title">Contacts & Groups</h1>
+    <p class="internal-subtitle">Organize recipients into groups, upload bulk contacts, and maintain clean messaging lists.</p>
+  </section>
 
-<!-- Cards showing total groups and contacts -->
-<div class="row mb-4">
-  <div class="col-md-6">
-    <div class="card text-center bg-info text-white shadow-sm">
-      <div class="card-body">
-        <h5 class="card-title">Total Groups</h5>
-        <p class="card-text display-6">{{ groups|length or "0" }}</p>
-        <a href="#groupModal" class="btn btn-light btn-sm mt-2" data-bs-toggle="modal">Manage Groups</a>
+  <div class="row g-4 mb-4">
+    <div class="col-md-6">
+      <div class="internal-metric">
+        <div class="internal-metric-label">Total Groups</div>
+        <p class="internal-metric-value">{{ groups|length or 0 }}</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="internal-metric">
+        <div class="internal-metric-label">Total Contacts</div>
+        <p class="internal-metric-value">{{ contacts|length or 0 }}</p>
       </div>
     </div>
   </div>
-  <div class="col-md-6">
-    <div class="card text-center bg-info text-white shadow-sm">
-      <div class="card-body">
-        <h5 class="card-title">Total Contacts</h5>
-        <p class="card-text display-6">{{ contacts|length or "0" }}</p>
-        <a href="/contacts/list" class="btn btn-light btn-sm mt-2">View Contacts</a>
+
+  <div class="internal-card mb-4">
+    <div class="card-body p-4">
+      <div class="internal-toolbar">
+        <div>
+          <h2 class="internal-section-title">Quick Actions</h2>
+          <p class="internal-section-copy">Create groups, upload contacts, or review your saved audience.</p>
+        </div>
+      </div>
+      <div class="internal-action-grid">
+        <a href="#groupModal" class="internal-action" data-bs-toggle="modal">
+          <span class="internal-action-icon"><i class="bi bi-plus-circle"></i></span>
+          <span><strong class="d-block">Create Group</strong><small class="text-muted">Start a new recipient group</small></span>
+        </a>
+        <button class="internal-action text-start" data-bs-toggle="modal" data-bs-target="#selectGroupModal" type="button">
+          <span class="internal-action-icon"><i class="bi bi-upload"></i></span>
+          <span><strong class="d-block">Upload Contacts</strong><small class="text-muted">Import from file or paste</small></span>
+        </button>
+        <a href="/contacts/list" class="internal-action">
+          <span class="internal-action-icon"><i class="bi bi-people"></i></span>
+          <span><strong class="d-block">View All Contacts</strong><small class="text-muted">Open your full list</small></span>
+        </a>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Quick Actions -->
-<div class="row mb-4">
-  <div class="col-md-4 mb-2">
-    <a href="#groupModal" class="btn btn-primary w-100" data-bs-toggle="modal">
-      <i class="bi bi-plus-circle me-1"></i> Create/Add Group
-    </a>
+  <div class="row g-4">
+    <div class="col-xl-6">
+      <div class="internal-card h-100">
+        <div class="card-body p-4">
+          <div class="internal-toolbar">
+            <div>
+              <h2 class="internal-section-title">Groups</h2>
+              <p class="internal-section-copy">Manage named recipient collections for campaigns and bulk sends.</p>
+            </div>
+          </div>
+          <div class="internal-table-wrap">
+            <div class="table-responsive">
+              <table class="table table-striped mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>#</th>
+                    <th>Group Name</th>
+                    <th>Total Contacts</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for group in groups %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ group.name }}</td>
+                    <td>{{ group.contacts|length }}</td>
+                    <td>
+                      <a href="/contacts/group/{{ group.id }}" class="btn btn-info btn-sm action-btn" title="View Contacts"><i class="bi bi-eye"></i></a>
+                      <a href="/add_contact/{{ group.id }}" class="btn btn-success btn-sm action-btn" title="Add Contacts"><i class="bi bi-plus"></i></a>
+                      <button class="btn btn-warning btn-sm action-btn editGroupBtn" data-id="{{ group.id }}" data-name="{{ group.name }}" title="Edit Group"><i class="bi bi-pencil"></i></button>
+                      <button class="btn btn-danger btn-sm action-btn deleteGroupBtn" data-id="{{ group.id }}" data-type="group" title="Delete Group"><i class="bi bi-trash"></i></button>
+                    </td>
+                  </tr>
+                  {% else %}
+                  <tr><td colspan="4" class="internal-empty">No groups available.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <div class="internal-card h-100">
+        <div class="card-body p-4">
+          <div class="internal-toolbar">
+            <div>
+              <h2 class="internal-section-title">Recently Added Contacts</h2>
+              <p class="internal-section-copy">The newest contacts added to your messaging workspace.</p>
+            </div>
+          </div>
+          <div class="internal-table-wrap">
+            <div class="table-responsive">
+              <table class="table table-striped mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>#</th>
+                    <th>Phone Number</th>
+                    <th>Group</th>
+                    <th>Added On</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for contact in contacts[-5:] %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ contact.phone }}</td>
+                    <td>{{ contact.group.name }}</td>
+                    <td>{{ contact.created_at.strftime('%d %b %Y') }}</td>
+                    <td>
+                      <a href="/contacts/view/{{ contact.id }}" class="btn btn-info btn-sm action-btn"><i class="bi bi-eye"></i></a>
+                      <a href="javascript:void(0)" class="btn btn-warning btn-sm action-btn editContactBtn" data-id="{{ contact.id }}" data-phone="{{ contact.phone }}" data-group="{{ contact.group_id }}"><i class="bi bi-pencil"></i></a>
+                      <button class="btn btn-danger btn-sm action-btn deleteContactBtn" data-id="{{ contact.id }}" data-type="contact"><i class="bi bi-trash"></i></button>
+                    </td>
+                  </tr>
+                  {% else %}
+                  <tr><td colspan="5" class="internal-empty">No recent contacts.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col-md-4 mb-2">
-    <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#selectGroupModal">
-      <i class="bi bi-upload me-1"></i> Upload Contacts
-    </button>
-  </div>
-  <div class="col-md-4 mb-2">
-    <a href="/contacts/list" class="btn btn-info w-100">
-      <i class="bi bi-people me-1"></i> View All Contacts
-    </a>
-  </div>
-</div>
+</main>
 
-<!-- Groups Table -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header bg-secondary text-white">
-    <h6 class="mb-0">Groups</h6>
-  </div>
-  <div class="card-body p-0">
-    <table class="table table-striped mb-0">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Group Name</th>
-          <th>Total Contacts</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for group in groups %}
-        <tr>
-          <td>{{ loop.index }}</td>
-          <td>{{ group.name }}</td>
-          <td>{{ group.contacts|length }}</td>
-          <td>
-            <a href="/contacts/group/{{ group.id }}" class="btn btn-info btn-sm action-btn" title="View Contacts">
-              <i class="bi bi-eye"></i>
-            </a>
-            <a href="/add_contact/{{ group.id }}" class="btn btn-success btn-sm action-btn" title="Add Contacts">
-              <i class="bi bi-plus"></i>
-            </a>
-            <button class="btn btn-warning btn-sm action-btn editGroupBtn" data-id="{{ group.id }}" data-name="{{ group.name }}" title="Edit Group">
-              <i class="bi bi-pencil"></i>
-            </button>
-            <button class="btn btn-danger btn-sm action-btn deleteGroupBtn"
-              data-id="{{ group.id }}"
-              data-type="group"
-              title="Delete Group">
-              <i class="bi bi-trash"></i>
-            </button>
-          </td>
-        </tr>
-        {% else %}
-        <tr>
-          <td colspan="4" class="text-center text-muted">No groups available</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- Contacts Table -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header bg-secondary text-white">
-    <h6 class="mb-0">Recently Added Contacts</h6>
-  </div>
-  <div class="card-body p-0">
-    <table class="table table-striped mb-0">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Phone Number</th>
-          <th>Group</th>
-          <th>Added On</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for contact in contacts[-5:] %}
-        <tr>
-          <td>{{ loop.index }}</td>
-          <td>{{ contact.phone }}</td>
-          <td>{{ contact.group.name }}</td>
-          <td>{{ contact.created_at.strftime('%d %b %Y') }}</td>
-          <td>
-            <a href="/contacts/view/{{ contact.id }}" class="btn btn-info btn-sm action-btn"><i class="bi bi-eye"></i></a>
-            <a href="javascript:void(0)"
-               class="btn btn-warning btn-sm action-btn editContactBtn"
-               data-id="{{ contact.id }}"
-               data-phone="{{ contact.phone }}"
-               data-group="{{ contact.group_id }}">
-               <i class="bi bi-pencil"></i>
-            </a>
-            <button class="btn btn-danger btn-sm action-btn deleteContactBtn"
-              data-id="{{ contact.id }}"
-              data-type="contact">
-              <i class="bi bi-trash"></i>
-            </button>
-          </td>
-        </tr>
-        {% else %}
-        <tr>
-          <td colspan="5" class="text-center text-muted">No recent contacts</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- Group Modal (Create/Edit) -->
 <div class="modal fade" id="groupModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content shadow-lg rounded-3">
@@ -173,7 +168,6 @@
   </div>
 </div>
 
-<!-- Select Group Modal -->
 <div class="modal fade" id="selectGroupModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg rounded-3">
@@ -199,7 +193,6 @@
   </div>
 </div>
 
-<!-- Edit Contact Modal -->
 <div class="modal fade" id="editContactModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg rounded-3">
@@ -225,7 +218,6 @@
   </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg rounded-3">
@@ -246,15 +238,12 @@
   </div>
 </div>
 
-<!-- Toast Container -->
 <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100"></div>
-
 {% endblock %}
 
 {% block script %}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-
   function showToast(msg, type='danger'){
     const container = document.querySelector('.toast-container');
     const toastEl = document.createElement('div');
@@ -269,7 +258,6 @@ document.addEventListener("DOMContentLoaded", function () {
     toastEl.addEventListener('hidden.bs.toast', ()=> toastEl.remove());
   }
 
-  // --- DELETE MODAL HANDLER ---
   let deleteModal = new bootstrap.Modal(document.getElementById("deleteConfirmModal"));
   let deleteBtn = document.getElementById("confirmDeleteBtn");
 
@@ -304,7 +292,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // --- CREATE / EDIT GROUP ---
   const groupForm = document.getElementById('groupForm');
   const saveBtn = document.getElementById('saveGroupBtn');
   const spinner = document.getElementById('groupSpinner');
@@ -366,7 +353,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // --- SELECT GROUP TO ADD CONTACTS ---
   const selectGroupForm = document.getElementById('selectGroupFormModal');
   selectGroupForm?.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -378,7 +364,6 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = `/add_contact/${groupId}`;
   });
 
-  // --- EDIT CONTACT MODAL ---
   const editContactForm = document.getElementById('editContactForm');
   const editContactSpinner = document.getElementById('editContactSpinner');
   const editContactBtnText = document.getElementById('editContactBtnText');
@@ -425,7 +410,6 @@ document.addEventListener("DOMContentLoaded", function () {
       toggleEditContactBtn(false);
     }
   });
-
 });
 </script>
 {% endblock %}
