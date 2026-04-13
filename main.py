@@ -444,6 +444,39 @@ INQUIRY_FORMS = {
     },
 }
 
+COMMON_INQUIRY_FIELDS = [
+    {
+        "name": "preferred_follow_up",
+        "label": "Preferred Follow-up Method",
+        "type": "radio",
+        "required": False,
+        "options": ["Email", "Phone Call", "WhatsApp"],
+    },
+    {
+        "name": "request_priority",
+        "label": "Request Priority",
+        "type": "select",
+        "required": False,
+        "options": ["Standard", "Urgent", "Planning Ahead"],
+    },
+]
+
+for _config in INQUIRY_FORMS.values():
+    existing_field_names = {field["name"] for field in _config.get("fields", [])}
+    for _field in COMMON_INQUIRY_FIELDS:
+        if _field["name"] not in existing_field_names:
+            _config["fields"].append(dict(_field))
+
+    groups = _config.setdefault("groups", [])
+    if not any(group.get("title") == "Response Preferences" for group in groups):
+        groups.append(
+            {
+                "title": "Response Preferences",
+                "hint": "Help us follow up in the most useful way for your team.",
+                "fields": ["preferred_follow_up", "request_priority"],
+            }
+        )
+
 
 def infer_inquiry_service_key(source_value):
     source = (source_value or "").lower()
@@ -841,14 +874,20 @@ def contact():
         if form.validate_on_submit():
             the_head = form.head.data
             the_name = form.name.data
+            the_company = form.company.data
             the_email = form.email.data
             the_phone = form.phone.data
+            the_preferred_contact = form.preferred_contact.data
+            the_request_priority = form.request_priority.data
             the_message = form.message.data
             email_body = (
                 f"Header: {the_head}\n\n"
                 f"Name: {the_name}\n\n"
+                f"Company / Organization: {the_company or '-'}\n\n"
                 f"Email: {the_email}\n\n"
                 f"Phone Number: {the_phone}\n\n"
+                f"Preferred Contact Method: {the_preferred_contact or '-'}\n\n"
+                f"Request Priority: {the_request_priority or '-'}\n\n"
                 f"Message: {the_message}"
             )
             send_inquiry_email("Contact Message from Gregbuk Website", email_body)
@@ -1050,6 +1089,18 @@ def admin_dashboard():
         latest_users=latest_users,
         latest_contacts=latest_contacts,
         latest_messages=latest_messages,
+        quick_actions=[
+            {"label": "Manage Services", "href": url_for("admin_services"), "icon": "bi-stack", "meta": "Edit corporate service structure"},
+            {"label": "Manage Products", "href": url_for("admin_products"), "icon": "bi-box-seam", "meta": "Refresh product and catalog records"},
+            {"label": "Database Overview", "href": url_for("admin_database"), "icon": "bi-database", "meta": "Inspect users, inquiries, messages, and payments"},
+            {"label": "Refresh Corporate Seed", "href": None, "icon": "bi-arrow-repeat", "meta": "Sync targeted corporate service records", "form_action": url_for("admin_seed_targeted_services")},
+        ],
+        system_checks=[
+            {"label": "Service catalog loaded", "value": metrics["services"] > 0},
+            {"label": "Inquiry routes configured", "value": len(INQUIRY_FORMS) >= 5},
+            {"label": "Messages tracked", "value": metrics["messages"] >= 0},
+            {"label": "Transactions available for analytics", "value": metrics["transactions"] > 0},
+        ],
         summarize_text=summarize_text,
         # Phase 2 Analytics
         delivery_data=delivery_data,

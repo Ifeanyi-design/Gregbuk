@@ -62,7 +62,7 @@
           <div class="card cards text-white bg-success">
             <div class="card-body">
               <h5 class="card-title">All Messages Sent</h5>
-              <p class="card-text" id="stat-total">{{ messages_sent or "1,200" }}</p>
+              <p class="card-text" id="stat-total">{{ total or "0" }}</p>
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@
           <div class="card cards text-white bg-warning">
             <div class="card-body">
               <h5 class="card-title">Pending Messages</h5>
-              <p class="card-text" id="stat-pending">{{ pending_messages or "5,000" }}</p>
+              <p class="card-text" id="stat-pending">{{ pending or "0" }}</p>
             </div>
           </div>
         </div>
@@ -152,7 +152,7 @@
                         {{msg.sent_at}}
                         {%endif%}</td>
                         <td>{{ msg.phone_number }}</td>
-                        <td>{{ msg.message.message or message }}</td>
+                        <td>{{ msg.message if msg.message is string else (msg.message.message if msg.message else '-') }}</td>
                         <td>
                             {% if msg.status == "delivered" %}
                                 <span class="badge bg-success">Delivered</span>

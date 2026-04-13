@@ -10,6 +10,44 @@
 
 {% block admin_content %}
 <div class="row g-4 mb-5">
+  <div class="col-12">
+    <div class="card admin-card">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+          <div>
+            <h2 class="h5 mb-1" style="font-weight: 600;">Command Center</h2>
+            <p class="text-muted mb-0">Jump into the areas used most often to maintain the public site and internal data.</p>
+          </div>
+          <span class="glass-badge" style="background: rgba(59, 130, 246, 0.12); color: var(--admin-accent);">Site Operations</span>
+        </div>
+        <div class="row g-3">
+          {% for action in quick_actions %}
+          <div class="col-md-6 col-xl-3">
+            {% if action.form_action %}
+            <form method="POST" action="{{ action.form_action }}" class="h-100">
+              <button type="submit" class="admin-metric text-start h-100 w-100" style="background: transparent;">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <i class="bi {{ action.icon }}" style="font-size: 1.1rem; color: var(--admin-accent);"></i>
+                  <span class="fw-semibold">{{ action.label }}</span>
+                </div>
+                <div class="small text-muted">{{ action.meta }}</div>
+              </button>
+            </form>
+            {% else %}
+            <a href="{{ action.href }}" class="admin-metric text-start h-100 d-block text-decoration-none">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="bi {{ action.icon }}" style="font-size: 1.1rem; color: var(--admin-accent);"></i>
+                <span class="fw-semibold" style="color: var(--admin-text-main);">{{ action.label }}</span>
+              </div>
+              <div class="small text-muted">{{ action.meta }}</div>
+            </a>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="col-md-6 col-xl-3">
     <div class="admin-metric">
       <div class="label">Services</div>
@@ -121,6 +159,32 @@
   <div class="col-xl-8">
     <div class="card admin-card mb-4">
       <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+          <div>
+            <h2 class="h5 mb-1" style="font-weight: 600;">System Checks</h2>
+            <p class="text-muted mb-0">Quick health view for the admin tools and content structure.</p>
+          </div>
+          <span class="glass-badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">Operational</span>
+        </div>
+        <div class="row g-3">
+          {% for check in system_checks %}
+          <div class="col-md-6">
+            <div class="admin-metric text-start h-100">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">{{ check.label }}</span>
+                <span class="badge {% if check.value %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                  {% if check.value %}OK{% else %}Review{% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="card admin-card mb-4">
+      <div class="card-body p-4">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
           <div>
             <h2 class="h4 mb-1" style="font-weight: 600;">Corporate Seed Tools</h2>
@@ -174,29 +238,54 @@
           </div>
         </div>
       </div>
+      <div class="col-12">
+        <div class="card admin-card">
+          <div class="card-body p-4">
+            <h2 class="h5 mb-4" style="font-weight: 600;">Recent Message Logs</h2>
+            <div class="table-responsive">
+              <table class="table admin-table">
+                <thead><tr><th>ID</th><th>Recipient</th><th>Status</th></tr></thead>
+                <tbody>
+                  {% for message in latest_messages %}
+                  <tr>
+                    <td class="text-muted small fw-500">#{{ message.id }}</td>
+                    <td class="fw-600">{{ message.phone_number or message.recipient or "Unknown" }}</td>
+                    <td>
+                      <span class="badge {% if message.status == 'delivered' %}bg-success{% elif message.status == 'failed' %}bg-danger{% else %}bg-primary{% endif %}">
+                        {{ message.status|default('pending')|upper }}
+                      </span>
+                    </td>
+                  </tr>
+                  {% else %}
+                  <tr><td colspan="3" class="text-muted">No message activity found yet.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Data for Charts -->
-<div id="analyticsData" 
-     data-revenue="{{ revenue_timeline|tojson }}" 
-     data-labels="{{ labels_timeline|tojson }}"
-     data-delivery='[
-        {{ delivery_data.get("delivered", 0) }},
-        {{ delivery_data.get("pending", 0) }},
-        {{ delivery_data.get("failed", 0) }}
-     ]'>
-</div>
+<script id="analyticsData" type="application/json">
+  {
+    "revenue": {{ revenue_timeline|tojson }},
+    "labels": {{ labels_timeline|tojson }},
+    "delivery": {{ [delivery_data.get("delivered", 0), delivery_data.get("pending", 0), delivery_data.get("failed", 0)]|tojson }}
+  }
+</script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const dataContainer = document.getElementById('analyticsData');
     if (!dataContainer) return;
 
-    const revenueData = JSON.parse(dataContainer.getAttribute('data-revenue') || '[]');
-    const labelsData = JSON.parse(dataContainer.getAttribute('data-labels') || '[]');
-    let deliveryStats = JSON.parse(dataContainer.getAttribute('data-delivery') || '[0,0,0]');
+    const analytics = JSON.parse(dataContainer.textContent || '{}');
+    const revenueData = analytics.revenue || [];
+    const labelsData = analytics.labels || [];
+    let deliveryStats = analytics.delivery || [0, 0, 0];
     
     // Safety: ensure deliveryStats is valid for the doughnut
     const hasDeliveryData = deliveryStats.some(v => v > 0);
